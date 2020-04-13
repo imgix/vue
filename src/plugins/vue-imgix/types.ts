@@ -8,7 +8,7 @@ export interface IBuildUrlObjectResult {
 }
 export type IBuildUrlObject = (
   url: string,
-  options: {},
+  options?: {},
 ) => IBuildUrlObjectResult;
 
 export interface IVueImgixClient {
