@@ -109,3 +109,11 @@ yarn lint
 ### Customize configuration
 
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+## Code of Conduct
+
+imgix is dedicated to providing a harassment-free experience for everyone, regardless of gender, gender identity and expression, sexual orientation, disability, physical appearance, body size, race, or religion. We do not tolerate harassment of participants in any form.
+
+This code of conduct applies to all imgix sponsored spaces both online and off, including our open-source projects. Anyone who violates this code of conduct may be sanctioned or expelled from these spaces at the discretion of the imgix Anti-Abuse Team (codeofconduct@imgix.com).
+
+[Our full Code of Conduct can be found here.](https://github.com/imgix/code-of-conduct)
