@@ -14,6 +14,8 @@
 
 ---
 
+# ⚠️ Work in Progress. This library is currently in development. We're planning to have a stable version of this library shipped soon, so please keep an eye on this space!
+
 <!-- /ix-docs-ignore -->
 
 <!-- NB: Run `npx markdown-toc README.md --maxdepth 4 | sed -e 's/[[:space:]]\{2\}/    /g'` to generate TOC :) -->
@@ -69,11 +71,6 @@ And that's all you need to get started! Have fun!
 ## Contributing
 
 Contributions are a vital part of this library and imgix's commitment to open-source. We welcome all contributions which align with this project's goals. More information can be found in the [contributing documentation](CONTRIBUTING.md).
-
-
-
-
-
 
 ## Code of Conduct
 
