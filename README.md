@@ -24,8 +24,13 @@
 
 - [Overview / Resources](#overview--resources)
 - [Get Started](#get-started)
+- [Usage](#usage)
+    * [Advanced](#advanced)
+        + [buildUrlObject](#buildurlobject)
 - [Contributing](#contributing)
 - [Code of Conduct](#code-of-conduct)
+
+
 
 <!-- prettier-ignore-end -->
 
@@ -60,6 +65,46 @@ initVueImgix({
 ```
 
 And that's all you need to get started! Have fun!
+
+## Usage
+
+### Advanced
+
+For advanced use cases which go above the basic usage outlined above, such as lazy loading, or integration with other components or libraries, this library provides a set of low-level APIs.
+
+#### buildUrlObject
+
+This function is provided a convenient way to generate values to pass to the src and srcset attributes.
+
+In a component:
+
+```vue
+<div>
+  <img
+    src="advancedSrcObject.src"
+    srcset="advancedSrcObject.srcset"
+    sizes="50vw"
+  /> 
+</div>
+
+<script>
+import { buildUrlObject } from 'vue-imgix';
+
+// NB: Make sure initVueImgix has been called before this code runs
+export default {
+  name: 'AdvancedApp',
+
+  computed: {
+    advancedSrcObject: buildUrlObject(
+      'https://assets.imgix.net/examples/pione.jpg',
+      {
+        auto: 'format',
+      },
+    ),
+  },
+};
+</script>
+```
 
 ## Contributing
 
