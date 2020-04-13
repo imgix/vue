@@ -16,7 +16,57 @@
 
 <!-- /ix-docs-ignore -->
 
-# Development
+<!-- NB: Run `npx markdown-toc README.md --maxdepth 4 | sed -e 's/[[:space:]]\{2\}/    /g'` to generate TOC :) -->
+
+<!-- prettier-ignore-start -->
+
+- [Overview / Resources](#overview--resources)
+- [Get Started](#get-started)
+- [Development](#development)
+    * [Project setup](#project-setup)
+    * [Compiles and hot-reloads for development](#compiles-and-hot-reloads-for-development)
+    * [Compiles and minifies for production](#compiles-and-minifies-for-production)
+    * [Run your unit tests](#run-your-unit-tests)
+    * [Run your end-to-end tests](#run-your-end-to-end-tests)
+    * [Lints and fixes files](#lints-and-fixes-files)
+    * [Customize configuration](#customize-configuration)
+
+
+<!-- prettier-ignore-end -->
+
+## Overview / Resources
+
+**Before you get started with vue-imgix**, it's _highly recommended_ that you read Eric Portis' [seminal article on `srcset` and `sizes`](https://ericportis.com/posts/2014/srcset-sizes/). This article explains the history of responsive images in responsive design, why they're necessary, and how all these technologies work together to save bandwidth and provide a better experience for users. The primary goal of react-imgix is to make these tools easier for developers to implement, so having an understanding of how they work will significantly improve your react-imgix experience.
+
+Below are some other articles that help explain responsive imagery, and how it can work alongside imgix:
+
+- [Using imgix with `<picture>`](https://docs.imgix.com/tutorials/using-imgix-picture-element). Discusses the differences between art direction and resolution switching, and provides examples of how to accomplish art direction with imgix.
+- [Responsive Images with `srcset` and imgix](https://docs.imgix.com/tutorials/responsive-images-srcset-imgix). A look into how imgix can work with `srcset` and `sizes` to serve the right image.
+
+## Get Started
+
+Firstly, follow this [quick start guide](https://docs.imgix.com/setup/quick-start) to set-up an imgix account.
+
+Then, install vue-imgix with the following commands, depending on your package manager.
+
+- **NPM**: `npm install vue-imgix`
+- **Yarn**: `yarn add vue-imgix`
+
+This module exports two transpiled versions. If a ES6-module-aware bundler is being used to consume this module, it will pick up an ES6 module version and can perform tree-shaking. **If you are not using ES6 modules, you don't have to do anything.**
+
+Finally, vue-imgix needs to be initialized before if can be used in components. Modify `App.vue` or similar to include the following:
+
+```js
+import { initVueImgix } from 'vue-imgix';
+
+initVueImgix({
+  domain: "<your company's imgix domain>",
+});
+```
+
+And that's all you need to get started! Have fun!
+
+## Development
 
 The development of this library follows [this very useful guide about Outside-In Frontend Development in Vue](https://outsidein.dev/exercise-intro.html). I highly recommend at least becoming familiar with some of the core concepts of Outside-In TDD.
 
