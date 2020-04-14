@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    HEY
     <h1>Advanced Usage</h1>
     <h2>buildUrlObject</h2>
     <advanced-build-url-object></advanced-build-url-object>
