@@ -28,4 +28,12 @@ describe('buildUrlObject', () => {
     expect(src).toMatch(expectedIxLibRegex);
     expect(srcset).toMatch(expectedIxLibRegex);
   });
+  it('parameters are correctly rendered', () => {
+    const { src, srcset } = client.buildUrlObject('/examples/pione.jpg', {
+      w: 400,
+    });
+
+    expect(src).toMatch(/w=400/);
+    expect(srcset).toMatch(/w=400/);
+  });
 });
