@@ -78,31 +78,30 @@ This function is provided a convenient way to generate values to pass to the src
 
 In a component:
 
-```vue
-<div>
+```html
+<template>
   <img
-    src="advancedSrcObject.src"
-    srcset="advancedSrcObject.srcset"
+    :src="advancedSrcObject.src"
+    :srcset="advancedSrcObject.srcset"
     sizes="50vw"
-  /> 
-</div>
+    data-testid="advanced-basic-image"
+  />
+</template>
 
 <script>
-import { buildUrlObject } from 'vue-imgix';
+  import { buildUrlObject } from '@/plugins/vue-imgix';
 
-// NB: Make sure initVueImgix has been called before this code runs
-export default {
-  name: 'AdvancedApp',
+  // NB: Make sure initVueImgix has been called before this code runs
+  export default {
+    name: 'advanced-build-url-object',
 
-  computed: {
-    advancedSrcObject: buildUrlObject(
-      'https://assets.imgix.net/examples/pione.jpg',
-      {
-        auto: 'format',
-      },
-    ),
-  },
-};
+    computed: {
+      advancedSrcObject: () =>
+        buildUrlObject('examples/pione.jpg', {
+          auto: 'format',
+        }),
+    },
+  };
 </script>
 ```
 
