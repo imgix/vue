@@ -11,7 +11,7 @@ describe('Advanced API', () => {
 
     cy.visit('/');
     cy.findByTestId('advanced-basic-image').then($image => {
-      expect($image).to.have.attr('src', /ixlib=vue/);
+      expect($image.attr('src')).to.match(/ixlib=vue/);
     });
   });
 });
