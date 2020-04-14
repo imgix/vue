@@ -1,26 +1,22 @@
 <template>
   <div id="app">
-    Hello, world.
-
-    <h2>Advanced Usage</h2>
-    <img
-      src="advancedSrcObject.src"
-      srcset="advancedSrcObject.srcset"
-      sizes="50vw"
-    />
+    HEY
+    <h1>Advanced Usage</h1>
+    <h2>buildUrlObject</h2>
+    <advanced-build-url-object></advanced-build-url-object>
   </div>
 </template>
 
 <script>
-import { buildUrlObject } from '@/plugins/vue-imgix';
+import advancedBuildUrlObject from './components/advanced/buildUrlObject';
 
 export default {
   name: 'App',
 
-  computed: {
-    advancedSrcObject: buildUrlObject(
-      'https://assets.imgix.net/examples/pione.jpg',
-    ),
+  components: {
+    advancedBuildUrlObject,
   },
+
+  computed: {},
 };
 </script>
