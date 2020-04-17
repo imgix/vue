@@ -15,7 +15,10 @@ export type IBuildUrlObject = (
 
 export type IBuildUrl = (url: string, options?: IImgixParams) => string;
 
+export type IBuildSrcSet = (url: string, options?: IImgixParams) => string;
+
 export interface IVueImgixClient {
   buildUrlObject: IBuildUrlObject;
   buildUrl: IBuildUrl;
+  buildSrcSet: IBuildSrcSet;
 }
