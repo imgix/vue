@@ -84,7 +84,6 @@ In a component:
     :src="advancedSrcObject.src"
     :srcset="advancedSrcObject.srcset"
     sizes="50vw"
-    data-testid="advanced-basic-image"
   />
 </template>
 
@@ -104,6 +103,36 @@ In a component:
   };
 </script>
 ```
+
+#### buildUrl
+
+In addition to the helper above, we provide `buildURL` from imgix-core-js to help developers to create any URL they need.
+
+
+```html
+<template>
+  <img
+    :src="advancedUrl"
+  />
+</template>
+
+<script>
+  import { buildUrl } from '@/plugins/vue-imgix';
+
+  // NB: Make sure initVueImgix has been called before this code runs
+  export default {
+    name: 'advanced-build-url',
+
+    computed: {
+      advancedUrl: () =>
+        buildUrl('examples/pione.jpg', {
+          auto: 'format',
+        }),
+    },
+  };
+</script>
+```
+
 
 ## Contributing
 
