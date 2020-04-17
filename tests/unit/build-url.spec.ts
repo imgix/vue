@@ -3,7 +3,7 @@ import {
   IVueImgixClient,
 } from '@/plugins/vue-imgix/vue-imgix';
 
-describe('buildUrlObject', () => {
+describe('buildUrl', () => {
   let client: IVueImgixClient;
   beforeAll(() => {
     client = buildImgixClient({
