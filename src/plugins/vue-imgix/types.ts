@@ -1,3 +1,5 @@
+export type IImgixParams = {};
+
 export interface IImgixClientOptions {
   domain: string;
 }
@@ -8,9 +10,12 @@ export interface IBuildUrlObjectResult {
 }
 export type IBuildUrlObject = (
   url: string,
-  options?: {},
+  options?: IImgixParams,
 ) => IBuildUrlObjectResult;
+
+export type IBuildUrl = (url: string, options?: IImgixParams) => string;
 
 export interface IVueImgixClient {
   buildUrlObject: IBuildUrlObject;
+  buildUrl: IBuildUrl;
 }
