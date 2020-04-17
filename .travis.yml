@@ -21,3 +21,9 @@ script:
   - yarn lint:ci
   - yarn test:unit
   - yarn test:e2e --headless
+
+deploy:
+  provider: script
+  skip_cleanup: true
+  script:
+    - npx semantic-release

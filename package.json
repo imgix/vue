@@ -1,6 +1,6 @@
 {
   "name": "vue-imgix",
-  "version": "0.1.0",
+  "version": "0.0.0-development",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -38,5 +38,14 @@
     "read-pkg": "^5.2.0",
     "typescript": "~3.8.3",
     "vue-template-compiler": "^2.6.11"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/imgix/vue-imgix.git"
+  },
+  "release": {
+    "branches": [
+      "next"
+    ]
   }
 }
