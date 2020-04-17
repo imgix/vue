@@ -108,12 +108,9 @@ In a component:
 
 In addition to the helper above, we provide `buildURL` from imgix-core-js to help developers to create any URL they need.
 
-
 ```html
 <template>
-  <img
-    :src="advancedUrl"
-  />
+  <img :src="advancedUrl" />
 </template>
 
 <script>
@@ -133,6 +130,35 @@ In addition to the helper above, we provide `buildURL` from imgix-core-js to hel
 </script>
 ```
 
+#### buildSrcSet
+
+We also provide `buildSrcSet` from imgix-core-js to help developers to create any srcset URL they need.
+
+```html
+<template>
+  <img :src="advancedSrc" :srcset="advancedSrcSet" />
+</template>
+
+<script>
+  import { buildUrl, buildSrcSet } from '@/plugins/vue-imgix';
+
+  // NB: Make sure initVueImgix has been called before this code runs
+  export default {
+    name: 'advanced-build-srcset',
+
+    computed: {
+      advancedUrl: () =>
+        buildUrl('examples/pione.jpg', {
+          auto: 'format',
+        }),
+      advancedSrcSet: () =>
+        buildSrcSet('examples/pione.jpg', {
+          auto: 'format',
+        }),
+    },
+  };
+</script>
+```
 
 ## Contributing
 
