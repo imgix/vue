@@ -20,4 +20,13 @@ describe('Advanced API', () => {
       });
     });
   });
+
+  context('buildSrcSet', () => {
+    it('renders an image', () => {
+      cy.visit('/');
+      cy.findByTestId('advanced-build-src-set').then($image => {
+        expect($image.attr('srcset')).to.match(/ixlib=vue/);
+      });
+    });
+  });
 });
