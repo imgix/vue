@@ -1,8 +1,10 @@
 import ImgixClient from 'imgix-core-js';
 import {
+  IBuildUrl,
   IBuildUrlObject,
   IBuildUrlObjectResult,
   IImgixClientOptions,
+  IImgixParams,
   IVueImgixClient,
 } from './types';
 
@@ -19,11 +21,15 @@ class VueImgixClient implements IVueImgixClient {
     (this.client as any).settings.libraryParam = `vue-${VERSION}`;
   }
 
-  buildUrlObject(url: string, options?: {}): IBuildUrlObjectResult {
+  buildUrlObject(url: string, options?: IImgixParams): IBuildUrlObjectResult {
     const src = this.client.buildURL(url, options);
     const srcset = this.client.buildSrcSet(url, options);
 
     return { src, srcset };
+  }
+
+  buildUrl(url: string, options?: IImgixParams): string {
+    return this.client.buildURL(url, options);
   }
 }
 
@@ -53,6 +59,11 @@ const ensureVueImgixClientSingleton = (): IVueImgixClient => {
 export const buildUrlObject: IBuildUrlObject = (...args) => {
   const client = ensureVueImgixClientSingleton();
   return client.buildUrlObject(...args);
+};
+
+export const buildUrl: IBuildUrl = (...args) => {
+  const client = ensureVueImgixClientSingleton();
+  return client.buildUrl(...args);
 };
 
 export { IVueImgixClient };
