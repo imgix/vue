@@ -1,7 +1,4 @@
 <!-- ix-docs-ignore -->
-<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
-<!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 ![imgix logo](https://assets.imgix.net/sdk-imgix-logo.svg)
 
@@ -13,7 +10,10 @@
 [![License](https://img.shields.io/npm/l/vue-imgix)](https://github.com/imgix/vue-imgix/blob/master/LICENSE)
 [![Dependencies Status](https://david-dm.org/imgix/vue-imgix.svg)](https://david-dm.org/imgix/vue-imgix)
 [![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
-[![All Contributors](https://img.shields.io/badge/all_contributors-22-orange.svg?style=flat-square)](#contributors-)
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+<!-- ALL-CONTRIBUTORS-BADGE:END -->
+
 
 ---
 
@@ -30,8 +30,8 @@
 - [Usage](#usage)
     * [Advanced](#advanced)
         + [buildUrlObject](#buildurlobject)
-- [Contributing](#contributing)
 - [Code of Conduct](#code-of-conduct)
+- [Contributors](#contributors)
 
 
 
@@ -137,10 +137,6 @@ In addition to the helper above, we provide `buildURL` from imgix-core-js to hel
 ```
 
 
-## Contributing
-
-Contributions are a vital part of this library and imgix's commitment to open-source. We welcome all contributions which align with this project's goals. More information can be found in the [contributing documentation](CONTRIBUTING.md).
-
 ## Code of Conduct
 
 imgix is dedicated to providing a harassment-free experience for everyone, regardless of gender, gender identity and expression, sexual orientation, disability, physical appearance, body size, race, or religion. We do not tolerate harassment of participants in any form.
@@ -149,7 +145,9 @@ This code of conduct applies to all imgix sponsored spaces both online and off, 
 
 [Our full Code of Conduct can be found here.](https://github.com/imgix/code-of-conduct)
 
-## Contributors ✨
+## Contributors
+
+Contributions are a vital part of this library and imgix's commitment to open-source. We welcome all contributions which align with this project's goals. More information can be found in the [contributing documentation](CONTRIBUTING.md).
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
 
