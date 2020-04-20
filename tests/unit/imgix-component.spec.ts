@@ -1,7 +1,12 @@
-import { Imgix } from '@/plugins/vue-imgix';
+import { Imgix, initVueImgix } from '@/plugins/vue-imgix';
 import '@testing-library/jest-dom';
 import { render } from '@testing-library/vue';
 describe('imgix component', () => {
+  beforeAll(() => {
+    initVueImgix({
+      domain: 'assets.imgix.net',
+    });
+  });
   it('an img should be rendered', () => {
     const wrapper = render(Imgix, {
       propsData: {
@@ -39,12 +44,12 @@ describe('imgix component', () => {
     if (!srcset) {
       fail('srcset is null');
     }
-    expect(srcset.split(', ')[0].split(' ')).toHaveLength(2);
-    const aSrcFromSrcSet = srcset.split(', ')[0].split(' ')[0];
-    expect(aSrcFromSrcSet).toContain('examples/pione.jpg');
-    const aWidthFromSrcSet = srcset.split(', ')[0].split(' ')[1];
-    expect(aWidthFromSrcSet).toMatch(/^\d+w$/);
 
-    expect(srcset);
+    const firstSrcSet = srcset.split(',').map(v => v.trim())[0];
+    expect(firstSrcSet.split(' ')).toHaveLength(2);
+    const aSrcFromSrcSet = firstSrcSet.split(' ')[0];
+    expect(aSrcFromSrcSet).toContain('examples/pione.jpg');
+    const aWidthFromSrcSet = firstSrcSet.split(' ')[1];
+    expect(aWidthFromSrcSet).toMatch(/^\d+w$/);
   });
 });
