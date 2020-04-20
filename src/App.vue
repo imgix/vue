@@ -1,5 +1,8 @@
 <template>
   <div id="app">
+    <h1>Simple Usage</h1>
+    <simple />
+
     <h1>Advanced Usage</h1>
     <h2>buildUrlObject</h2>
     <advanced-build-url-object></advanced-build-url-object>
@@ -14,6 +17,7 @@
 import advancedBuildUrlObject from './components/advanced/buildUrlObject';
 import advancedBuildUrl from './components/advanced/buildUrl';
 import advancedBuildSrcSet from './components/advanced/buildSrcSet';
+import simple from './components/simple/simple';
 
 export default {
   name: 'App',
@@ -22,6 +26,7 @@ export default {
     advancedBuildUrlObject,
     advancedBuildUrl,
     advancedBuildSrcSet,
+    simple,
   },
 
   computed: {},
