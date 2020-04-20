@@ -1,8 +1,4 @@
 describe('Advanced API', () => {
-  before(() => {
-    cy.fixture('test-image').as('testImage');
-  });
-
   context('buildUrlObject', () => {
     it('renders an image', () => {
       cy.visit('/');
