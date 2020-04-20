@@ -1150,6 +1150,16 @@
     dom-accessibility-api "^0.4.2"
     pretty-format "^25.1.0"
 
+"@testing-library/vue@^5.0.2":
+  version "5.0.2"
+  resolved "https://registry.yarnpkg.com/@testing-library/vue/-/vue-5.0.2.tgz#06207733ec80275e2f6f2150c6bb7869229346ca"
+  integrity sha512-keG8c4hDrXtQ6cF6Fmohut7DChejncN8wpexsTrh0cfaa8obzi2TMou3HX2ucfiwo2qiVuE3nTrlyeAD7cbcAw==
+  dependencies:
+    "@babel/runtime" "^7.8.7"
+    "@testing-library/dom" "^7.0.2"
+    "@types/testing-library__vue" "*"
+    "@vue/test-utils" "^1.0.0-beta.32"
+
 "@types/babel-types@*", "@types/babel-types@^7.0.0":
   version "7.0.7"
   resolved "https://registry.yarnpkg.com/@types/babel-types/-/babel-types-7.0.7.tgz#667eb1640e8039436028055737d2b9986ee336e3"
@@ -1394,6 +1404,17 @@
   integrity sha512-WokGRksRJb3Dla6h02/0/NNHTkjsj4S8aJZiwMj/5/UL8VZ1iCe3H8SHzfpmBeH8Vp4SPRT8iC2o9kYULFhDIw==
   dependencies:
     pretty-format "^25.1.0"
+
+"@types/testing-library__vue@*":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@types/testing-library__vue/-/testing-library__vue-2.0.1.tgz#466971a0c4eb6d5c1831486abf76154ef174266e"
+  integrity sha512-D3pgIjEy/9gkLCgeOWQR8naURQVgmoXn2nB9NrzVBfymOllLisLwsSMCqay5o+q9iru762Aoo6a0pSp3KMVqBA==
+  dependencies:
+    "@types/testing-library__dom" "*"
+    "@vue/test-utils" "^1.0.0-beta.29"
+    vue "^2.6.10"
+    vue-router "^3.0"
+    vuex "^3.0"
 
 "@types/webpack-env@^1.15.1":
   version "1.15.1"
@@ -1766,6 +1787,15 @@
   version "1.0.0-beta.31"
   resolved "https://registry.yarnpkg.com/@vue/test-utils/-/test-utils-1.0.0-beta.31.tgz#580d6e45f07452e497d69807d80986e713949b73"
   integrity sha512-IlhSx5hyEVnbvDZ3P98R1jNmy88QAd/y66Upn4EcvxSD5D4hwOutl3dIdfmSTSXs4b9DIMDnEVjX7t00cvOnvg==
+  dependencies:
+    dom-event-types "^1.0.0"
+    lodash "^4.17.15"
+    pretty "^2.0.0"
+
+"@vue/test-utils@^1.0.0-beta.29", "@vue/test-utils@^1.0.0-beta.32":
+  version "1.0.0-beta.33"
+  resolved "https://registry.yarnpkg.com/@vue/test-utils/-/test-utils-1.0.0-beta.33.tgz#627511afbd4307e7557634f860a1b985bd25d9cd"
+  integrity sha512-Xzqoe0lTLn3QRWfjhmKPOXYR86l0Y+g/zPHaheJQOkPLj5ojJl3rG0t4F3kXFWuLD88YzUVRMIBWOG7v9KOJQQ==
   dependencies:
     dom-event-types "^1.0.0"
     lodash "^4.17.15"
@@ -11296,6 +11326,11 @@ vue-property-decorator@^8.4.1:
   dependencies:
     vue-class-component "^7.1.0"
 
+vue-router@^3.0:
+  version "3.1.6"
+  resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-3.1.6.tgz#45f5a3a3843e31702c061dd829393554e4328f89"
+  integrity sha512-GYhn2ynaZlysZMkFE5oCHRUTqE8BWs/a9YbKpNLi0i7xD6KG1EzDqpHQmv1F5gXjr8kL5iIVS8EOtRaVUEXTqA==
+
 vue-runtime-helpers@^1.1.1:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/vue-runtime-helpers/-/vue-runtime-helpers-1.1.2.tgz#446b7b820888ab0c5264d2c3a32468e72e4100f3"
@@ -11322,10 +11357,15 @@ vue-template-es2015-compiler@^1.6.0, vue-template-es2015-compiler@^1.9.0:
   resolved "https://registry.yarnpkg.com/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.9.1.tgz#1ee3bc9a16ecbf5118be334bb15f9c46f82f5825"
   integrity sha512-4gDntzrifFnCEvyoO8PqyJDmguXgVPxKiIxrBKjIowvL9l+N66196+72XVYR8BBf1Uv1Fgt3bGevJ+sEmxfZzw==
 
-vue@^2.6.11:
+vue@^2.6.10, vue@^2.6.11:
   version "2.6.11"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.11.tgz#76594d877d4b12234406e84e35275c6d514125c5"
   integrity sha512-VfPwgcGABbGAue9+sfrD4PuwFar7gPb1yl1UK1MwXoQPAw0BKSqWfoYCT/ThFrdEVWoI51dBuyCoiNU9bZDZxQ==
+
+vuex@^3.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/vuex/-/vuex-3.2.0.tgz#86da7f26c3e131ff374870580109145a640ee5a8"
+  integrity sha512-qBZGJJ1gUNWZbfZlH7ylIPwENg3R0Ckpq+qPexF065kOMOt1Ixt8WDJmtssVv7OhepWD0+Qie7pOS8f0oQy1JA==
 
 w3c-hr-time@^1.0.1:
   version "1.0.2"
