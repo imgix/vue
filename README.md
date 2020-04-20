@@ -30,12 +30,15 @@
 - [Overview / Resources](#overview--resources)
 - [Get Started](#get-started)
 - [Usage](#usage)
-    * [Advanced](#advanced)
+    * [Examples](#examples)
+        + [Basic Use Case](#basic-use-case)
+    * [Advanced examples](#advanced-examples)
         + [buildUrlObject](#buildurlobject)
+        + [buildUrl](#buildurl)
+        + [buildSrcSet](#buildsrcset)
+- [Contributing](#contributing)
 - [Code of Conduct](#code-of-conduct)
 - [Contributors](#contributors)
-
-
 
 <!-- prettier-ignore-end -->
 
@@ -73,7 +76,35 @@ And that's all you need to get started! Have fun!
 
 ## Usage
 
-### Advanced
+The main idea here is that you should be able to use this component just as you would an `<img />` tag.
+
+### Examples
+
+#### Basic Use Case
+
+To render a simple image that will display an image based on the browser's dpr and the width of the rendered element using the power of srcsets, vue-imgix can be used as follows:
+
+```html
+<Imgix :src="examples/pione.jpg" sizes="100vw" />
+```
+
+**Please note:** `100vw` is an appropriate `sizes` value for a full-bleed image. If your image is not full-bleed, you should use a different value for `sizes`. [Eric Portis' "Srcset and sizes"](https://ericportis.com/posts/2014/srcset-sizes/) article goes into depth on how to use the `sizes` attribute.
+
+This will generate HTML similar to the following:
+
+```html
+<img
+  src="https://assets.imgix.net/examples/pione.jpg?auto=format"
+  sizes="100vw"
+  srcset="
+    https://assets.imgix.net/examples/pione.jpg?auto=format&amp;w=100 100w,
+    https://assets.imgix.net/examples/pione.jpg?auto=format&amp;w=200 200w,
+    ...
+  "
+/>
+```
+
+### Advanced Examples
 
 For advanced use cases which go above the basic usage outlined above, such as lazy loading, or integration with other components or libraries, this library provides a set of low-level APIs.
 
