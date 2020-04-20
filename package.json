@@ -31,6 +31,7 @@
     "@vue/eslint-config-prettier": "^6.0.0",
     "@vue/eslint-config-typescript": "^5.0.2",
     "@vue/test-utils": "1.0.0-beta.31",
+    "cypress": "^3.8.3",
     "eslint": "^6.7.2",
     "eslint-plugin-prettier": "^3.1.1",
     "eslint-plugin-vue": "^6.2.2",
@@ -38,6 +39,9 @@
     "read-pkg": "^5.2.0",
     "typescript": "~3.8.3",
     "vue-template-compiler": "^2.6.11"
+  },
+  "resolutions": {
+    "cypress": "^3.8.3"
   },
   "repository": {
     "type": "git",
