@@ -25,4 +25,26 @@ describe('imgix component', () => {
       expect.stringMatching('examples/pione.jpg'),
     );
   });
+  it(`the rendered img's srcset should be set correctly`, () => {
+    const wrapper = render(Imgix, {
+      propsData: {
+        src: 'examples/pione.jpg',
+        'data-testid': 'img-rendering',
+      },
+    });
+
+    const srcset = wrapper.getByTestId('img-rendering').getAttribute('srcset');
+
+    expect(srcset).not.toBeFalsy();
+    if (!srcset) {
+      fail('srcset is null');
+    }
+    expect(srcset.split(', ')[0].split(' ')).toHaveLength(2);
+    const aSrcFromSrcSet = srcset.split(', ')[0].split(' ')[0];
+    expect(aSrcFromSrcSet).toContain('examples/pione.jpg');
+    const aWidthFromSrcSet = srcset.split(', ')[0].split(' ')[1];
+    expect(aWidthFromSrcSet).toMatch(/^\d+w$/);
+
+    expect(srcset);
+  });
 });
