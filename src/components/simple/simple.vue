@@ -2,7 +2,11 @@
   <div>
     <h2>Simple</h2>
     <div style="width: 400px;">
-      <Imgix :src="examples/pione.jpg" sizes="100vw" data-testid="simple-fluid"></Imgix>
+      <Imgix
+        src="examples/pione.jpg"
+        sizes="100vw"
+        data-testid="simple-fluid"
+      ></Imgix>
     </div>
   </div>
 </template>
