@@ -8,7 +8,7 @@ import {
   IVueImgixClient,
 } from './types';
 
-const VERSION = '0.1.0';
+const VERSION = '0.0.0-development';
 
 class VueImgixClient implements IVueImgixClient {
   client: ImgixClient;
