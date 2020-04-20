@@ -56,7 +56,7 @@ export const initVueImgix = (options: IImgixClientOptions) => {
   vueImgixClientSingleton = new VueImgixClient(options);
 };
 
-const ensureVueImgixClientSingleton = (): IVueImgixClient => {
+export const ensureVueImgixClientSingleton = (): IVueImgixClient => {
   if (vueImgixClientSingleton == null) {
     throw new Error(
       '[vue-imgix] initVueImgix must be called before using exported methods. This is usually done in App.vue :)',
