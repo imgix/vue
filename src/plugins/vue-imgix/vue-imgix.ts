@@ -23,20 +23,23 @@ class VueImgixClient implements IVueImgixClient {
     (this.client as any).settings.libraryParam = `vue-${VERSION}`;
   }
 
-  buildUrlObject(url: string, options?: IImgixParams): IBuildUrlObjectResult {
+  buildUrlObject = (
+    url: string,
+    options?: IImgixParams,
+  ): IBuildUrlObjectResult => {
     const src = this.client.buildURL(url, options);
     const srcset = this.client.buildSrcSet(url, options);
 
     return { src, srcset };
-  }
+  };
 
-  buildUrl(url: string, options?: IImgixParams): string {
+  buildUrl = (url: string, options?: IImgixParams): string => {
     return this.client.buildURL(url, options);
-  }
+  };
 
-  buildSrcSet(url: string, options?: IImgixParams): string {
+  buildSrcSet = (url: string, options?: IImgixParams): string => {
     return this.client.buildSrcSet(url, options);
-  }
+  };
 }
 
 export const buildImgixClient = (options: IImgixClientOptions) => {
