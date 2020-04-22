@@ -7,6 +7,10 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "build:dist": "run-p build:umd build:es build:unpkg",
+    "build:umd": "rollup --config build/rollup.config.js --format umd --file dist/vue-imgix.umd.js",
+    "build:es": "rollup --config build/rollup.config.js --format es --file dist/vue-imgix.esm.js",
+    "build:unpkg": "rollup --config build/rollup.config.js --format iife --file dist/vue-imgix.min.js",
     "test:unit": "vue-cli-service test:unit",
     "test:e2e": "vue-cli-service test:e2e",
     "lint": "vue-cli-service lint",
