@@ -22,6 +22,11 @@ script:
   - yarn test:unit
   - yarn test:e2e --headless
 
+branches:
+  only:
+    - master
+    - next
+
 deploy:
   provider: script
   skip_cleanup: true
