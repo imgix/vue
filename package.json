@@ -1,7 +1,27 @@
 {
   "name": "vue-imgix",
+  "description": "A simple yet powerful integration between Vue and Imgix",
+  "author": "Frederick Fogerty <frederick.fogerty@gmail.com> (https://github.com/frederickfogerty)",
+  "contributors": [
+    "Frederick Fogerty <frederick.fogerty@gmail.com> (https://github.com/frederickfogerty)"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/imgix/vue-imgix.git"
+  },
+  "bugs": {
+    "url": "https://github.com/imgix/vue-imgix/issues"
+  },
+  "homepage": "https://github.com/imgix/vue-imgix#readme",
+  "keywords": [
+    "vue",
+    "imgix",
+    "component"
+  ],
   "main": "dist/vue-imgix.umd.js",
   "module": "dist/my-component.esm.js",
+  "jsnext:main": "dist/my-component.esm.js",
   "unpkg": "dist/my-component.min.js",
   "version": "0.0.0-development",
   "scripts": {
@@ -56,10 +76,6 @@
   },
   "resolutions": {
     "cypress": "^3.8.3"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/imgix/vue-imgix.git"
   },
   "release": {
     "branches": [
