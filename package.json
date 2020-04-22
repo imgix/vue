@@ -1,5 +1,8 @@
 {
   "name": "vue-imgix",
+  "main": "dist/vue-imgix.umd.js",
+  "module": "dist/my-component.esm.js",
+  "unpkg": "dist/my-component.min.js",
   "version": "0.0.0-development",
   "scripts": {
     "serve": "vue-cli-service serve",
