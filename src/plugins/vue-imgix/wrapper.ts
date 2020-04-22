@@ -1,3 +1,5 @@
+// THIS FILE IS A WIP
+/* eslint-disable @typescript-eslint/ban-ts-ignore */
 // Import vue component
 // import  from './my-component.vue';
 
