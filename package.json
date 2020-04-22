@@ -64,5 +64,11 @@
     "branches": [
       "next"
     ]
-  }
+  },
+  "files": [
+    "/dist",
+    "/src/plugins/vue-imgix",
+    "README.md",
+    "LICENSE"
+  ]
 }
