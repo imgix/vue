@@ -24,8 +24,6 @@ export class Imgix extends ImgixProps {
   }
 
   render(createElement: CreateElement) {
-    console.log('this.width', this.width);
-
     const imgixParamsFromImgAttributes = {
       ...(this.width != null ? { w: this.width } : {}),
       ...(this.height != null ? { h: this.height } : {}),
