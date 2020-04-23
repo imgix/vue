@@ -73,7 +73,7 @@ describe('imgix component', () => {
   });
 
   describe('in fixed mode (width or height passed to url, imgixParams, or dom attribute)', () => {
-    it('when a width passed to imgixParams', () => {
+    it('when a width passed to imgixParams, the srcset is in fixed size mode', () => {
       const wrapper = render(Imgix, {
         propsData: {
           'data-testid': 'img-rendering',
@@ -102,7 +102,7 @@ describe('imgix component', () => {
       expect(firstSrcSet).toMatch(' 1x');
     });
 
-    it('when a width passed to element', () => {
+    it('when a width passed to element, the srcset is in fixed size mode', () => {
       const wrapper = render(Imgix, {
         propsData: {
           'data-testid': 'img-rendering',
@@ -127,6 +127,35 @@ describe('imgix component', () => {
       expect(firstSrcSet).toMatch('w=100');
       expect(firstSrcSet).toMatch('dpr=1');
       expect(firstSrcSet).toMatch(' 1x');
+    });
+
+    it('a width attribute is passed through to the underlying component', () => {
+      const wrapper = render(Imgix, {
+        propsData: {
+          'data-testid': 'img-rendering',
+          src: 'examples/pione.jpg',
+          width: 100,
+        },
+      });
+
+      expect(wrapper.getByTestId('img-rendering')).toHaveAttribute(
+        'width',
+        '100',
+      );
+    });
+    it('a height attribute is passed through to the underlying component', () => {
+      const wrapper = render(Imgix, {
+        propsData: {
+          'data-testid': 'img-rendering',
+          src: 'examples/pione.jpg',
+          height: 100,
+        },
+      });
+
+      expect(wrapper.getByTestId('img-rendering')).toHaveAttribute(
+        'height',
+        '100',
+      );
     });
   });
 });
