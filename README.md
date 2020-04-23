@@ -32,13 +32,15 @@
 - [Usage](#usage)
     * [Examples](#examples)
         + [Basic Use Case](#basic-use-case)
-    * [Advanced examples](#advanced-examples)
+        + [Flexible Image Rendering](#flexible-image-rendering)
+        + [Fixed Image Rendering (i.e. non-flexible)](#fixed-image-rendering-ie-non-flexible)
+    * [Advanced Examples](#advanced-examples)
         + [buildUrlObject](#buildurlobject)
         + [buildUrl](#buildurl)
         + [buildSrcSet](#buildsrcset)
-- [Contributing](#contributing)
 - [Code of Conduct](#code-of-conduct)
 - [Contributors](#contributors)
+
 
 <!-- prettier-ignore-end -->
 
