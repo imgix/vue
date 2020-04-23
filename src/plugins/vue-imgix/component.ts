@@ -9,6 +9,8 @@ const ImgixProps = Vue.extend({
       required: true,
     },
     imgixParams: Object,
+    width: [String, Number],
+    height: [String, Number],
   },
 });
 
@@ -22,10 +24,17 @@ export class Imgix extends ImgixProps {
   }
 
   render(createElement: CreateElement) {
-    const { src, srcset } = this.vueImgixSingleton.buildUrlObject(
-      this.src,
-      this.imgixParams,
-    );
+    console.log('this.width', this.width);
+
+    const imgixParamsFromImgAttributes = {
+      ...(this.width != null ? { w: this.width } : {}),
+      ...(this.height != null ? { h: this.height } : {}),
+    };
+
+    const { src, srcset } = this.vueImgixSingleton.buildUrlObject(this.src, {
+      ...imgixParamsFromImgAttributes,
+      ...this.imgixParams,
+    });
 
     return createElement('img', {
       attrs: {
