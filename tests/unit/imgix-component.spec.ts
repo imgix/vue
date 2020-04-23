@@ -52,4 +52,23 @@ describe('imgix component', () => {
     const aWidthFromSrcSet = firstSrcSet.split(' ')[1];
     expect(aWidthFromSrcSet).toMatch(/^\d+w$/);
   });
+
+  it('imgixParams should be set on the rendered src and srcset', () => {
+    const wrapper = render(Imgix, {
+      propsData: {
+        src: 'examples/pione.jpg',
+        'data-testid': 'img-rendering',
+        imgixParams: { crop: 'faces' },
+      },
+    });
+
+    expect(wrapper.getByTestId('img-rendering')).toHaveAttribute(
+      'src',
+      expect.stringMatching('crop=faces'),
+    );
+    expect(wrapper.getByTestId('img-rendering')).toHaveAttribute(
+      'srcset',
+      expect.stringMatching('crop=faces'),
+    );
+  });
 });
