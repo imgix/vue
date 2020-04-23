@@ -8,6 +8,12 @@
         data-testid="simple-fluid"
       ></Imgix>
     </div>
+    <h2>Fixed</h2>
+    <Imgix
+      src="examples/pione.jpg"
+      width="100"
+      data-testid="simple-fixed-width"
+    ></Imgix>
   </div>
 </template>
 

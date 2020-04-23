@@ -104,6 +104,78 @@ This will generate HTML similar to the following:
 />
 ```
 
+#### Flexible Image Rendering
+
+This component acts dynamically by default. The component will leverage `srcset` and `sizes` to render the right size image for its container. This is an example of this responsive behaviour.
+
+`sizes` should be set properly for this to work well, and some styling should be used to set the size of the component rendered. Without `sizes` and correct styling the image might render at full-size.
+
+`./styles.css`
+
+```css
+.App {
+  display: flex;
+}
+
+.App > img {
+  margin: 10px auto;
+  width: 10vw;
+  height: 200px;
+}
+```
+
+`./app.js`
+
+```html
+<div className="App">
+  <Imgix src="examples/pione.jpg" sizes="calc(10% - 10px)" />
+</div>
+```
+
+**Aspect Ratio:** A developer can pass a desired aspect ratio, which will be used when
+generating srcsets to resize and crop your image as specified. For the `ar` parameter to take effect, ensure that the `fit` parameter is set to `crop`.
+
+```html
+<div className="App">
+  <Imgix
+    src="examples/pione.jpg"
+    sizes="calc(10% - 10px)"
+    imgixParams="{ ar: '16:9' }"
+  />
+</div>
+```
+
+The aspect ratio is specified in the format `width:height`. Either dimension can be an integer or a float. All of the following are valid: 16:9, 5:1, 1.92:1, 1:1.67.
+
+#### Fixed Image Rendering (i.e. non-flexible)
+
+If the fluid, dynamic nature explained above is not desired, the width and height can be set explicitly.
+
+```js
+<Imgix
+  src="examples/pione.jpg"
+  width="100" // This sets what resolution the component should load from the CDN and the size of the resulting image
+  height="200"
+/>
+```
+
+Fixed image rendering will automatically append a variable `q` parameter mapped to each `dpr` parameter when generating a srcset. This technique is commonly used to compensate for the increased filesize of high-DPR images. Since high-DPR images are displayed at a higher pixel density on devices, image quality can be lowered to reduce overall filesize without sacrificing perceived visual quality. For more information and examples of this technique in action, see [this blog post](https://blog.imgix.com/2016/03/30/dpr-quality).
+This behavior will respect any overriding `q` value passed in via `imgixParams` and can be disabled altogether with the boolean property `disableQualityByDPR`.
+
+```js
+<Imgix src="image.jpg" width="100" disableQualityByDPR />
+```
+
+will generate the following srcset:
+
+```html
+https://domain.imgix.net/image.jpg?q=75&w=100&dpr=1 1x,
+https://domain.imgix.net/image.jpg?q=50&w=100&dpr=2 2x,
+https://domain.imgix.net/image.jpg?q=35&w=100&dpr=3 3x,
+https://domain.imgix.net/image.jpg?q=23&w=100&dpr=4 4x,
+https://domain.imgix.net/image.jpg?q=20&w=100&dpr=5 5x
+```
+
 ### Advanced Examples
 
 For advanced use cases which go above the basic usage outlined above, such as lazy loading, or integration with other components or libraries, this library provides a set of low-level APIs.
