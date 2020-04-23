@@ -78,7 +78,10 @@
   },
   "release": {
     "branches": [
-      "next"
+      {
+        "name": "next",
+        "channel": "next"
+      }
     ]
   },
   "files": [
