@@ -40,6 +40,8 @@ export class Imgix extends ImgixProps {
       attrs: {
         src,
         srcset,
+        width: this.width,
+        height: this.height,
       },
     });
   }
