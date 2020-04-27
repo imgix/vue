@@ -1,6 +1,7 @@
 <!-- ix-docs-ignore -->
 
 ![imgix logo](https://assets.imgix.net/sdk-imgix-logo.svg)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fimgix%2Fvue-imgix.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fimgix%2Fvue-imgix?ref=badge_shield)
 
 `vue-imgix` provides an API for integrating [imgix](https://www.imgix.com/) into Vue sites.
 
@@ -299,3 +300,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fimgix%2Fvue-imgix.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fimgix%2Fvue-imgix?ref=badge_large)
