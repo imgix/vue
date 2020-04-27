@@ -32,6 +32,7 @@
 
 - [Overview / Resources](#overview--resources)
 - [Get Started](#get-started)
+- [Configure](#configure)
 - [Usage](#usage)
     * [Examples](#examples)
         + [Basic Use Case](#basic-use-case)
@@ -43,7 +44,7 @@
         + [buildSrcSet](#buildsrcset)
 - [Code of Conduct](#code-of-conduct)
 - [Contributors](#contributors)
-
+- [License](#license)
 
 <!-- prettier-ignore-end -->
 
