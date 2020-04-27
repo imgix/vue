@@ -2,7 +2,7 @@
 
 ![imgix logo](https://assets.imgix.net/sdk-imgix-logo.svg)
 
-`vue-imgix` provides an API for integrating [imgix](https://www.imgix.com/) into Vue sites.
+`vue-imgix` is a client library for generating URLs with [imgix](https://www.imgix.com/).
 
 [![npm version](https://img.shields.io/npm/v/vue-imgix.svg)](https://www.npmjs.com/package/vue-imgix)
 [![Build Status](https://travis-ci.org/imgix/vue-imgix.svg?branch=master)](https://travis-ci.org/imgix/vue-imgix)
@@ -64,7 +64,9 @@ Then, install vue-imgix with the following commands, depending on your package m
 
 This module exports two transpiled versions. If a ES6-module-aware bundler is being used to consume this module, it will pick up an ES6 module version and can perform tree-shaking. **If you are not using ES6 modules, you don't have to do anything.**
 
-Finally, vue-imgix needs to be initialized before if can be used in components. Modify `App.vue` or similar to include the following:
+## Configure
+
+Vue-imgix needs to be initialized with a minimal configuration before it can be used in components. Modify `App.vue` or similar to include the following:
 
 ```js
 import { initVueImgix } from 'vue-imgix';
