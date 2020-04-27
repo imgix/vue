@@ -1,5 +1,9 @@
 <!-- ix-docs-ignore -->
 
+> ⚠️ Work in Progress. This library is currently in development. We're planning to have a stable version of this library shipped soon, so please keep an eye on this space!
+
+> ⚠️ These docs are for the beta channel of this library. To view the docs for stable channel, [go here](https://github.com/imgix/vue-imgix/tree/master).
+
 ![imgix logo](https://assets.imgix.net/sdk-imgix-logo.svg)
 
 `vue-imgix` is a client library for generating URLs with [imgix](https://www.imgix.com/).
@@ -19,8 +23,6 @@
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 ---
-
-# ⚠️ Work in Progress. This library is currently in development. We're planning to have a stable version of this library shipped soon, so please keep an eye on this space!
 
 <!-- /ix-docs-ignore -->
 
