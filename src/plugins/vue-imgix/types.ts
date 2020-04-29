@@ -23,4 +23,4 @@ export interface IVueImgixClient {
   buildSrcSet: IBuildSrcSet;
 }
 
-export interface IVueUseImgixOptions extends IImgixClientOptions {}
+export type IVueUseImgixOptions = IImgixClientOptions;
