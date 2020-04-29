@@ -1,10 +1,10 @@
-import { initVueImgix } from '@/plugins/vue-imgix';
+import VueImgix from '@/plugins/vue-imgix';
 import Vue from 'vue';
 import App from './App.vue';
 
 Vue.config.productionTip = false;
 
-initVueImgix({
+Vue.use(VueImgix, {
   domain: 'assets.imgix.net',
 });
 
