@@ -1,12 +1,13 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 
-describe('initVueImgix', () => {
+describe('Initialization', () => {
   beforeEach(() => {
     jest.resetModules();
   });
   it('allows the developer to initialise the vue-imgix library', () => {
-    const { initVueImgix } = require('@/plugins/vue-imgix');
-    initVueImgix({
+    const Vue = require('vue');
+    const VueImgix = require('@/plugins/vue-imgix');
+    Vue.use(VueImgix, {
       domain: 'test-domain.imgix.net',
     });
   });
@@ -14,6 +15,6 @@ describe('initVueImgix', () => {
     const { buildUrlObject } = require('@/plugins/vue-imgix');
     expect(() => {
       buildUrlObject('/test-image.jpg');
-    }).toThrow(/initVueImgix must be called/);
+    }).toThrow(/Vue\.use/);
   });
 });
