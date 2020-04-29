@@ -73,9 +73,10 @@ This module exports two transpiled versions. If a ES6-module-aware bundler is be
 Vue-imgix needs to be initialized with a minimal configuration before it can be used in components. Modify `App.vue` or similar to include the following:
 
 ```js
-import { initVueImgix } from 'vue-imgix';
+import Vue from 'vue';
+import VueImgix from 'vue-imgix';
 
-initVueImgix({
+Vue.use(VueImgix, {
   domain: "<your company's imgix domain>",
 });
 ```
