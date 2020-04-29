@@ -1,4 +1,3 @@
-// THIS FILE IS A WIP
 /* eslint-disable @typescript-eslint/ban-ts-ignore */
 import _Vue from 'vue';
 import { IVueUseImgixOptions } from './types';
