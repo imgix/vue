@@ -1,5 +1,5 @@
 import ImgixClient from 'imgix-core-js';
-import { Imgix } from './component';
+import { IxImg } from './component';
 import {
   IBuildSrcSet,
   IBuildUrl,
@@ -80,4 +80,4 @@ export const buildSrcSet: IBuildSrcSet = (...args) => {
   return client.buildSrcSet(...args);
 };
 
-export { IVueImgixClient, Imgix };
+export { IVueImgixClient, IxImg };

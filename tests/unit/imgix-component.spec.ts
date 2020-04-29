@@ -1,4 +1,4 @@
-import { Imgix, initVueImgix } from '@/plugins/vue-imgix';
+import { initVueImgix, IxImg } from '@/plugins/vue-imgix';
 import '@testing-library/jest-dom';
 import { render } from '@testing-library/vue';
 describe('imgix component', () => {
@@ -8,7 +8,7 @@ describe('imgix component', () => {
     });
   });
   it('an img should be rendered', () => {
-    const wrapper = render(Imgix, {
+    const wrapper = render(IxImg, {
       propsData: {
         src: 'examples/pione.jpg',
         'data-testid': 'img-rendering',
@@ -18,7 +18,7 @@ describe('imgix component', () => {
     expect(wrapper.getByTestId('img-rendering'));
   });
   it(`the rendered img's src should be set`, () => {
-    const wrapper = render(Imgix, {
+    const wrapper = render(IxImg, {
       propsData: {
         src: 'examples/pione.jpg',
         'data-testid': 'img-rendering',
@@ -31,7 +31,7 @@ describe('imgix component', () => {
     );
   });
   it(`the rendered img's srcset should be set correctly`, () => {
-    const wrapper = render(Imgix, {
+    const wrapper = render(IxImg, {
       propsData: {
         src: 'examples/pione.jpg',
         'data-testid': 'img-rendering',
@@ -54,7 +54,7 @@ describe('imgix component', () => {
   });
 
   it('imgixParams should be set on the rendered src and srcset', () => {
-    const wrapper = render(Imgix, {
+    const wrapper = render(IxImg, {
       propsData: {
         'data-testid': 'img-rendering',
         src: 'examples/pione.jpg',
@@ -74,7 +74,7 @@ describe('imgix component', () => {
 
   describe('in fixed mode (width or height passed to url, imgixParams, or dom attribute)', () => {
     it('when a width passed to imgixParams, the srcset is in fixed size mode', () => {
-      const wrapper = render(Imgix, {
+      const wrapper = render(IxImg, {
         propsData: {
           'data-testid': 'img-rendering',
           src: 'examples/pione.jpg',
@@ -103,7 +103,7 @@ describe('imgix component', () => {
     });
 
     it('when a width passed to element, the srcset is in fixed size mode', () => {
-      const wrapper = render(Imgix, {
+      const wrapper = render(IxImg, {
         propsData: {
           'data-testid': 'img-rendering',
           src: 'examples/pione.jpg',
@@ -130,7 +130,7 @@ describe('imgix component', () => {
     });
 
     it('a width attribute is passed through to the underlying component', () => {
-      const wrapper = render(Imgix, {
+      const wrapper = render(IxImg, {
         propsData: {
           'data-testid': 'img-rendering',
           src: 'examples/pione.jpg',
@@ -144,7 +144,7 @@ describe('imgix component', () => {
       );
     });
     it('a height attribute is passed through to the underlying component', () => {
-      const wrapper = render(Imgix, {
+      const wrapper = render(IxImg, {
         propsData: {
           'data-testid': 'img-rendering',
           src: 'examples/pione.jpg',

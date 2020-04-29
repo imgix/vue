@@ -2,7 +2,7 @@ import Vue, { CreateElement } from 'vue';
 import Component from 'vue-class-component';
 import { ensureVueImgixClientSingleton, IVueImgixClient } from './vue-imgix';
 
-const ImgixProps = Vue.extend({
+const IxImgProps = Vue.extend({
   props: {
     src: {
       type: String,
@@ -15,7 +15,7 @@ const ImgixProps = Vue.extend({
 });
 
 @Component
-export class Imgix extends ImgixProps {
+export class IxImg extends IxImgProps {
   // Using !: here because we ensure it is set in created()
   private vueImgixSingleton!: IVueImgixClient;
 
