@@ -93,7 +93,7 @@ The main idea here is that you should be able to use this component just as you 
 To render a simple image that will display an image based on the browser's dpr and the width of the rendered element using the power of srcsets, vue-imgix can be used as follows:
 
 ```html
-<Imgix :src="examples/pione.jpg" sizes="100vw" />
+<ix-img :src="examples/pione.jpg" sizes="100vw" />
 ```
 
 **Please note:** `100vw` is an appropriate `sizes` value for a full-bleed image. If your image is not full-bleed, you should use a different value for `sizes`. [Eric Portis' "Srcset and sizes"](https://ericportis.com/posts/2014/srcset-sizes/) article goes into depth on how to use the `sizes` attribute.
@@ -136,7 +136,7 @@ This component acts dynamically by default. The component will leverage `srcset`
 
 ```html
 <div className="App">
-  <Imgix src="examples/pione.jpg" sizes="calc(10% - 10px)" />
+  <ix-img src="examples/pione.jpg" sizes="calc(10% - 10px)" />
 </div>
 ```
 
@@ -145,7 +145,7 @@ generating srcsets to resize and crop your image as specified. For the `ar` para
 
 ```html
 <div className="App">
-  <Imgix
+  <ix-img
     src="examples/pione.jpg"
     sizes="calc(10% - 10px)"
     imgixParams="{ ar: '16:9' }"
@@ -160,7 +160,7 @@ The aspect ratio is specified in the format `width:height`. Either dimension can
 If the fluid, dynamic nature explained above is not desired, the width and height can be set explicitly.
 
 ```js
-<Imgix
+<ix-img
   src="examples/pione.jpg"
   width="100" // This sets what resolution the component should load from the CDN and the size of the resulting image
   height="200"
@@ -171,7 +171,7 @@ Fixed image rendering will automatically append a variable `q` parameter mapped 
 This behavior will respect any overriding `q` value passed in via `imgixParams` and can be disabled altogether with the boolean property `disableQualityByDPR`.
 
 ```js
-<Imgix src="image.jpg" width="100" disableQualityByDPR />
+<ix-img src="image.jpg" width="100" disableQualityByDPR />
 ```
 
 will generate the following srcset:
