@@ -17,4 +17,19 @@ describe('Initialization', () => {
       buildUrlObject('/test-image.jpg');
     }).toThrow(/Vue\.use/);
   });
+
+  it(`doesn't include ixlib in generated urls when includeLibraryParam is set to false`, () => {
+    const Vue = require('vue');
+    const VueImgix = require('@/plugins/vue-imgix');
+    Vue.use(VueImgix, {
+      domain: 'test-domain.imgix.net',
+      includeLibraryParam: false,
+    });
+
+    const { buildUrlObject } = require('@/plugins/vue-imgix');
+    expect(buildUrlObject('/test-image.jpg')).toMatchObject({
+      src: expect.not.stringMatching(/ixlib/),
+      srcset: expect.not.stringMatching(/ixlib/),
+    });
+  });
 });
