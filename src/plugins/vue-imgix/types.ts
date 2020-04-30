@@ -2,6 +2,7 @@ export type IImgixParams = {};
 
 export interface IImgixClientOptions {
   domain: string;
+  includeLibraryParam?: boolean;
 }
 
 export interface IBuildUrlObjectResult {
