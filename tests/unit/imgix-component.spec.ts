@@ -45,7 +45,7 @@ describe('imgix component', () => {
       fail('srcset is null');
     }
 
-    const firstSrcSet = srcset.split(',').map(v => v.trim())[0];
+    const firstSrcSet = srcset.split(',').map((v) => v.trim())[0];
     expect(firstSrcSet.split(' ')).toHaveLength(2);
     const aSrcFromSrcSet = firstSrcSet.split(' ')[0];
     expect(aSrcFromSrcSet).toContain('examples/pione.jpg');
@@ -96,7 +96,7 @@ describe('imgix component', () => {
       if (!srcset) {
         fail('srcset is null');
       }
-      const firstSrcSet = srcset.split(',').map(v => v.trim())[0];
+      const firstSrcSet = srcset.split(',').map((v) => v.trim())[0];
       expect(firstSrcSet).toMatch('w=100');
       expect(firstSrcSet).toMatch('dpr=1');
       expect(firstSrcSet).toMatch(' 1x');
@@ -123,7 +123,7 @@ describe('imgix component', () => {
       if (!srcset) {
         fail('srcset is null');
       }
-      const firstSrcSet = srcset.split(',').map(v => v.trim())[0];
+      const firstSrcSet = srcset.split(',').map((v) => v.trim())[0];
       expect(firstSrcSet).toMatch('w=100');
       expect(firstSrcSet).toMatch('dpr=1');
       expect(firstSrcSet).toMatch(' 1x');
