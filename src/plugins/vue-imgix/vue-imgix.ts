@@ -23,35 +23,40 @@ class VueImgixClient implements IVueImgixClient {
   constructor(options: IImgixClientOptions) {
     this.options = { ...clientOptionDefaults, ...options };
 
-    const { includeLibraryParam, ...imgixClientOptions } = this.options;
-
     this.client = new ImgixClient({
-      ...imgixClientOptions,
+      domain: this.options.domain,
       includeLibraryParam: false, // force false so that imgix-core-js doesn't include its own library param
     });
     // This is not a public API, so it is not included in the type definitions for ImgixClient
-    if (includeLibraryParam) {
+    if (this.options.includeLibraryParam) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (this.client as any).settings.libraryParam = `vue-${VERSION}`;
     }
   }
 
+  buildIxParams = (ixParams?: IImgixParams) => {
+    return {
+      ...this.options.defaultIxParams,
+      ...ixParams,
+    };
+  };
+
   buildUrlObject = (
     url: string,
-    options?: IImgixParams,
+    ixParams?: IImgixParams,
   ): IBuildUrlObjectResult => {
-    const src = this.client.buildURL(url, options);
-    const srcset = this.client.buildSrcSet(url, options);
+    const src = this.buildUrl(url, ixParams);
+    const srcset = this.buildSrcSet(url, ixParams);
 
     return { src, srcset };
   };
 
-  buildUrl = (url: string, options?: IImgixParams): string => {
-    return this.client.buildURL(url, options);
+  buildUrl = (url: string, ixParams?: IImgixParams): string => {
+    return this.client.buildURL(url, this.buildIxParams(ixParams));
   };
 
-  buildSrcSet = (url: string, options?: IImgixParams): string => {
-    return this.client.buildSrcSet(url, options);
+  buildSrcSet = (url: string, ixParams?: IImgixParams): string => {
+    return this.client.buildSrcSet(url, this.buildIxParams(ixParams));
   };
 }
 
