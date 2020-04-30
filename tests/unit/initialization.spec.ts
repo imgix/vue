@@ -32,4 +32,21 @@ describe('Initialization', () => {
       srcset: expect.not.stringMatching(/ixlib/),
     });
   });
+
+  it(`includes imgixParams set during initialization in the generated srcs`, () => {
+    const Vue = require('vue');
+    const VueImgix = require('@/plugins/vue-imgix');
+    Vue.use(VueImgix, {
+      domain: 'test-domain.imgix.net',
+      defaultIxParams: {
+        auto: 'format',
+      },
+    });
+
+    const { buildUrlObject } = require('@/plugins/vue-imgix');
+    expect(buildUrlObject('/test-image.jpg')).toMatchObject({
+      src: expect.stringMatching(/auto=format/),
+      srcset: expect.stringMatching(/auto=format/),
+    });
+  });
 });
