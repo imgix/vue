@@ -4,7 +4,7 @@ import typescript from '@rollup/plugin-typescript';
 import babel from 'rollup-plugin-babel';
 import vue from 'rollup-plugin-vue';
 export default {
-  input: 'src/plugins/vue-imgix',
+  input: 'src/plugins/vue-imgix/index.ts',
   output: {
     name: 'Imgix',
     exports: 'named',
