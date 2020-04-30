@@ -6,6 +6,9 @@ Vue.config.productionTip = false;
 
 Vue.use(VueImgix, {
   domain: 'assets.imgix.net',
+  defaultIxParams: {
+    auto: 'format',
+  },
 });
 
 new Vue({

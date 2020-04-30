@@ -3,6 +3,7 @@ export type IImgixParams = {};
 export interface IImgixClientOptions {
   domain: string;
   includeLibraryParam?: boolean;
+  defaultIxParams?: IImgixParams;
 }
 
 export interface IBuildUrlObjectResult {
