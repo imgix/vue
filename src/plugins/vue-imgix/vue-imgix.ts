@@ -12,15 +12,28 @@ import {
 
 const VERSION = '0.0.0-development';
 
+const clientOptionDefaults = {
+  includeLibraryParam: true,
+};
+
 class VueImgixClient implements IVueImgixClient {
   client: ImgixClient;
+  private readonly options: IImgixClientOptions;
+
   constructor(options: IImgixClientOptions) {
+    this.options = { ...clientOptionDefaults, ...options };
+
+    const { includeLibraryParam, ...imgixClientOptions } = this.options;
+
     this.client = new ImgixClient({
-      ...options,
+      ...imgixClientOptions,
+      includeLibraryParam: false, // force false so that imgix-core-js doesn't include its own library param
     });
     // This is not a public API, so it is not included in the type definitions for ImgixClient
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (this.client as any).settings.libraryParam = `vue-${VERSION}`;
+    if (includeLibraryParam) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (this.client as any).settings.libraryParam = `vue-${VERSION}`;
+    }
   }
 
   buildUrlObject = (
