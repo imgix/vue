@@ -277,6 +277,22 @@ We also provide `buildSrcSet` from imgix-core-js to help developers to create an
 </script>
 ```
 
+## What is the `ixlib` param on every request?
+
+For security and diagnostic purposes, we tag all requests with the language and version of library used to generate the URL.
+
+To disable this, set `includeLibraryParam` to false when initializing `VueImgix`.
+
+```js
+import Vue from 'vue';
+import VueImgix from 'vue-imgix';
+
+Vue.use(VueImgix, {
+  domain: "<your company's imgix domain>",
+  includeLibraryParam: false,
+});
+```
+
 ## Code of Conduct
 
 imgix is dedicated to providing a harassment-free experience for everyone, regardless of gender, gender identity and expression, sexual orientation, disability, physical appearance, body size, race, or religion. We do not tolerate harassment of participants in any form.
