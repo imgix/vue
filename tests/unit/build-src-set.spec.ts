@@ -64,5 +64,18 @@ describe('buildSrcSet', () => {
         expect.objectContaining({ widthTolerance: 0.2 }),
       );
     });
+    it('custom min/max widths are passed to imgix-core-js', () => {
+      vueImgixClient.buildSrcSet(
+        'image.jpg',
+        {},
+        { minWidth: 500, maxWidth: 2000 },
+      );
+
+      expect(mockImgixClient.buildSrcSet).toHaveBeenCalledWith(
+        expect.anything(),
+        expect.anything(),
+        expect.objectContaining({ minWidth: 500, maxWidth: 2000 }),
+      );
+    });
   });
 });
