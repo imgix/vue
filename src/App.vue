@@ -4,6 +4,7 @@
     <simple />
 
     <h1>Advanced Usage</h1>
+    <advanced-api />
     <h2>buildUrlObject</h2>
     <advanced-build-url-object></advanced-build-url-object>
     <h2>buildUrl</h2>
@@ -17,6 +18,7 @@
 import advancedBuildUrlObject from './components/advanced/buildUrlObject';
 import advancedBuildUrl from './components/advanced/buildUrl';
 import advancedBuildSrcSet from './components/advanced/buildSrcSet';
+import advancedApi from './components/advanced/advanced';
 import simple from './components/simple/simple';
 
 export default {
@@ -26,6 +28,7 @@ export default {
     advancedBuildUrlObject,
     advancedBuildUrl,
     advancedBuildSrcSet,
+    advancedApi,
     simple,
   },
 
