@@ -282,6 +282,31 @@ We also provide `buildSrcSet` from imgix-core-js to help developers to create an
 </script>
 ```
 
+#### Custom srcset width
+
+In situations where specific widths are desired when generating `srcset` pairs, a user can specify them by passing an array of positive integers as `widths` to the third options object:
+
+```js
+const { srcset } = buildUrlObject(
+  'image.jpg',
+  {},
+  {
+    widths: [100, 500, 1000, 1800],
+  },
+);
+```
+
+Will generate the following `srcset` of width pairs:
+
+```html
+https://assets.imgix.net/image.jpg?w=100 100w,
+https://assets.imgix.net/image.jpg?w=500 500w,
+https://assets.imgix.net/image.jpg?w=1000 1000w,
+https://assets.imgix.net/image.jpg?w=1800 1800w
+```
+
+**Note:** that in situations where a `srcset` is being rendered as a [fixed image](#fixed-image-rendering), any custom `widths` passed in will be ignored. Additionally, if both `widths` and a `widthTolerance` are passed to the `buildSrcSet` method, the custom widths list will take precedence.
+
 ## What is the `ixlib` param on every request?
 
 For security and diagnostic purposes, we tag all requests with the language and version of library used to generate the URL.
