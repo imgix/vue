@@ -42,9 +42,14 @@
         + [buildUrlObject](#buildurlobject)
         + [buildUrl](#buildurl)
         + [buildSrcSet](#buildsrcset)
+        + [Custom srcset width](#custom-srcset-width)
+        + [Width Tolerance](#width-tolerance)
+        + [Minimum and Maximum Width Ranges](#minimum-and-maximum-width-ranges)
+- [What is the `ixlib` param on every request?](#what-is-the-ixlib-param-on-every-request)
 - [Code of Conduct](#code-of-conduct)
 - [Contributors](#contributors)
 - [License](#license)
+
 
 <!-- prettier-ignore-end -->
 
