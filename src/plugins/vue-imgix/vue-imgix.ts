@@ -1,5 +1,5 @@
 import ImgixClient from 'imgix-core-js';
-import { IxImg } from './component';
+import { IxImg } from '@/plugins/vue-imgix/ix-img';
 import {
   IBuildSrcSet,
   IBuildSrcSetOptions,
