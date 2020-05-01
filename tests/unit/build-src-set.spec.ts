@@ -21,33 +21,48 @@ describe('buildSrcSet', () => {
     expect(firstSrcSet[1]).toMatch(/^[0-9]+w$/);
   });
 
-  it('custom widths are passed to imgix-core-js', () => {
-    jest.resetModules();
-    jest.mock('imgix-core-js');
-    const { buildImgixClient } = require('@/plugins/vue-imgix/');
-    const ImgixClient = require('imgix-core-js');
-    const ImgixMock = {
-      settings: {},
-      buildSrcSet: jest.fn(),
-      buildURL: jest.fn(),
-    };
-    ImgixClient.mockImplementation(() => ImgixMock);
-
-    const client = buildImgixClient({
-      domain: 'testing.imgix.net',
+  describe('srcset generation', () => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    let mockImgixClient: any;
+    let vueImgixClient: IVueImgixClient;
+    beforeEach(() => {
+      jest.resetModules();
+      jest.mock('imgix-core-js');
+      const { buildImgixClient } = require('@/plugins/vue-imgix/');
+      const ImgixClient = require('imgix-core-js');
+      mockImgixClient = {
+        settings: {},
+        buildSrcSet: jest.fn(),
+        buildURL: jest.fn(),
+      };
+      ImgixClient.mockImplementation(() => mockImgixClient);
+      vueImgixClient = buildImgixClient({
+        domain: 'testing.imgix.net',
+      });
     });
+    afterAll(() => {
+      jest.resetAllMocks();
+      jest.resetModules();
+    });
+    it('custom widths are passed to imgix-core-js', () => {
+      vueImgixClient.buildSrcSet('image.jpg', {}, { widths: [100, 200] });
 
-    client.buildSrcSet('image.jpg', {}, { widths: [100, 200] });
+      expect(mockImgixClient.buildSrcSet).toHaveBeenCalledWith(
+        expect.anything(),
+        expect.anything(),
+        expect.objectContaining({
+          widths: [100, 200],
+        }),
+      );
+    });
+    it('a custom width tolerance is passed to imgix-core-js', () => {
+      vueImgixClient.buildSrcSet('image.jpg', {}, { widthTolerance: 0.2 });
 
-    expect(ImgixMock.buildSrcSet).toHaveBeenCalledWith(
-      expect.anything(),
-      expect.anything(),
-      expect.objectContaining({
-        widths: [100, 200],
-      }),
-    );
-
-    jest.resetAllMocks();
-    jest.resetModules();
+      expect(mockImgixClient.buildSrcSet).toHaveBeenCalledWith(
+        expect.anything(),
+        expect.anything(),
+        expect.objectContaining({ widthTolerance: 0.2 }),
+      );
+    });
   });
 });
