@@ -48,12 +48,20 @@ class VueImgixClient implements IVueImgixClient {
     ixParams?: IImgixParams,
     options: IBuildUrlObjectOptions = {},
   ): IBuildUrlObjectResult => {
-    const { widths, widthTolerance, ...sharedOptions } = options;
+    const {
+      widths,
+      widthTolerance,
+      minWidth,
+      maxWidth,
+      ...sharedOptions // Right now this is only passed to buildSrcSet, but in the future it might be passed to buildUrl
+    } = options;
 
     const src = this.buildUrl(url, ixParams);
     const srcset = this.buildSrcSet(url, ixParams, {
       widths,
       widthTolerance,
+      minWidth,
+      maxWidth,
       ...sharedOptions,
     });
 
