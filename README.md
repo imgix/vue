@@ -307,6 +307,32 @@ https://assets.imgix.net/image.jpg?w=1800 1800w
 
 **Note:** that in situations where a `srcset` is being rendered as a [fixed image](#fixed-image-rendering), any custom `widths` passed in will be ignored. Additionally, if both `widths` and a `widthTolerance` are passed to the `buildSrcSet` method, the custom widths list will take precedence.
 
+#### Width Tolerance
+
+The `srcset` width tolerance dictates the maximum tolerated size difference between an image's downloaded size and its rendered size. For example: setting this value to 0.1 means that an image will not render more than 10% larger or smaller than its native size. In practice, the image URLs generated for a width-based srcset attribute will grow by twice this rate. A lower tolerance means images will render closer to their native size (thereby increasing perceived image quality), but a large srcset list will be generated and consequently users may experience lower rates of cache-hit for pre-rendered images on your site.
+
+By default this rate is set to 8 percent, which we consider to be the ideal rate for maximizing cache hits without sacrificing visual quality. Users can specify their own width tolerance by providing a positive scalar value as `widthTolerance` to the third options object:
+
+```js
+const { srcset } = client.buildUrlObject(
+  'image.jpg',
+  {},
+  { widthTolerance: 0.2 },
+);
+```
+
+In this case, the `width_tolerance` is set to 20 percent, which will be reflected in the difference between subsequent widths in a srcset pair:
+
+<!-- prettier-ignore-start -->
+```html
+https://assets.imgix.net/image.jpg?w=100 100w,
+https://assets.imgix.net/image.jpg?w=140 140w,
+https://assets.imgix.net/image.jpg?w=196 196w, 
+  ...
+https://assets.imgix.net/image.jpg?w=8192 8192w
+```
+<!-- prettier-ignore-end -->
+
 ## What is the `ixlib` param on every request?
 
 For security and diagnostic purposes, we tag all requests with the language and version of library used to generate the URL.
