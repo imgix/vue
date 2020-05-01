@@ -1,6 +1,6 @@
 import Vue, { CreateElement } from 'vue';
 import Component from 'vue-class-component';
-import { ensureVueImgixClientSingleton, IVueImgixClient } from './vue-imgix';
+import { ensureVueImgixClientSingleton, IVueImgixClient } from '@/plugins/vue-imgix/vue-imgix';
 
 const IxImgProps = Vue.extend({
   props: {
