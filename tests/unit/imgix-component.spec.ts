@@ -158,4 +158,29 @@ describe('imgix component', () => {
       );
     });
   });
+
+  describe('attributeConfig', () => {
+    const ATTRIBUTES = ['src', 'srcset'];
+    ATTRIBUTES.forEach((attribute) => {
+      it(`${attribute} can be configured to use data-${attribute}`, () => {
+        const wrapper = render(IxImg, {
+          propsData: {
+            'data-testid': 'img-rendering',
+            src: 'examples/pione.jpg',
+            attributeConfig: {
+              [attribute]: `data-${attribute}`,
+            },
+          },
+        });
+
+        expect(wrapper.getByTestId('img-rendering')).toHaveAttribute(
+          `data-${attribute}`,
+          expect.stringMatching(/ixlib/),
+        );
+        expect(wrapper.getByTestId('img-rendering')).not.toHaveAttribute(
+          attribute,
+        );
+      });
+    });
+  });
 });
