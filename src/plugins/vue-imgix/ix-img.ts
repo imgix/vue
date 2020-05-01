@@ -1,6 +1,9 @@
+import {
+  ensureVueImgixClientSingleton,
+  IVueImgixClient,
+} from '@/plugins/vue-imgix/vue-imgix';
 import Vue, { CreateElement } from 'vue';
 import Component from 'vue-class-component';
-import { ensureVueImgixClientSingleton, IVueImgixClient } from '@/plugins/vue-imgix/vue-imgix';
 
 const IxImgProps = Vue.extend({
   props: {
@@ -11,8 +14,14 @@ const IxImgProps = Vue.extend({
     imgixParams: Object,
     width: [String, Number],
     height: [String, Number],
+    attributeConfig: Object,
   },
 });
+
+const defaultAttributeMap = {
+  src: 'src',
+  srcset: 'srcset',
+};
 
 @Component
 export class IxImg extends IxImgProps {
@@ -34,10 +43,17 @@ export class IxImg extends IxImgProps {
       ...this.imgixParams,
     });
 
+    console.log('typeof this.attributeConfig', typeof this.attributeConfig);
+    console.log('this.attributeConfig', this.attributeConfig);
+    const attributeConfig = {
+      ...defaultAttributeMap,
+      ...this.attributeConfig,
+    };
+
     return createElement('img', {
       attrs: {
-        src,
-        srcset,
+        [attributeConfig.src]: src,
+        [attributeConfig.srcset]: srcset,
         width: this.width,
         height: this.height,
       },
