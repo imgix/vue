@@ -42,6 +42,7 @@
         + [buildUrlObject](#buildurlobject)
         + [buildUrl](#buildurl)
         + [buildSrcSet](#buildsrcset)
+        + [Custom attribute mapping](#custom-attribute-mapping)
         + [Custom srcset width](#custom-srcset-width)
         + [Width Tolerance](#width-tolerance)
         + [Minimum and Maximum Width Ranges](#minimum-and-maximum-width-ranges)
@@ -285,6 +286,29 @@ We also provide `buildSrcSet` from imgix-core-js to help developers to create an
     },
   };
 </script>
+```
+
+#### Custom attribute mapping
+
+In some situations, you might want to pass the generated src and srcset to other attributes, such `data-src`. You can do that like this:
+
+```html
+<ix-img
+  src="image.jpg"
+  :attributeConfig="{ 
+    src: 'data-src', 
+    srcset: 'data-srcset' 
+  }"
+/>
+```
+
+Which will generate HTML as follows:
+
+```html
+<img
+  data-src="https://assets.imgix.net/examples/pione.jpg?auto=format"
+  data-srcset="https://assets.imgix.net/examples/pione.jpg?auto=format&w=100 100w, ..."
+/>
 ```
 
 #### Custom srcset width
