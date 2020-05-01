@@ -1,4 +1,12 @@
+import ImgixClient from 'imgix-core-js';
+
 export type IImgixParams = {};
+
+export type IBuildSrcSetOptions = Parameters<
+  ImgixClient['buildSrcSet']
+>[2] & {};
+export type IBuildUrlOptions = {};
+export type IBuildUrlObjectOptions = IBuildSrcSetOptions & IBuildUrlOptions;
 
 export interface IImgixClientOptions {
   domain: string;
@@ -12,12 +20,17 @@ export interface IBuildUrlObjectResult {
 }
 export type IBuildUrlObject = (
   url: string,
-  options?: IImgixParams,
+  ixParams?: IImgixParams,
+  options?: IBuildUrlObjectOptions,
 ) => IBuildUrlObjectResult;
 
-export type IBuildUrl = (url: string, options?: IImgixParams) => string;
+export type IBuildUrl = (url: string, ixParams?: IImgixParams) => string;
 
-export type IBuildSrcSet = (url: string, options?: IImgixParams) => string;
+export type IBuildSrcSet = (
+  url: string,
+  ixParams?: IImgixParams,
+  options?: IBuildSrcSetOptions,
+) => string;
 
 export interface IVueImgixClient {
   buildUrlObject: IBuildUrlObject;

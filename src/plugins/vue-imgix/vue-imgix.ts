@@ -2,8 +2,10 @@ import ImgixClient from 'imgix-core-js';
 import { IxImg } from './component';
 import {
   IBuildSrcSet,
+  IBuildSrcSetOptions,
   IBuildUrl,
   IBuildUrlObject,
+  IBuildUrlObjectOptions,
   IBuildUrlObjectResult,
   IImgixClientOptions,
   IImgixParams,
@@ -44,9 +46,15 @@ class VueImgixClient implements IVueImgixClient {
   buildUrlObject = (
     url: string,
     ixParams?: IImgixParams,
+    options: IBuildUrlObjectOptions = {},
   ): IBuildUrlObjectResult => {
+    const { widths, ...sharedOptions } = options;
+
     const src = this.buildUrl(url, ixParams);
-    const srcset = this.buildSrcSet(url, ixParams);
+    const srcset = this.buildSrcSet(url, ixParams, {
+      widths,
+      ...sharedOptions,
+    });
 
     return { src, srcset };
   };
@@ -55,8 +63,12 @@ class VueImgixClient implements IVueImgixClient {
     return this.client.buildURL(url, this.buildIxParams(ixParams));
   };
 
-  buildSrcSet = (url: string, ixParams?: IImgixParams): string => {
-    return this.client.buildSrcSet(url, this.buildIxParams(ixParams));
+  buildSrcSet = (
+    url: string,
+    ixParams?: IImgixParams,
+    options?: IBuildSrcSetOptions,
+  ): string => {
+    return this.client.buildSrcSet(url, this.buildIxParams(ixParams), options);
   };
 }
 
