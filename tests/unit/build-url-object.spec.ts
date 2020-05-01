@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 import {
   buildImgixClient,
   IVueImgixClient,
@@ -8,15 +9,15 @@ describe('buildUrlObject', () => {
   let client: IVueImgixClient;
   beforeAll(() => {
     client = buildImgixClient({
-      domain: 'assets.imgix.net',
+      domain: 'testing.imgix.net',
     });
   });
 
   it('builds an imgix url', () => {
     const { src, srcset } = client.buildUrlObject('/examples/pione.jpg', {});
 
-    expect(src).toMatch(/assets.imgix.net\/examples\/pione.jpg/);
-    expect(srcset).toMatch(/assets.imgix.net\/examples\/pione.jpg/);
+    expect(src).toMatch(/testing.imgix.net\/examples\/pione.jpg/);
+    expect(srcset).toMatch(/testing.imgix.net\/examples\/pione.jpg/);
   });
   it('adds ixlib to imgix url', async () => {
     const { src, srcset } = client.buildUrlObject('/examples/pione.jpg', {});
@@ -35,5 +36,37 @@ describe('buildUrlObject', () => {
 
     expect(src).toMatch(/w=400/);
     expect(srcset).toMatch(/w=400/);
+  });
+
+  describe('srcset generation', () => {
+    it('custom widths are passed to imgix-core-js', () => {
+      jest.resetModules();
+      jest.mock('imgix-core-js');
+      const { buildImgixClient } = require('@/plugins/vue-imgix/');
+      const ImgixClient = require('imgix-core-js');
+      const ImgixMock = {
+        settings: {},
+        buildSrcSet: jest.fn(),
+        buildURL: jest.fn(),
+      };
+      ImgixClient.mockImplementation(() => ImgixMock);
+
+      const client = buildImgixClient({
+        domain: 'testing.imgix.net',
+      });
+
+      client.buildUrlObject('image.jpg', {}, { widths: [100, 200] });
+
+      expect(ImgixMock.buildSrcSet).toHaveBeenCalledWith(
+        expect.anything(),
+        expect.anything(),
+        expect.objectContaining({
+          widths: [100, 200],
+        }),
+      );
+
+      jest.resetAllMocks();
+      jest.resetModules();
+    });
   });
 });
