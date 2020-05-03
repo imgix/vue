@@ -198,6 +198,30 @@ https://domain.imgix.net/image.jpg?q=23&w=100&dpr=4 4x,
 https://domain.imgix.net/image.jpg?q=20&w=100&dpr=5 5x
 ```
 
+#### Picture Support
+
+With the picture element, images can be directed to have different crops and sizes based on the browser dimensions, or any media query.
+
+It is recommended to check out our [introduction blog post about how to best use picture and the imgix API](https://docs.imgix.com/tutorials/using-imgix-picture-element) for some great tips and examples!
+
+```html
+<ix-picture ix-src="image.jpg">
+  <ix-source width={400} htmlAttributes={{ media: "(min-width: 768px)" }} />
+  <ix-source width={200} htmlAttributes={{ media: "(min-width: 320px)" }} />
+  <ix-img src={src} imgixParams={{ w: 100 }} />
+</ix-picture>
+```
+
+Any props added to the root `ix-picture` element are spread across each child source and img. For example, the following example will spread `ix-src` across each source child and the img fallback.
+
+```html
+<ix-picture ix-src="image.jpg">
+  <ix-source />
+  <ix-source />
+  <ix-img />
+</ix-picture>
+```
+
 ### Advanced Examples
 
 For advanced use cases which go above the basic usage outlined above, such as lazy loading, or integration with other components or libraries, this library provides a set of low-level APIs.
