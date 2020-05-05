@@ -2,39 +2,57 @@ import VueImgix from '@/plugins/vue-imgix';
 import '@testing-library/jest-dom';
 import { render } from '@testing-library/vue';
 import Vue from 'vue';
-describe('imgix component', () => {
+describe('Picture Mode', () => {
   beforeAll(() => {
     Vue.use(VueImgix, {
       domain: 'assets.imgix.net',
     });
   });
 
-  it('should render a picture', () => {
-    const wrapper = render(
-      Vue.component('test-component', {
-        render() {
-          return <ix-picture data-testid="test-picture" />;
-        },
-      }),
-    );
+  describe('ix-picture', () => {
+    it('should render a picture', () => {
+      const wrapper = render(
+        Vue.component('test-component', {
+          render() {
+            return <ix-picture data-testid="test-picture" />;
+          },
+        }),
+      );
 
-    expect(wrapper.getByTestId('test-picture').tagName).toBe('PICTURE');
+      expect(wrapper.getByTestId('test-picture').tagName).toBe('PICTURE');
+    });
+
+    it('should render a source as a child', () => {
+      const wrapper = render(
+        Vue.component('test-component', {
+          render() {
+            return (
+              <ix-picture data-testid="test-picture">
+                <ix-source />
+                <ix-img src="image.jpg" />
+              </ix-picture>
+            );
+          },
+        }),
+      );
+
+      expect(
+        wrapper.getByTestId('test-picture').querySelectorAll('source'),
+      ).toHaveLength(1);
+    });
   });
 
-  it('should render a source as a child', () => {
-    const wrapper = render(
-      Vue.component('test-component', {
-        render() {
-          return (
-            <ix-picture data-testid="test-picture">
-              <ix-source />
-              <ix-img />
-            </ix-picture>
-          );
-        },
-      }),
-    );
+  describe('ix-source', () => {
+    it('should render a <source> component', () => {
+      const wrapper = render(
+        Vue.component('test-component', {
+          render() {
+            return <ix-source data-testid="test-source" />;
+          },
+        }),
+      );
 
-    expect(wrapper.getByTestId('test-picture').getElementsByTagName('source'));
+      expect(wrapper.getByTestId('test-source').tagName).toBe('SOURCE');
+    });
   });
 });
