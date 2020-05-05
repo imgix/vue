@@ -1,9 +1,10 @@
-import { initVueImgix, IxImg } from '@/plugins/vue-imgix';
+import VueImgix, { IxImg } from '@/plugins/vue-imgix';
 import '@testing-library/jest-dom';
 import { render } from '@testing-library/vue';
+import Vue from 'vue';
 describe('imgix component', () => {
   beforeAll(() => {
-    initVueImgix({
+    Vue.use(VueImgix, {
       domain: 'assets.imgix.net',
     });
   });
