@@ -43,8 +43,6 @@ export class IxImg extends IxImgProps {
       ...this.imgixParams,
     });
 
-    console.log('typeof this.attributeConfig', typeof this.attributeConfig);
-    console.log('this.attributeConfig', this.attributeConfig);
     const attributeConfig = {
       ...defaultAttributeMap,
       ...this.attributeConfig,
