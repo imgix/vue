@@ -2,7 +2,7 @@ import {
   ensureVueImgixClientSingleton,
   IVueImgixClient,
 } from '@/plugins/vue-imgix/vue-imgix';
-import Vue, { CreateElement } from 'vue';
+import Vue from 'vue';
 import Component from 'vue-class-component';
 
 const IxSourceProps = Vue.extend({
@@ -18,9 +18,7 @@ export class IxSource extends IxSourceProps {
     this.vueImgixSingleton = ensureVueImgixClientSingleton();
   }
 
-  render(createElement: CreateElement) {
-    return createElement('source', {
-      attrs: {},
-    });
+  render() {
+    return <source />;
   }
 }
