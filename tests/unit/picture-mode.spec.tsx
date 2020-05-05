@@ -20,4 +20,21 @@ describe('imgix component', () => {
 
     expect(wrapper.getByTestId('test-picture').tagName).toBe('PICTURE');
   });
+
+  it('should render a source as a child', () => {
+    const wrapper = render(
+      Vue.component('test-component', {
+        render() {
+          return (
+            <ix-picture data-testid="test-picture">
+              <ix-source />
+              <ix-img />
+            </ix-picture>
+          );
+        },
+      }),
+    );
+
+    expect(wrapper.getByTestId('test-picture').getElementsByTagName('source'));
+  });
 });
