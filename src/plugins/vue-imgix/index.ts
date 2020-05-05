@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-ignore */
 import _Vue from 'vue';
+import { IxPicture } from './ix-picture';
 import { IVueUseImgixOptions } from './types';
 import { initVueImgix, IxImg } from './vue-imgix';
 
@@ -9,6 +10,7 @@ export function install(Vue: typeof _Vue, options: IVueUseImgixOptions) {
   install.installed = true;
   initVueImgix(options);
   Vue.component('ix-img', IxImg);
+  Vue.component('ix-picture', IxPicture);
 }
 install.installed = false;
 
