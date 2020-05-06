@@ -69,5 +69,36 @@ describe('Picture Mode', () => {
         expect.stringMatching('100w'),
       );
     });
+
+    const subsetOfImportantSourceAttributes = {
+      sizes: '100vw',
+      media: '(min-width: 100em)',
+      type: 'image/webp',
+    };
+    Object.entries(subsetOfImportantSourceAttributes).map(
+      ([attribute, value]) => {
+        it(`should allow developer to set ${attribute} attribute`, () => {
+          const wrapper = render(
+            Vue.component('test-component', {
+              render() {
+                return (
+                  <ix-source
+                    data-testid="test-source"
+                    src="image.png"
+                    // Don't understand why this works? Me neither. Just joking - take a read of this to see why attrs={} is necessary https://github.com/vuejs/babel-plugin-transform-vue-jsx/issues/143
+                    attrs={{ [attribute]: value }}
+                  />
+                );
+              },
+            }),
+          );
+
+          expect(wrapper.getByTestId('test-source')).toHaveAttribute(
+            attribute,
+            value,
+          );
+        });
+      },
+    );
   });
 });
