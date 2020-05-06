@@ -6,8 +6,22 @@ import Vue from 'vue';
 import Component from 'vue-class-component';
 
 const IxSourceProps = Vue.extend({
-  props: {},
+  props: {
+    src: {
+      type: String,
+      required: true,
+    },
+    width: [String, Number],
+    height: [String, Number],
+    imgixParams: Object,
+    attributeConfig: Object,
+  },
 });
+
+const defaultAttributeMap = {
+  src: 'src',
+  srcset: 'srcset',
+};
 
 @Component
 export class IxSource extends IxSourceProps {
@@ -19,6 +33,26 @@ export class IxSource extends IxSourceProps {
   }
 
   render() {
-    return <source />;
+    const imgixParamsFromImgAttributes = {
+      ...(this.width != null ? { w: this.width } : {}),
+      ...(this.height != null ? { h: this.height } : {}),
+    };
+
+    const { src, srcset } = this.vueImgixSingleton.buildUrlObject(this.src, {
+      ...imgixParamsFromImgAttributes,
+      ...this.imgixParams,
+    });
+
+    const attributeConfig = {
+      ...defaultAttributeMap,
+      ...this.attributeConfig,
+    };
+
+    const childAttrs = {
+      [attributeConfig.srcset]: srcset,
+      abc: 123,
+    };
+
+    return <source attrs={childAttrs} />;
   }
 }
