@@ -54,5 +54,20 @@ describe('Picture Mode', () => {
 
       expect(wrapper.getByTestId('test-source').tagName).toBe('SOURCE');
     });
+
+    it('should have a srcset attribute', () => {
+      const wrapper = render(
+        Vue.component('test-component', {
+          render() {
+            return <ix-source data-testid="test-source" src="image.png" />;
+          },
+        }),
+      );
+
+      expect(wrapper.getByTestId('test-source')).toHaveAttribute(
+        'srcset',
+        expect.stringMatching('100w'),
+      );
+    });
   });
 });
