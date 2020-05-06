@@ -28,7 +28,7 @@ describe('Picture Mode', () => {
           render() {
             return (
               <ix-picture data-testid="test-picture">
-                <ix-source />
+                <ix-source src="image.jpg" />
                 <ix-img src="image.jpg" />
               </ix-picture>
             );
@@ -47,7 +47,7 @@ describe('Picture Mode', () => {
       const wrapper = render(
         Vue.component('test-component', {
           render() {
-            return <ix-source data-testid="test-source" />;
+            return <ix-source src="image.jpg" data-testid="test-source" />;
           },
         }),
       );
