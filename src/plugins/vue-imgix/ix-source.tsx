@@ -11,8 +11,6 @@ const IxSourceProps = Vue.extend({
       type: String,
       required: true,
     },
-    width: [String, Number],
-    height: [String, Number],
     imgixParams: Object,
     attributeConfig: Object,
   },
@@ -33,10 +31,7 @@ export class IxSource extends IxSourceProps {
   }
 
   render() {
-    const imgixParamsFromImgAttributes = {
-      ...(this.width != null ? { w: this.width } : {}),
-      ...(this.height != null ? { h: this.height } : {}),
-    };
+    const imgixParamsFromImgAttributes = {};
 
     const { src, srcset } = this.vueImgixSingleton.buildUrlObject(this.src, {
       ...imgixParamsFromImgAttributes,
