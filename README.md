@@ -105,8 +105,10 @@ The main idea here is that you should be able to use this component just as you 
 To render a simple image that will display an image based on the browser's dpr and the width of the rendered element using the power of srcsets, vue-imgix can be used as follows:
 
 ```html
-<ix-img :src="examples/pione.jpg" sizes="100vw" />
+<ix-img src="examples/pione.jpg" sizes="100vw" />
 ```
+
+[![Edit festive-mclean-6risg](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/festive-mclean-6risg?fontsize=14&hidenavigation=1&theme=dark)
 
 **Please note:** `100vw` is an appropriate `sizes` value for a full-bleed image. If your image is not full-bleed, you should use a different value for `sizes`. [Eric Portis' "Srcset and sizes"](https://ericportis.com/posts/2014/srcset-sizes/) article goes into depth on how to use the `sizes` attribute.
 
@@ -160,7 +162,7 @@ generating srcsets to resize and crop your image as specified. For the `ar` para
   <ix-img
     src="examples/pione.jpg"
     sizes="calc(10% - 10px)"
-    imgixParams="{ ar: '16:9' }"
+    imgixParams="{ ar: '16:9', fit: 'crop' }"
   />
 </div>
 ```
