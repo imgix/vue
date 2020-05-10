@@ -100,5 +100,26 @@ describe('Picture Mode', () => {
         });
       },
     );
+
+    it('should pass params from imgixParams', () => {
+      const wrapper = render(
+        Vue.component('test-component', {
+          render() {
+            return (
+              <ix-source
+                data-testid="test-source"
+                src="image.png"
+                imgixParams={{ w: 100 }}
+              />
+            );
+          },
+        }),
+      );
+
+      expect(wrapper.getByTestId('test-source')).toHaveAttribute(
+        'srcset',
+        expect.stringMatching('w=100'),
+      );
+    });
   });
 });
