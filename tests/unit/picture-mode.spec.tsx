@@ -40,6 +40,33 @@ describe('Picture Mode', () => {
         wrapper.getByTestId('test-picture').querySelectorAll('source'),
       ).toHaveLength(1);
     });
+
+    it('the developer can pass an ix-img component as a fallback src', () => {
+      const wrapper = render(
+        Vue.component('test-component', {
+          render() {
+            return (
+              <ix-picture data-testid="test-picture">
+                <ix-source src="image.jpg" />
+                <ix-img src="image.jpg" />
+              </ix-picture>
+            );
+          },
+        }),
+      );
+
+      const fallbackImgEl = wrapper
+        .getByTestId('test-picture')
+        .querySelectorAll('img')[0];
+      expect(fallbackImgEl).toHaveAttribute(
+        'src',
+        expect.stringMatching(/ixlib=vue/),
+      );
+      expect(fallbackImgEl).toHaveAttribute(
+        'srcset',
+        expect.stringMatching(/ixlib/),
+      );
+    });
   });
 
   describe('ix-source', () => {
