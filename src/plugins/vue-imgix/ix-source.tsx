@@ -33,7 +33,7 @@ export class IxSource extends IxSourceProps {
   render() {
     const imgixParamsFromAttributes = {};
 
-    const { src, srcset } = this.vueImgixSingleton.buildUrlObject(this.src, {
+    const { srcset } = this.vueImgixSingleton.buildUrlObject(this.src, {
       ...imgixParamsFromAttributes,
       ...this.imgixParams,
     });
