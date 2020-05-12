@@ -15,9 +15,14 @@ describe('Simple API', () => {
   });
 
   it('renders a picture', () => {
-    const picture = cy.findByTestId('simple-picture').find('picture');
+    cy.findByTestId('simple-picture')
+      .find('picture')
+      .find('source:first')
+      .should(($source) => expect($source.attr('srcset')).to.match(/ixlib/));
 
-    picture.find('source:first').should('have.attr', 'srcset', /ixlib/);
-    picture.find('img').should('have.attr', 'src', /ixlib/);
+    cy.findByTestId('simple-picture')
+      .find('picture')
+      .find('img:first')
+      .should(($img) => expect($img.attr('src')).to.match(/ixlib/));
   });
 });
