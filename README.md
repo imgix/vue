@@ -184,7 +184,7 @@ If the fluid, dynamic nature explained above is not desired, the width and heigh
 Fixed image rendering will automatically append a variable `q` parameter mapped to each `dpr` parameter when generating a srcset. This technique is commonly used to compensate for the increased filesize of high-DPR images. Since high-DPR images are displayed at a higher pixel density on devices, image quality can be lowered to reduce overall filesize without sacrificing perceived visual quality. For more information and examples of this technique in action, see [this blog post](https://blog.imgix.com/2016/03/30/dpr-quality).
 This behavior will respect any overriding `q` value passed in via `imgixParams` and can be disabled altogether with the boolean property `disableQualityByDPR`.
 
-```js
+```html
 <ix-img src="image.jpg" width="100" disableQualityByDPR />
 ```
 
@@ -204,23 +204,16 @@ With the picture element, images can be directed to have different crops and siz
 
 It is recommended to check out our [introduction blog post about how to best use picture and the imgix API](https://docs.imgix.com/tutorials/using-imgix-picture-element) for some great tips and examples!
 
+<!-- prettier-ignore-start -->
 ```html
-<ix-picture ix-src="image.jpg">
-  <ix-source width={400} htmlAttributes={{ media: "(min-width: 768px)" }} />
-  <ix-source width={200} htmlAttributes={{ media: "(min-width: 320px)" }} />
-  <ix-img src={src} imgixParams={{ w: 100 }} />
+<ix-picture>
+  <ix-source src="image.jpg" media="(min-width:
+  768px)" imgixParams="{ ar: '2:1' }"/> 
+  <ix-source src="image.jpg" media="(min-width: 320px)" imgixParams="{ ar: '1.5:1' }" /> 
+  <ix-img src="image.jpg" imgixParams="{ w: 100, ar: '3:1' }" />
 </ix-picture>
 ```
-
-Any props added to the root `ix-picture` element are spread across each child source and img. For example, the following example will spread `ix-src` across each source child and the img fallback.
-
-```html
-<ix-picture ix-src="image.jpg">
-  <ix-source />
-  <ix-source />
-  <ix-img />
-</ix-picture>
-```
+<!-- prettier-ignore-end -->
 
 ### Advanced Examples
 
