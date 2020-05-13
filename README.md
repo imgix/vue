@@ -38,19 +38,20 @@
         + [Basic Use Case](#basic-use-case)
         + [Flexible Image Rendering](#flexible-image-rendering)
         + [Fixed Image Rendering (i.e. non-flexible)](#fixed-image-rendering-ie-non-flexible)
+        + [Picture Support](#picture-support)
+        + [Lazy Loading](#lazy-loading)
     * [Advanced Examples](#advanced-examples)
         + [buildUrlObject](#buildurlobject)
         + [buildUrl](#buildurl)
         + [buildSrcSet](#buildsrcset)
-        + [Custom attribute mapping](#custom-attribute-mapping)
-        + [Custom srcset width](#custom-srcset-width)
+        + [Custom Attribute Mapping](#custom-attribute-mapping)
+        + [Custom Srcset Width](#custom-srcset-width)
         + [Width Tolerance](#width-tolerance)
         + [Minimum and Maximum Width Ranges](#minimum-and-maximum-width-ranges)
-- [What is the `ixlib` param on every request?](#what-is-the-ixlib-param-on-every-request)
+- [What Is the `ixlib` Param on Every Request?](#what-is-the-ixlib-param-on-every-request)
 - [Code of Conduct](#code-of-conduct)
 - [Contributors](#contributors)
 - [License](#license)
-
 
 <!-- prettier-ignore-end -->
 
@@ -215,6 +216,27 @@ It is recommended to check out our [introduction blog post about how to best use
 ```
 <!-- prettier-ignore-end -->
 
+#### Lazy Loading
+
+If you'd like to lazy load images, we recommend using [lazysizes](https://github.com/aFarkas/lazysizes). In order to use react-imgix with lazysizes, you can simply tell it to generate lazysizes-compatible attributes instead of the standard `src`, `srcset`, and `sizes` by changing some configuration settings:
+
+```html
+<ix-img
+  class="lazyload"
+  src="..."
+  sizes="..."
+  attributeConfig="{
+    src: 'data-src',
+    srcSet: 'data-srcset',
+    sizes: 'data-sizes',
+  }"
+/>
+```
+
+The same configuration is available for `ix-src` components
+
+**NB:** It is recommended to use the [attribute change plugin](https://github.com/aFarkas/lazysizes/tree/gh-pages/plugins/attrchange) in order to capture changes in the data-\* attributes. Without this, changing the props to this library will have no effect on the rendered image.
+
 ### Advanced Examples
 
 For advanced use cases which go above the basic usage outlined above, such as lazy loading, or integration with other components or libraries, this library provides a set of low-level APIs.
@@ -307,7 +329,7 @@ We also provide `buildSrcSet` from imgix-core-js to help developers to create an
 </script>
 ```
 
-#### Custom attribute mapping
+#### Custom Attribute Mapping
 
 In some situations, you might want to pass the generated src and srcset to other attributes, such `data-src`. You can do that like this:
 
@@ -330,7 +352,7 @@ Which will generate HTML as follows:
 />
 ```
 
-#### Custom srcset width
+#### Custom Srcset Width
 
 In situations where specific widths are desired when generating `srcset` pairs, a user can specify them by passing an array of positive integers as `widths` to the third options object:
 
@@ -413,7 +435,7 @@ Remember that browsers will apply a device pixel ratio as a multiplier when sele
 
 **Note:** that according to the [imgix API](https://docs.imgix.com/apis/url/size/w), the maximum renderable image width is 8192 pixels.
 
-## What is the `ixlib` param on every request?
+## What Is the `ixlib` Param on Every Request?
 
 For security and diagnostic purposes, we tag all requests with the language and version of library used to generate the URL.
 
