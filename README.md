@@ -94,6 +94,8 @@ Vue.use(VueImgix, {
 
 And that's all you need to get started! Have fun!
 
+⚠️ Currently this library does not explicitly support Vue 3 as we are waiting for its public release and a stable API. Once this happens, we will implement official support as soon as we can! We will also be supporting Vue 2 for the official support timeline (18 months) after we release Vue 3 support.
+
 ## Usage
 
 The main idea here is that you should be able to use this component just as you would an `<img />` tag.
