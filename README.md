@@ -39,7 +39,7 @@
         + [Flexible Image Rendering](#flexible-image-rendering)
         + [Fixed Image Rendering (i.e. non-flexible)](#fixed-image-rendering-ie-non-flexible)
         + [Picture Support](#picture-support)
-        + [Lazy Loading](#lazy-loading)
+        + [Lazy-Loading](#lazy-loading)
     * [Advanced Examples](#advanced-examples)
         + [buildUrlObject](#buildurlobject)
         + [buildUrl](#buildurl)
@@ -219,24 +219,133 @@ It is recommended to check out our [introduction blog post about how to best use
 ```
 <!-- prettier-ignore-end -->
 
-#### Lazy Loading
+#### Lazy-Loading
 
-If you'd like to lazy load images, we recommend using [lazysizes](https://github.com/aFarkas/lazysizes). In order to use react-imgix with lazysizes, you can simply tell it to generate lazysizes-compatible attributes instead of the standard `src`, `srcset`, and `sizes` by changing some configuration settings:
+For lazy loading, there are a few options to choose from. They're listed here, along with our recommendation at the end.
+
+1. Native lazy-loading with `loading="lazy"`. As of May 2020, this is shipped in stable versions of Chrome and Firefox. [Example](#lazy-loading-native)
+2. Lazy-loading with [vue-lazyload](https://github.com/hilongjw/vue-lazyload). This library is pretty great, but doesn't support responsive images. In any case, this library fully supports vue-lazyload, [here's an example](https://codesandbox.io/s/vue-imgix-lazyload-vuelazyload-vl2u1).
+3. Lazy-loading with an Intersection observer library (we recommend [Lozad.js](https://apoorv.pro/lozad.js/))
+4. Lazy-loading with a scroll-based library (we recommend [Lazysizes](https://github.com/aFarkas/lazysizes))
+
+**Our recommendation is to use a combination of native lazy loading and Lozad.js.** See how to do this below.
+
+##### Lazy-loading (Native + Interaction Observer) **Recommended**
+
+This approach uses native lazy loading for browsers that support it, which is more and more every day, and uses [Lozad.js](https://apoorv.pro/lozad.js/) for those that don't. Lozad.js uses Interaction Observers to watch for changes to DOM elements, and is more performant than using event listeners.
+
+<picture>
+<source type="image/webp" srcset="https://caniuse.bitsofco.de/image/loading-lazy-attr.webp">
+<source type="image/png" srcset="https://caniuse.bitsofco.de/image/loading-lazy-attr.png">
+<img src="https://caniuse.bitsofco.de/image/loading-lazy-attr.jpg" alt="Data on support for the loading-lazy-attr feature across the major browsers from caniuse.com">
+</picture>
+
+The approach taken here is to create a custom directive that will work differently based on whether native lazy loading is supported or not.
+
+You will need to ensure you polyfill Interaction Observer for older browsers. [Here's one](https://github.com/w3c/IntersectionObserver/tree/master/polyfill).
+
+Modify your app's setup code to add the following code:
+
+```js
+import lozad from "lozad"; // Import Lozad
+
+// later on...
+
+function setupLazyLoad() {
+  // Check whether native lazy loading is supported.
+  const isNativeLazyLoadingSupported = "loading" in HTMLImageElement.prototype;
+
+  const lozadDirective = {
+    // Called when element is setup the first time
+    bind(el, binding) {
+      if (isNativeLazyLoadingSupported) {
+        // If native lazy loading is supported, we want to redirect the "lazyload"
+        // data-attributes to the actual attributes, and let the browser do the work
+        el.setAttribute("src", el.getAttribute("data-src"));
+        el.setAttribute("srcset", el.getAttribute("data-srcset"));
+        return;
+      }
+      // Otherwise, we tell lozad to listen for when this element scrolls into the viewport
+      let observer = lozad(el);
+      observer.observe();
+    },
+    // This is to handle any changes to the url that we might do after we've loaded
+    // the element the first time
+    update(el, binding) {
+      // We need to manually set the img attributes if either:
+      //   - we're using native lazy loading, or
+      //   - the image has already been loaded by lozad, since it doesn't know to
+      //     watch for changes, and so will miss any changes to data-src or data-srcset
+      if (isNativeLazyLoadingSupported || el.getAttribute("data-loaded") === "true") {
+        el.setAttribute("src", el.getAttribute("data-src"));
+        el.setAttribute("srcset", el.getAttribute("data-srcset"));
+        return;
+      }
+    }
+  };
+
+  Vue.directive("lozad", lozadDirective);
+}
+
+setupLazyLoad();
+```
+
+That's all the setup we need to do! Now there's a `v-lozad` directive available for us to use on our images! So let's do that. To use this directive with `ix-img`, make sure you're using `attribute-config` to redirect the src and srcset to `data-src` and `data-srcset`, which will be picked up either by Lozad, or the code we just wrote before.
+
+```html
+<ix-img
+  src="blog/unsplash-kiss.jpg"
+  // ... other attributes
+  :attribute-config="{ src: 'data-src', srcset: 'data-srcset' }"
+  v-lozad
+  loading="lazy"
+/>
+```
+
+You can check this example out on CodeSandbox:
+
+[![Edit vue-imgix-lazyload-recommended](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/vue-imgix-lazyload-recommended-ttch6?fontsize=14&hidenavigation=1&theme=dark)
+
+
+##### Lazy-loading (Native)
+
+To use pure browser native lazy-loading, just add a `loading="lazy"` attribute to every image you want to lazy load.
+
+```html
+<ix-img
+  src="..."
+  loading="lazy"
+/>
+```
+
+There's more information about native lazy loading in [this web.dev article](https://web.dev/native-lazy-loading/), and in this [CSSTricks article](https://css-tricks.com/a-native-lazy-load-for-the-web-platform/).
+
+##### Lazy-loading (Interaction Observer)
+
+Lazy loading can be done with an Interaction Observer. The best way to do this is with a library (we recommend [Lozad.js](https://apoorv.pro/lozad.js/)), but you might also want to roll your own.
+
+You could modify the recommended code above to remove the native lazy loading support in order to create a Lozad directive.
+
+Here's a [CSSTricks article](https://css-tricks.com/lozad-js-performant-lazy-loading-images/) about using Lozad.js, and [another one](https://css-tricks.com/tips-for-rolling-your-own-lazy-loading/) about rolling your own lazy loading
+
+##### Lazy-loading (Event Listener)
+
+The last way to implement lazy loading is to use an event listener. This is not recommended these days due to performance concerns, which have been solved by other solutions (the previous solutions mentioned above).
+
+If you'd still like to use an event listener, we recommend using [lazysizes](https://github.com/aFarkas/lazysizes). In order to use vue-imgix with lazysizes, you can simply tell it to generate lazysizes-compatible attributes instead of the standard `src`, `srcset` by changing some configuration settings:
 
 ```html
 <ix-img
   class="lazyload"
   src="..."
-  sizes="..."
   attributeConfig="{
     src: 'data-src',
     srcSet: 'data-srcset',
-    sizes: 'data-sizes',
   }"
 />
 ```
 
-The same configuration is available for `ix-src` components
+The same configuration is available for `ix-src` components.
 
 **NB:** It is recommended to use the [attribute change plugin](https://github.com/aFarkas/lazysizes/tree/gh-pages/plugins/attrchange) in order to capture changes in the data-\* attributes. Without this, changing the props to this library will have no effect on the rendered image.
 
