@@ -48,6 +48,7 @@
         + [Custom Srcset Width](#custom-srcset-width)
         + [Width Tolerance](#width-tolerance)
         + [Minimum and Maximum Width Ranges](#minimum-and-maximum-width-ranges)
+        + [Base64 Encoding](#base64-encoding)
 - [What Is the `ixlib` Param on Every Request?](#what-is-the-ixlib-param-on-every-request)
 - [Code of Conduct](#code-of-conduct)
 - [Contributors](#contributors)
@@ -434,6 +435,25 @@ https://assets.imgix.net/image.jpg?w=2000 2000w
 Remember that browsers will apply a device pixel ratio as a multiplier when selecting which image to download from a `srcset`. For example, even if you know your image will render no larger than 1000px, specifying `options: { max_srcset: 1000 }` will give your users with DPR higher than 1 no choice but to download and render a low-resolution version of the image. Therefore, it is vital to factor in any potential differences when choosing a minimum or maximum range.
 
 **Note:** that according to the [imgix API](https://docs.imgix.com/apis/url/size/w), the maximum renderable image width is 8192 pixels.
+
+#### Base64 Encoding
+
+All imgix parameter values (with the exception of auto and ch) can be encoded using a URL-safe Base64 scheme. This client library has automatic base64 encoding for any imgix parameter that ends in 64. For example, to encode `txt`, just use `txt64`.
+
+```html
+<ix-img
+  src="image.jpg"
+  :imgixParams="{ 
+    txt64: 'Oh hello, world'
+  }"
+/>
+```
+
+becomes:
+
+```html
+<img src="image.jpg?txt64=T2ggaGVsbG8sIHdvcmxk&..." ...>
+```
 
 ## What Is the `ixlib` Param on Every Request?
 
