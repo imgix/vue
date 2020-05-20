@@ -83,7 +83,7 @@ This module exports two transpiled versions. If a ES6-module-aware bundler is be
 
 ### Standard Vue 2.x App
 
-Vue-imgix needs to be initialized with a minimal configuration before it can be used in components. Modify `App.vue` or similar to include the following:
+Vue-imgix needs to be initialized with a minimal configuration before it can be used in components. Modify your startup/init file (usually `main.js` or similar) to include the following:
 
 ```js
 import Vue from 'vue';
