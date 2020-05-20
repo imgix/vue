@@ -33,6 +33,9 @@
 - [Overview / Resources](#overview--resources)
 - [Get Started](#get-started)
 - [Configure](#configure)
+    * [Standard Vue 2.x App](#standard-vue-2x-app)
+    * [Vue 3.x](#vue-3x)
+    * [Nuxt.js](#nuxtjs)
 - [Usage](#usage)
     * [Examples](#examples)
         + [Basic Use Case](#basic-use-case)
@@ -78,6 +81,8 @@ This module exports two transpiled versions. If a ES6-module-aware bundler is be
 
 ## Configure
 
+### Standard Vue 2.x App
+
 Vue-imgix needs to be initialized with a minimal configuration before it can be used in components. Modify `App.vue` or similar to include the following:
 
 ```js
@@ -96,7 +101,39 @@ Vue.use(VueImgix, {
 
 And that's all you need to get started! Have fun!
 
+### Vue 3.x
+
 ⚠️ Currently this library does not explicitly support Vue 3 as we are waiting for its public release and a stable API. Once this happens, we will implement official support as soon as we can! We will also be supporting Vue 2 for the official support timeline (18 months) after we release Vue 3 support.
+
+### Nuxt.js
+
+To configure vue-imgix for a Nuxt app:
+
+1. Add a `vue-imgix.js` file in `/plugins` with the following contents:
+
+```js
+import Vue from 'vue';
+import VueImgix from 'vue-imgix';
+
+Vue.use(VueImgix, {
+  domain: "<your company's imgix domain>",
+  defaultIxParams: {
+    auto: 'format',
+  },
+});
+```
+
+2. Add the plugin to your Nuxt config (in `nuxt.config.js`) like so:
+
+```js
+plugins: [
+  { src: '~/plugins/vue-imgix.js', mode: 'client' }
+],
+```
+
+**NB:** This enables the [auto format imgix parameter](https://docs.imgix.com/apis/url/auto/auto#format) by default for all images, which we recommend to reduce image size, but you might choose to turn this off.
+
+And that's all you need to get started! Have fun!
 
 ## Usage
 
@@ -247,13 +284,13 @@ You will need to ensure you polyfill Interaction Observer for older browsers. [H
 Modify your app's setup code to add the following code:
 
 ```js
-import lozad from "lozad"; // Import Lozad
+import lozad from 'lozad'; // Import Lozad
 
 // later on...
 
 function setupLazyLoad() {
   // Check whether native lazy loading is supported.
-  const isNativeLazyLoadingSupported = "loading" in HTMLImageElement.prototype;
+  const isNativeLazyLoadingSupported = 'loading' in HTMLImageElement.prototype;
 
   const lozadDirective = {
     // Called when element is setup the first time
@@ -261,8 +298,8 @@ function setupLazyLoad() {
       if (isNativeLazyLoadingSupported) {
         // If native lazy loading is supported, we want to redirect the "lazyload"
         // data-attributes to the actual attributes, and let the browser do the work
-        el.setAttribute("src", el.getAttribute("data-src"));
-        el.setAttribute("srcset", el.getAttribute("data-srcset"));
+        el.setAttribute('src', el.getAttribute('data-src'));
+        el.setAttribute('srcset', el.getAttribute('data-srcset'));
         return;
       }
       // Otherwise, we tell lozad to listen for when this element scrolls into the viewport
@@ -276,15 +313,18 @@ function setupLazyLoad() {
       //   - we're using native lazy loading, or
       //   - the image has already been loaded by lozad, since it doesn't know to
       //     watch for changes, and so will miss any changes to data-src or data-srcset
-      if (isNativeLazyLoadingSupported || el.getAttribute("data-loaded") === "true") {
-        el.setAttribute("src", el.getAttribute("data-src"));
-        el.setAttribute("srcset", el.getAttribute("data-srcset"));
+      if (
+        isNativeLazyLoadingSupported ||
+        el.getAttribute('data-loaded') === 'true'
+      ) {
+        el.setAttribute('src', el.getAttribute('data-src'));
+        el.setAttribute('srcset', el.getAttribute('data-srcset'));
         return;
       }
-    }
+    },
   };
 
-  Vue.directive("lozad", lozadDirective);
+  Vue.directive('lozad', lozadDirective);
 }
 
 setupLazyLoad();
@@ -293,29 +333,21 @@ setupLazyLoad();
 That's all the setup we need to do! Now there's a `v-lozad` directive available for us to use on our images! So let's do that. To use this directive with `ix-img`, make sure you're using `attribute-config` to redirect the src and srcset to `data-src` and `data-srcset`, which will be picked up either by Lozad, or the code we just wrote before.
 
 ```html
-<ix-img
-  src="blog/unsplash-kiss.jpg"
-  // ... other attributes
-  :attribute-config="{ src: 'data-src', srcset: 'data-srcset' }"
-  v-lozad
-  loading="lazy"
-/>
+<ix-img src="blog/unsplash-kiss.jpg" // ... other attributes
+:attribute-config="{ src: 'data-src', srcset: 'data-srcset' }" v-lozad
+loading="lazy" />
 ```
 
 You can check this example out on CodeSandbox:
 
 [![Edit vue-imgix-lazyload-recommended](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/vue-imgix-lazyload-recommended-ttch6?fontsize=14&hidenavigation=1&theme=dark)
 
-
 ##### Lazy-loading (Native)
 
 To use pure browser native lazy-loading, just add a `loading="lazy"` attribute to every image you want to lazy load.
 
 ```html
-<ix-img
-  src="..."
-  loading="lazy"
-/>
+<ix-img src="..." loading="lazy" />
 ```
 
 There's more information about native lazy loading in [this web.dev article](https://web.dev/native-lazy-loading/), and in this [CSSTricks article](https://css-tricks.com/a-native-lazy-load-for-the-web-platform/).
@@ -563,7 +595,7 @@ All imgix parameter values (with the exception of auto and ch) can be encoded us
 becomes:
 
 ```html
-<img src="image.jpg?txt64=T2ggaGVsbG8sIHdvcmxk&..." ...>
+<img src="image.jpg?txt64=T2ggaGVsbG8sIHdvcmxk&..." ... />
 ```
 
 ## What Is the `ixlib` Param on Every Request?
