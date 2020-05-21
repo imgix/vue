@@ -38,6 +38,7 @@
     "imgix-core-js": "^2.3.1"
   },
   "devDependencies": {
+    "@rollup/plugin-buble": "^0.21.3",
     "@rollup/plugin-commonjs": "12.0.0",
     "@rollup/plugin-node-resolve": "8.0.0",
     "@rollup/plugin-typescript": "4.1.2",
