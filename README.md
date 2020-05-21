@@ -33,6 +33,7 @@
 - [Overview / Resources](#overview--resources)
 - [Get Started](#get-started)
 - [Configure](#configure)
+    * [Polyfills required](#polyfills-required)
     * [Standard Vue 2.x App](#standard-vue-2x-app)
     * [Vue 3.x](#vue-3x)
     * [Nuxt.js](#nuxtjs)
@@ -80,6 +81,10 @@ Then, install vue-imgix with the following commands, depending on your package m
 This module exports two transpiled versions. If a ES6-module-aware bundler is being used to consume this module, it will pick up an ES6 module version and can perform tree-shaking. **If you are not using ES6 modules, you don't have to do anything.**
 
 ## Configure
+
+### Polyfills required
+
+A polyfill for `Object.assign` must be supplied for browsers that need it. You probably have this already set up, so you likely don't need to do anything.
 
 ### Standard Vue 2.x App
 
