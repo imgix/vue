@@ -9,7 +9,7 @@ export default [
     input: 'src/plugins/vue-imgix/index.ts',
     output: {
       format: 'esm',
-      name: 'Imgix',
+      name: 'VueImgix',
       exports: 'named',
       file: 'dist/vue-imgix.esm.js',
     },
@@ -33,7 +33,7 @@ export default [
     input: 'src/plugins/vue-imgix/index.ts',
     output: {
       format: 'umd',
-      name: 'Imgix',
+      name: 'VueImgix',
       exports: 'named',
       file: 'dist/vue-imgix.umd.js',
     },
@@ -55,7 +55,7 @@ export default [
     input: 'src/plugins/vue-imgix/index.ts',
     output: {
       format: 'iife',
-      name: 'Imgix',
+      name: 'VueImgix',
       exports: 'named',
       file: 'dist/vue-imgix.min.js',
     },
