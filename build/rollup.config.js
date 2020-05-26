@@ -1,6 +1,7 @@
 import buble from '@rollup/plugin-buble';
 import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
+import replace from '@rollup/plugin-replace';
 import typescript from '@rollup/plugin-typescript';
 import vue from 'rollup-plugin-vue';
 export default [
@@ -64,6 +65,9 @@ export default [
       vue: 'Vue',
     },
     plugins: [
+      replace({
+        'process.env.NODE_ENV': JSON.stringify('production'),
+      }),
       resolve(),
       typescript(),
       vue({
