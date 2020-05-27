@@ -26,6 +26,8 @@ branches:
   only:
     - master
     - next
+    - beta
+    - alpha
 
 deploy:
   provider: script
