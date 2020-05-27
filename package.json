@@ -75,14 +75,7 @@
     "vue-property-decorator": "8.4.2",
     "vue-template-compiler": "2.6.11"
   },
-  "release": {
-    "branches": [
-      {
-        "name": "next",
-        "channel": "next"
-      }
-    ]
-  },
+  "release": {},
   "files": [
     "/dist",
     "/src/plugins/vue-imgix",
