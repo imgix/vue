@@ -6,6 +6,7 @@
     <ix-img
       src="examples/pione.jpg"
       width="100"
+      fixed
       data-testid="simple-fixed-width"
     />
     <h2>Picture</h2>
