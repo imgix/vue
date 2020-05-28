@@ -117,7 +117,25 @@
         }
       ],
       "@semantic-release/npm",
-      "@semantic-release/github",
+      [
+        "@semantic-release/github",
+        {
+          "assets": [
+            {
+              "path": "dist/vue-imgix.min.js",
+              "label": "Standalone browser build"
+            },
+            {
+              "path": "dist/vue-imgix.umd.js",
+              "label": "UMD/CJS build"
+            },
+            {
+              "path": "dist/vue-imgix.esm.js",
+              "label": "ES Modules build"
+            }
+          ]
+        }
+      ],
       "@semantic-release/changelog"
     ]
   },
