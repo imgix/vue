@@ -1,7 +1,4 @@
-import {
-  ensureVueImgixClientSingleton,
-  IVueImgixClient,
-} from '@/plugins/vue-imgix/vue-imgix';
+import { ensureVueImgixClientSingleton, IVueImgixClient } from '@/plugins/vue-imgix/vue-imgix';
 import Vue, { CreateElement } from 'vue';
 import Component from 'vue-class-component';
 
@@ -11,6 +8,7 @@ const IxImgProps = Vue.extend({
       type: String,
       required: true,
     },
+    fixed: Boolean,
     imgixParams: Object,
     width: [String, Number],
     height: [String, Number],
@@ -34,8 +32,10 @@ export class IxImg extends IxImgProps {
 
   render(createElement: CreateElement) {
     const imgixParamsFromImgAttributes = {
-      ...(this.width != null ? { w: this.width } : {}),
-      ...(this.height != null ? { h: this.height } : {}),
+      ...(this.fixed && {
+        ...(this.width != null ? { w: this.width } : {}),
+        ...(this.height != null ? { h: this.height } : {}),
+      }),
     };
 
     const { src, srcset } = this.vueImgixSingleton.buildUrlObject(this.src, {
