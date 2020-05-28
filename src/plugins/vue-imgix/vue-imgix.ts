@@ -12,6 +12,7 @@ import {
   IVueImgixClient,
 } from './types';
 
+// Do not change this
 const VERSION = '0.0.0-development';
 
 const clientOptionDefaults = {
