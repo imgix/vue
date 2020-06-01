@@ -136,7 +136,7 @@ And that's all you need to get started! Have fun!
 
 ## Usage
 
-The main idea here is that you should be able to use this component just as you would an `<img />` tag.
+To help you get started as quickly as possible, imgix has designed the API of this library to follow the API of a normal `<img>` tag as much as possible. You can expect most uses of the `<img>` tag to work just the same for `<ix-img>`.
 
 ### Examples
 
