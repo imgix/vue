@@ -93,12 +93,11 @@ import VueImgix from 'vue-imgix';
 Vue.use(VueImgix, {
   domain: "<your company's imgix domain>",
   defaultIxParams: {
+    // This enables the auto format imgix parameter by default for all images, which we recommend to reduce image size, but you might choose to turn this off.
     auto: 'format',
   },
 });
 ```
-
-**NB:** This enables the [auto format imgix parameter](https://docs.imgix.com/apis/url/auto/auto#format) by default for all images, which we recommend to reduce image size, but you might choose to turn this off.
 
 And that's all you need to get started! Have fun!
 
@@ -119,6 +118,7 @@ import VueImgix from 'vue-imgix';
 Vue.use(VueImgix, {
   domain: "<your company's imgix domain>",
   defaultIxParams: {
+    // This enables the auto format imgix parameter by default for all images, which we recommend to reduce image size, but you might choose to turn this off.
     auto: 'format',
   },
 });
@@ -131,8 +131,6 @@ plugins: [
   { src: '~/plugins/vue-imgix.js', mode: 'client' }
 ],
 ```
-
-**NB:** This enables the [auto format imgix parameter](https://docs.imgix.com/apis/url/auto/auto#format) by default for all images, which we recommend to reduce image size, but you might choose to turn this off.
 
 And that's all you need to get started! Have fun!
 
