@@ -45,7 +45,6 @@ export class IxSource extends IxSourceProps {
 
     const childAttrs = {
       [attributeConfig.srcset]: srcset,
-      abc: 123,
     };
 
     return <source attrs={childAttrs} />;
