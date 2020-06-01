@@ -1,4 +1,7 @@
-import { ensureVueImgixClientSingleton, IVueImgixClient } from '@/plugins/vue-imgix/vue-imgix';
+import {
+  ensureVueImgixClientSingleton,
+  IVueImgixClient,
+} from '@/plugins/vue-imgix/vue-imgix';
 import Vue, { CreateElement } from 'vue';
 import Component from 'vue-class-component';
 
