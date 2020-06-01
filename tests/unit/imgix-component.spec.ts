@@ -2,7 +2,10 @@ import VueImgix, { IxImg } from '@/plugins/vue-imgix';
 import '@testing-library/jest-dom';
 import { render } from '@testing-library/vue';
 import Vue from 'vue';
-import { expectElementToHaveFixedSrcAndSrcSet, expectElementToHaveFluidSrcAndSrcSet } from '../helpers/url-assert';
+import {
+  expectElementToHaveFixedSrcAndSrcSet,
+  expectElementToHaveFluidSrcAndSrcSet,
+} from '../helpers/url-assert';
 describe('imgix component', () => {
   beforeAll(() => {
     Vue.use(VueImgix, {
