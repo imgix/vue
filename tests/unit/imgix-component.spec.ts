@@ -179,4 +179,63 @@ describe('imgix component', () => {
       });
     });
   });
+  describe('disableVariableQuality', () => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    let mockImgixClient: any;
+    let _IxImg: typeof IxImg;
+    beforeEach(() => {
+      /* eslint-disable @typescript-eslint/no-var-requires */
+      jest.resetModules();
+      const _Vue = require('vue');
+      const _VueImgix = require('@/plugins/vue-imgix');
+      _IxImg = _VueImgix.IxImg;
+      jest.mock('imgix-core-js');
+      mockImgixClient = {
+        settings: {},
+        buildSrcSet: jest.fn(),
+        buildURL: jest.fn(),
+      };
+      const ImgixClient = require('imgix-core-js');
+      ImgixClient.mockImplementation(() => mockImgixClient);
+      _Vue.use(_VueImgix, {
+        domain: 'assets.imgix.net',
+      });
+      /* eslint-enable @typescript-eslint/no-var-requires */
+    });
+    it('should not pass disableVariableQuality: true to imgix-core-js by default', () => {
+      render(_IxImg, {
+        propsData: {
+          src: 'examples/pione.jpg',
+          height: 100,
+          fixed: true,
+        },
+      });
+
+      expect(mockImgixClient.buildSrcSet).toHaveBeenCalledWith(
+        expect.anything(),
+        expect.anything(),
+        expect.objectContaining({
+          disableVariableQuality: false,
+        }),
+      );
+    });
+    it('should pass disableVariableQuality: true to imgix-core-js when disableVariableQuality prop set', () => {
+      render(_IxImg, {
+        propsData: {
+          src: 'examples/pione.jpg',
+          height: 100,
+          disableVariableQuality: true,
+          fixed: true,
+        },
+      });
+
+      expect(mockImgixClient.buildSrcSet).toHaveBeenCalledWith(
+        expect.anything(),
+        expect.anything(),
+        expect.objectContaining({
+          disableVariableQuality: true,
+        }),
+      );
+    });
+  });
 });
