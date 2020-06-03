@@ -93,7 +93,7 @@ describe('imgix component', () => {
   });
 
   describe('in fixed mode (fixed prop set, or width/height passed to imgixParams)', () => {
-    it('when a width passed to imgixParams, the src and srcset are is in fixed size mode', () => {
+    it('the src and srcset should be in fixed size mode when a width is passed to imgixParams', () => {
       const wrapper = render(IxImg, {
         propsData: {
           'data-testid': 'img-rendering',
@@ -107,7 +107,7 @@ describe('imgix component', () => {
       const el = wrapper.getByTestId('img-rendering');
       expectElementToHaveFixedSrcAndSrcSet(el, 100);
     });
-    it('when a fixed prop is passed tothe element, the src and srcset is in fixed size mode', () => {
+    it('the src and srcset should be in fixed size mode when a fixed prop is passed to the element', () => {
       const wrapper = render(IxImg, {
         propsData: {
           'data-testid': 'img-rendering',
@@ -125,7 +125,7 @@ describe('imgix component', () => {
       expect(el).toHaveAttribute('srcset', expect.stringMatching('h=150'));
     });
 
-    it('a width attribute is passed through to the underlying component', () => {
+    it('a width attribute should be passed through to the underlying component', () => {
       const wrapper = render(IxImg, {
         propsData: {
           'data-testid': 'img-rendering',
@@ -139,7 +139,7 @@ describe('imgix component', () => {
         '100',
       );
     });
-    it('a height attribute is passed through to the underlying component', () => {
+    it('a height attribute should be passed through to the underlying component', () => {
       const wrapper = render(IxImg, {
         propsData: {
           'data-testid': 'img-rendering',
