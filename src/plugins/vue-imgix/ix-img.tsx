@@ -49,7 +49,7 @@ export class IxImg extends IxImgProps {
         ...this.imgixParams,
       },
       {
-        disableVariableQuality: this.disableVariableQuality ?? false,
+        disableVariableQuality: Boolean(this.disableVariableQuality),
       },
     );
 
