@@ -23,7 +23,7 @@
   "module": "dist/vue-imgix.esm.js",
   "jsnext:main": "dist/vue-imgix.esm.js",
   "unpkg": "dist/vue-imgix.min.js",
-  "version": "2.8.0-beta.3",
+  "version": "2.8.0-beta.4",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "rollup --config build/rollup.config.js",
