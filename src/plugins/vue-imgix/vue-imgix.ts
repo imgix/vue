@@ -12,7 +12,8 @@ import {
   IVueImgixClient,
 } from './types';
 
-const VERSION = '0.0.0-development';
+// Do not change this
+const VERSION = '2.8.0-beta.4';
 
 const clientOptionDefaults = {
   includeLibraryParam: true,

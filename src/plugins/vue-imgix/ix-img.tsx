@@ -11,10 +11,12 @@ const IxImgProps = Vue.extend({
       type: String,
       required: true,
     },
+    fixed: Boolean,
     imgixParams: Object,
     width: [String, Number],
     height: [String, Number],
     attributeConfig: Object,
+    disableVariableQuality: Boolean,
   },
 });
 
@@ -34,14 +36,22 @@ export class IxImg extends IxImgProps {
 
   render(createElement: CreateElement) {
     const imgixParamsFromImgAttributes = {
-      ...(this.width != null ? { w: this.width } : {}),
-      ...(this.height != null ? { h: this.height } : {}),
+      ...(this.fixed && {
+        ...(this.width != null ? { w: this.width } : {}),
+        ...(this.height != null ? { h: this.height } : {}),
+      }),
     };
 
-    const { src, srcset } = this.vueImgixSingleton.buildUrlObject(this.src, {
-      ...imgixParamsFromImgAttributes,
-      ...this.imgixParams,
-    });
+    const { src, srcset } = this.vueImgixSingleton.buildUrlObject(
+      this.src,
+      {
+        ...imgixParamsFromImgAttributes,
+        ...this.imgixParams,
+      },
+      {
+        disableVariableQuality: Boolean(this.disableVariableQuality),
+      },
+    );
 
     const attributeConfig = {
       ...defaultAttributeMap,

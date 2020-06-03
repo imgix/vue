@@ -1,9 +1,5 @@
 <!-- ix-docs-ignore -->
 
-⚠️ **Work in Progress. This library is currently in development. We're planning to have a stable version of this library shipped soon, so please keep an eye on this space!**
-
-⚠️ **These docs are for the beta channel of this library. To view the docs for stable channel, [go here](https://github.com/imgix/vue-imgix/tree/master).**
-
 ![imgix logo](https://assets.imgix.net/sdk-imgix-logo.svg)
 
 `vue-imgix` is a client library for generating URLs with [imgix](https://www.imgix.com/).
@@ -33,6 +29,7 @@
 - [Overview / Resources](#overview--resources)
 - [Get Started](#get-started)
 - [Configure](#configure)
+    * [Polyfills required](#polyfills-required)
     * [Standard Vue 2.x App](#standard-vue-2x-app)
     * [Vue 3.x](#vue-3x)
     * [Nuxt.js](#nuxtjs)
@@ -81,6 +78,10 @@ This module exports two transpiled versions. If a ES6-module-aware bundler is be
 
 ## Configure
 
+### Polyfills required
+
+A polyfill for `Object.assign` must be supplied for browsers that need it. You probably have this already set up, so you likely don't need to do anything.
+
 ### Standard Vue 2.x App
 
 Vue-imgix needs to be initialized with a minimal configuration before it can be used in components. Modify your startup/init file (usually `main.js` or similar) to include the following:
@@ -92,12 +93,11 @@ import VueImgix from 'vue-imgix';
 Vue.use(VueImgix, {
   domain: "<your company's imgix domain>",
   defaultIxParams: {
+    // This enables the auto format imgix parameter by default for all images, which we recommend to reduce image size, but you might choose to turn this off.
     auto: 'format',
   },
 });
 ```
-
-**NB:** This enables the [auto format imgix parameter](https://docs.imgix.com/apis/url/auto/auto#format) by default for all images, which we recommend to reduce image size, but you might choose to turn this off.
 
 And that's all you need to get started! Have fun!
 
@@ -118,6 +118,7 @@ import VueImgix from 'vue-imgix';
 Vue.use(VueImgix, {
   domain: "<your company's imgix domain>",
   defaultIxParams: {
+    // This enables the auto format imgix parameter by default for all images, which we recommend to reduce image size, but you might choose to turn this off.
     auto: 'format',
   },
 });
@@ -131,13 +132,11 @@ plugins: [
 ],
 ```
 
-**NB:** This enables the [auto format imgix parameter](https://docs.imgix.com/apis/url/auto/auto#format) by default for all images, which we recommend to reduce image size, but you might choose to turn this off.
-
 And that's all you need to get started! Have fun!
 
 ## Usage
 
-The main idea here is that you should be able to use this component just as you would an `<img />` tag.
+To help you get started as quickly as possible, imgix has designed the API of this library to follow the API of a normal `<img>` tag as much as possible. You can expect most uses of the `<img>` tag to work just the same for `<ix-img>`.
 
 ### Examples
 
@@ -151,7 +150,7 @@ To render a simple image that will display an image based on the browser's dpr a
 
 [![Edit festive-mclean-6risg](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/festive-mclean-6risg?fontsize=14&hidenavigation=1&theme=dark)
 
-**Please note:** `100vw` is an appropriate `sizes` value for a full-bleed image. If your image is not full-bleed, you should use a different value for `sizes`. [Eric Portis' "Srcset and sizes"](https://ericportis.com/posts/2014/srcset-sizes/) article goes into depth on how to use the `sizes` attribute.
+**Please note:** `100vw` is an appropriate `sizes` value for a full-bleed image. If your image is not full-bleed, you should use a different value for `sizes`. [Eric Portis' "Srcset and sizes"](https://ericportis.com/posts/2014/srcset-sizes/) article goes into depth on how to use the `sizes` attribute. An important note here is that **sizes cannot be a percentage based value**, and must be in terms of vw, or a fixed size (px, em, rem, etc)
 
 This will generate HTML similar to the following:
 
@@ -173,26 +172,36 @@ This component acts dynamically by default. The component will leverage `srcset`
 
 `sizes` should be set properly for this to work well, and some styling should be used to set the size of the component rendered. Without `sizes` and correct styling the image might render at full-size.
 
+✨**There is new browser behavior in 2019/2020.** It is now recommended that `width` and `height` be set on all images to provide an aspect ratio hint to the browser. The browser can then use this aspect ratio hint to reserve a space for the image (even if the image is responsive!). The following example explains all how to do it. You can also read more about this development [in this amazing Smashing Magazine article.](https://www.smashingmagazine.com/2020/03/setting-height-width-images-important-again/)
+
+For the width/height placeholder image, we need three requirements to be met:
+
+- `width` and `height` attributes set on the img element
+- some `width` CSS value (e.g. `10px`, `100%`, `calc(100vw - 10px)`)
+- `height: auto` as a CSS property
+
 `./styles.css`
 
 ```css
-.App {
-  display: flex;
-}
-
-.App > img {
-  margin: 10px auto;
-  width: 10vw;
-  height: 200px;
+.test-img {
+  /* These next two lines are critical for the new browser feature. */
+  width: calc(100vw - 128px);
+  height: auto; // This tells the browser to set the height of the image to what it should be, and ignore the height attribute set on the image
 }
 ```
 
 `./app.js`
 
+For the width and height attributes, they can be any value as long as their aspect ratio is the same as what the image's aspect ratio is. E.g. `width = 100, height = 50` is fine, and also `width = 2, height = 1` is fine. In this case, the image has an aspect ratio of ~0.66:1, so we have set set a width of 66 and a height of 100, but we could have also used a width and height of 33 and 50, or 660 and 1000, for example.
+
 ```html
-<div className="App">
-  <ix-img src="examples/pione.jpg" sizes="calc(10% - 10px)" />
-</div>
+<ix-img 
+  src="examples/pione.jpg" 
+  sizes="calc(100vw - 128px)" 
+  class="test-img"
+  width="66"
+  height="100"
+/>
 ```
 
 **Aspect Ratio:** A developer can pass a desired aspect ratio, which will be used when
@@ -202,8 +211,10 @@ generating srcsets to resize and crop your image as specified. For the `ar` para
 <div className="App">
   <ix-img
     src="examples/pione.jpg"
-    sizes="calc(10% - 10px)"
+    sizes="calc(100vw - 128px)"
     imgixParams="{ ar: '16:9', fit: 'crop' }"
+    width="16" // It's important to set these attributes to the aspect ratio that we manually specify.
+    height="9"
   />
 </div>
 ```
@@ -212,21 +223,33 @@ The aspect ratio is specified in the format `width:height`. Either dimension can
 
 #### Fixed Image Rendering (i.e. non-flexible)
 
-If the fluid, dynamic nature explained above is not desired, the width and height can be set explicitly.
+If the fluid, dynamic nature explained above is not desired, the width and height can be set explicitly along with a `fixed` prop. The imgix CDN will then render an image with these exact dimensions
 
 ```js
 <ix-img
-  src="examples/pione.jpg"
-  width="100" // This sets what resolution the component should load from the CDN and the size of the resulting image
+  src="image.jpg"
+  width="100" // This width and the height below sets what resolution the component should load from the CDN and the size of the resulting image
   height="200"
+  fixed
+/>
+```
+
+This will generate an image element like:
+
+```jsx
+<ix-img 
+  src="image.jpg?w=100&h=200" // Notice the w and h parameters here
+  srcset="image.jpg?w=100&h=200&dpr=1 1x, image.jpg?w=100&h=200&dpr=2 2x, ..." // This allows the image to respond to different device dprs
+  width="100" 
+  height="200" 
 />
 ```
 
 Fixed image rendering will automatically append a variable `q` parameter mapped to each `dpr` parameter when generating a srcset. This technique is commonly used to compensate for the increased filesize of high-DPR images. Since high-DPR images are displayed at a higher pixel density on devices, image quality can be lowered to reduce overall filesize without sacrificing perceived visual quality. For more information and examples of this technique in action, see [this blog post](https://blog.imgix.com/2016/03/30/dpr-quality).
-This behavior will respect any overriding `q` value passed in via `imgixParams` and can be disabled altogether with the boolean property `disableQualityByDPR`.
+This behavior will respect any overriding `q` value passed in via `imgixParams` and can be disabled altogether with the boolean property `disableVariableQuality`.
 
 ```html
-<ix-img src="image.jpg" width="100" disableQualityByDPR />
+<ix-img src="image.jpg" width="100" disableVariableQuality />
 ```
 
 will generate the following srcset:

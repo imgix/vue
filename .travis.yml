@@ -18,6 +18,7 @@ cache:
 install:
   - yarn install --frozen-lockfile
 script:
+  - yarn build
   - yarn lint:ci
   - yarn test:unit
   - yarn test:e2e --headless
@@ -26,6 +27,8 @@ branches:
   only:
     - master
     - next
+    - beta
+    - alpha
 
 deploy:
   provider: script
@@ -33,4 +36,4 @@ deploy:
   script:
     - npx semantic-release
   on:
-    branch: next
+    all_branches: true
