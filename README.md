@@ -142,7 +142,7 @@ To help you get started as quickly as possible, imgix has designed the API of th
 
 #### Basic Use Case
 
-To render a simple image that will display an image based on the browser's dpr and the width of the rendered element using the power of srcsets, vue-imgix can be used as follows:
+To render a simple image that will display an image based on the browser's DPR and the width of the rendered element using the power of srcsets, vue-imgix can be used as follows:
 
 ```html
 <ix-img src="examples/pione.jpg" sizes="100vw" />
@@ -239,7 +239,7 @@ This will generate an image element like:
 ```jsx
 <ix-img 
   src="image.jpg?w=100&h=200" // Notice the w and h parameters here
-  srcset="image.jpg?w=100&h=200&dpr=1 1x, image.jpg?w=100&h=200&dpr=2 2x, ..." // This allows the image to respond to different device dprs
+  srcset="image.jpg?w=100&h=200&dpr=1 1x, image.jpg?w=100&h=200&dpr=2 2x, ..." // This allows the image to respond to different device DPRs
   width="100" 
   height="200" 
 />
