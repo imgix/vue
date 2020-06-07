@@ -105,15 +105,16 @@
           ]
         }
       ],
-      "@semantic-release/npm",
       "@semantic-release/changelog",
+      "@semantic-release/npm",
       [
         "@semantic-release/git",
         {
           "assets": [
             "src/plugins/**",
             "dist/**/*.js",
-            "package.json"
+            "package.json",
+            "changelog.md"
           ],
           "message": "chore(release): ${nextRelease.version}\n\n${nextRelease.notes}"
         }
