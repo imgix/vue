@@ -70,7 +70,7 @@ Steps:
 
 PR titles should be in the format `<type>(<scope>): <description>`. For example: `chore(readme): fix typo`
 
-`type` can be one of `feat`, `fix`, `test`, or `chore`.
+`type` must be `feat` if a feature, or breaking change; `fix` if a bug-fix; or anything else, such as `config`, `docs`, `config`, `test`, if another type of change
 `scope` is optional, and can be anything.
 `description` should be a short description of the change, in past tense.
 -->
