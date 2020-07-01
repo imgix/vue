@@ -72,7 +72,7 @@
     "rollup": "2.18.1",
     "rollup-plugin-babel": "4.4.0",
     "rollup-plugin-vue": "5.1.9",
-    "typescript": "3.9.5",
+    "typescript": "3.9.6",
     "vue": "2.6.11",
     "vue-class-component": "7.2.3",
     "vue-property-decorator": "8.5.0",
