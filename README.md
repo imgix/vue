@@ -424,7 +424,7 @@ In a component:
 </template>
 
 <script>
-  import { buildUrlObject } from '@/plugins/vue-imgix';
+  import { buildUrlObject } from 'vue-imgix';
 
   // NB: Make sure initVueImgix has been called before this code runs
   export default {
@@ -450,7 +450,7 @@ In addition to the helper above, we provide `buildURL` from imgix-core-js to hel
 </template>
 
 <script>
-  import { buildUrl } from '@/plugins/vue-imgix';
+  import { buildUrl } from 'vue-imgix';
 
   // NB: Make sure initVueImgix has been called before this code runs
   export default {
@@ -476,7 +476,7 @@ We also provide `buildSrcSet` from imgix-core-js to help developers to create an
 </template>
 
 <script>
-  import { buildUrl, buildSrcSet } from '@/plugins/vue-imgix';
+  import { buildUrl, buildSrcSet } from 'vue-imgix';
 
   // NB: Make sure initVueImgix has been called before this code runs
   export default {
