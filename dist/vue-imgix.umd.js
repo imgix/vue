@@ -572,7 +572,6 @@
         return {Base64: global.Base64}
     }));
     });
-    var base64_1 = base64.Base64;
 
     var imgixCoreJs = createCommonjsModule(function (module, exports) {
     (function (global, factory) {
@@ -865,7 +864,7 @@
     });
 
     /**
-      * vue-class-component v7.2.3
+      * vue-class-component v7.2.4
       * (c) 2015-present Evan You
       * @license MIT
       */
@@ -982,17 +981,15 @@
         }
 
         keys.forEach(function (key) {
-          if (key.charAt(0) !== '_') {
-            Object.defineProperty(_this, key, {
-              get: function get() {
-                return vm[key];
-              },
-              set: function set(value) {
-                vm[key] = value;
-              },
-              configurable: true
-            });
-          }
+          Object.defineProperty(_this, key, {
+            get: function get() {
+              return vm[key];
+            },
+            set: function set(value) {
+              vm[key] = value;
+            },
+            configurable: true
+          });
         });
       }; // should be acquired class property values
 
@@ -1175,48 +1172,45 @@
         src: 'src',
         srcset: 'srcset',
     };
-    var IxImg = /** @class */ (function () {
-        var IxImg = /*@__PURE__*/(function (IxImgProps) {
-            function IxImg () {
-                IxImgProps.apply(this, arguments);
-            }
+    exports.IxImg = /*@__PURE__*/(function (IxImgProps) {
+        function IxImg () {
+            IxImgProps.apply(this, arguments);
+        }
 
-            if ( IxImgProps ) IxImg.__proto__ = IxImgProps;
-            IxImg.prototype = Object.create( IxImgProps && IxImgProps.prototype );
-            IxImg.prototype.constructor = IxImg;
+        if ( IxImgProps ) IxImg.__proto__ = IxImgProps;
+        IxImg.prototype = Object.create( IxImgProps && IxImgProps.prototype );
+        IxImg.prototype.constructor = IxImg;
 
-            IxImg.prototype.created = function created () {
-                this.vueImgixSingleton = ensureVueImgixClientSingleton();
-            };
-            IxImg.prototype.render = function render (createElement) {
-                var obj;
+        IxImg.prototype.created = function created () {
+            this.vueImgixSingleton = ensureVueImgixClientSingleton();
+        };
+        IxImg.prototype.render = function render (createElement) {
+            var obj;
 
-                var imgixParamsFromImgAttributes = Object.assign({}, (this.fixed && Object.assign({}, (this.width != null ? { w: this.width } : {}),
-                        (this.height != null ? { h: this.height } : {}))));
-                var ref = this.vueImgixSingleton.buildUrlObject(this.src, Object.assign({}, imgixParamsFromImgAttributes,
-                    this.imgixParams), {
-                    disableVariableQuality: Boolean(this.disableVariableQuality),
-                });
-                var src = ref.src;
-                var srcset = ref.srcset;
-                var attributeConfig = Object.assign({}, defaultAttributeMap,
-                    this.attributeConfig);
-                return createElement('img', {
-                    attrs: ( obj = {}, obj[attributeConfig.src] = src, obj[attributeConfig.srcset] = srcset, obj.width = this.width, obj.height = this.height, obj ),
-                });
-            };
+            var imgixParamsFromImgAttributes = Object.assign({}, (this.fixed && Object.assign({}, (this.width != null ? { w: this.width } : {}),
+                    (this.height != null ? { h: this.height } : {}))));
+            var ref = this.vueImgixSingleton.buildUrlObject(this.src, Object.assign({}, imgixParamsFromImgAttributes,
+                this.imgixParams), {
+                disableVariableQuality: Boolean(this.disableVariableQuality),
+            });
+            var src = ref.src;
+            var srcset = ref.srcset;
+            var attributeConfig = Object.assign({}, defaultAttributeMap,
+                this.attributeConfig);
+            return createElement('img', {
+                attrs: ( obj = {}, obj[attributeConfig.src] = src, obj[attributeConfig.srcset] = srcset, obj.width = this.width, obj.height = this.height, obj ),
+            });
+        };
 
-            return IxImg;
-        }(IxImgProps));
-        IxImg = __decorate([
-            Component
-        ], IxImg);
         return IxImg;
-    })();
+    }(IxImgProps));
+    exports.IxImg = __decorate([
+        Component
+    ], exports.IxImg);
 
     function objectWithoutProperties (obj, exclude) { var target = {}; for (var k in obj) if (Object.prototype.hasOwnProperty.call(obj, k) && exclude.indexOf(k) === -1) target[k] = obj[k]; return target; }
     // Do not change this
-    var VERSION = '2.8.0-beta.4';
+    var VERSION = '2.8.0';
     var clientOptionDefaults = {
         includeLibraryParam: true,
     };
@@ -1300,30 +1294,27 @@
     var IxPictureProps = Vue.extend({
         props: {},
     });
-    var IxPicture = /** @class */ (function () {
-        var IxPicture = /*@__PURE__*/(function (IxPictureProps) {
-            function IxPicture () {
-                IxPictureProps.apply(this, arguments);
-            }
+    var IxPicture = /*@__PURE__*/(function (IxPictureProps) {
+        function IxPicture () {
+            IxPictureProps.apply(this, arguments);
+        }
 
-            if ( IxPictureProps ) IxPicture.__proto__ = IxPictureProps;
-            IxPicture.prototype = Object.create( IxPictureProps && IxPictureProps.prototype );
-            IxPicture.prototype.constructor = IxPicture;
+        if ( IxPictureProps ) IxPicture.__proto__ = IxPictureProps;
+        IxPicture.prototype = Object.create( IxPictureProps && IxPictureProps.prototype );
+        IxPicture.prototype.constructor = IxPicture;
 
-            IxPicture.prototype.created = function created () {
-                this.vueImgixSingleton = ensureVueImgixClientSingleton();
-            };
-            IxPicture.prototype.render = function render () {
-                return React.createElement( 'picture', null, this.$slots.default );
-            };
+        IxPicture.prototype.created = function created () {
+            this.vueImgixSingleton = ensureVueImgixClientSingleton();
+        };
+        IxPicture.prototype.render = function render (createElement) {
+            return createElement('picture', this.$slots.default);
+        };
 
-            return IxPicture;
-        }(IxPictureProps));
-        IxPicture = __decorate([
-            Component
-        ], IxPicture);
         return IxPicture;
-    })();
+    }(IxPictureProps));
+    IxPicture = __decorate([
+        Component
+    ], IxPicture);
 
     var IxSourceProps = Vue.extend({
         props: {
@@ -1339,38 +1330,35 @@
         src: 'src',
         srcset: 'srcset',
     };
-    var IxSource = /** @class */ (function () {
-        var IxSource = /*@__PURE__*/(function (IxSourceProps) {
-            function IxSource () {
-                IxSourceProps.apply(this, arguments);
-            }
+    var IxSource = /*@__PURE__*/(function (IxSourceProps) {
+        function IxSource () {
+            IxSourceProps.apply(this, arguments);
+        }
 
-            if ( IxSourceProps ) IxSource.__proto__ = IxSourceProps;
-            IxSource.prototype = Object.create( IxSourceProps && IxSourceProps.prototype );
-            IxSource.prototype.constructor = IxSource;
+        if ( IxSourceProps ) IxSource.__proto__ = IxSourceProps;
+        IxSource.prototype = Object.create( IxSourceProps && IxSourceProps.prototype );
+        IxSource.prototype.constructor = IxSource;
 
-            IxSource.prototype.created = function created () {
-                this.vueImgixSingleton = ensureVueImgixClientSingleton();
-            };
-            IxSource.prototype.render = function render () {
-                var imgixParamsFromAttributes = {};
-                var ref = this.vueImgixSingleton.buildUrlObject(this.src, Object.assign({}, imgixParamsFromAttributes,
-                    this.imgixParams));
-                var srcset = ref.srcset;
-                var attributeConfig = Object.assign({}, defaultAttributeMap$1,
-                    this.attributeConfig);
-                var childAttrs = {};
-                childAttrs[attributeConfig.srcset] = srcset;
-                return React.createElement( 'source', { attrs: childAttrs });
-            };
+        IxSource.prototype.created = function created () {
+            this.vueImgixSingleton = ensureVueImgixClientSingleton();
+        };
+        IxSource.prototype.render = function render (createElement) {
+            var imgixParamsFromAttributes = {};
+            var ref = this.vueImgixSingleton.buildUrlObject(this.src, Object.assign({}, imgixParamsFromAttributes,
+                this.imgixParams));
+            var srcset = ref.srcset;
+            var attributeConfig = Object.assign({}, defaultAttributeMap$1,
+                this.attributeConfig);
+            var childAttrs = {};
+            childAttrs[attributeConfig.srcset] = srcset;
+            return createElement('source', { attrs: childAttrs });
+        };
 
-            return IxSource;
-        }(IxSourceProps));
-        IxSource = __decorate([
-            Component
-        ], IxSource);
         return IxSource;
-    })();
+    }(IxSourceProps));
+    IxSource = __decorate([
+        Component
+    ], IxSource);
 
     // Declare install function executed by Vue.use()
     function install(Vue, options) {
@@ -1378,7 +1366,7 @@
             { return; }
         install.installed = true;
         initVueImgix(options);
-        Vue.component('ix-img', IxImg);
+        Vue.component('ix-img', exports.IxImg);
         Vue.component('ix-picture', IxPicture);
         Vue.component('ix-source', IxSource);
     }
@@ -1388,7 +1376,6 @@
         install: install,
     };
 
-    exports.IxImg = IxImg;
     exports.buildImgixClient = buildImgixClient;
     exports.buildSrcSet = buildSrcSet;
     exports.buildUrl = buildUrl;
