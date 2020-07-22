@@ -1,8 +1,8 @@
 import {
   ensureVueImgixClientSingleton,
-  IVueImgixClient,
+  IVueImgixClient
 } from '@/plugins/vue-imgix/vue-imgix';
-import Vue from 'vue';
+import Vue, { CreateElement } from 'vue';
 import Component from 'vue-class-component';
 
 const IxPictureProps = Vue.extend({
@@ -18,7 +18,7 @@ export class IxPicture extends IxPictureProps {
     this.vueImgixSingleton = ensureVueImgixClientSingleton();
   }
 
-  render() {
-    return <picture>{this.$slots.default}</picture>;
+  render(createElement: CreateElement) {
+    return createElement('picture', this.$slots.default);
   }
 }
