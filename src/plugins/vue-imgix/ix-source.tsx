@@ -1,8 +1,8 @@
 import {
   ensureVueImgixClientSingleton,
-  IVueImgixClient,
+  IVueImgixClient
 } from '@/plugins/vue-imgix/vue-imgix';
-import Vue from 'vue';
+import Vue, { CreateElement } from 'vue';
 import Component from 'vue-class-component';
 
 const IxSourceProps = Vue.extend({
@@ -30,7 +30,7 @@ export class IxSource extends IxSourceProps {
     this.vueImgixSingleton = ensureVueImgixClientSingleton();
   }
 
-  render() {
+  render(createElement: CreateElement) {
     const imgixParamsFromAttributes = {};
 
     const { srcset } = this.vueImgixSingleton.buildUrlObject(this.src, {
@@ -47,6 +47,6 @@ export class IxSource extends IxSourceProps {
       [attributeConfig.srcset]: srcset,
     };
 
-    return <source attrs={childAttrs} />;
+    return createElement('source', { attrs: childAttrs });
   }
 }
