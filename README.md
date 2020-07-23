@@ -127,9 +127,7 @@ Vue.use(VueImgix, {
 2. Add the plugin to your Nuxt config (in `nuxt.config.js`) like so:
 
 ```js
-plugins: [
-  { src: '~/plugins/vue-imgix.js', mode: 'client' }
-],
+plugins: ['~/plugins/vue-imgix.js'],
 ```
 
 And that's all you need to get started! Have fun!
