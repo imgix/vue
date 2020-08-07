@@ -300,7 +300,7 @@ This approach uses native lazy loading for browsers that support it, which is mo
 
 The approach taken here is to create a custom directive that will work differently based on whether native lazy loading is supported or not.
 
-You will need to ensure you polyfill Interaction Observer for older browsers. [Here's one](https://github.com/w3c/IntersectionObserver/tree/main/polyfill).
+You will need to ensure you polyfill Interaction Observer for older browsers. [Here's one](https://github.com/w3c/IntersectionObserver/tree/master/polyfill).
 
 Modify your app's setup code to add the following code:
 
