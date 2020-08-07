@@ -5,9 +5,9 @@
 `vue-imgix` is a client library for generating URLs with [imgix](https://www.imgix.com/).
 
 [![npm version](https://img.shields.io/npm/v/vue-imgix.svg)](https://www.npmjs.com/package/vue-imgix)
-[![Build Status](https://travis-ci.org/imgix/vue-imgix.svg?branch=master)](https://travis-ci.org/imgix/vue-imgix)
+[![Build Status](https://travis-ci.org/imgix/vue-imgix.svg?branch=main)](https://travis-ci.org/imgix/vue-imgix)
 [![Downloads](https://img.shields.io/npm/dm/vue-imgix.svg)](https://www.npmjs.com/package/vue-imgix)
-[![License](https://img.shields.io/npm/l/vue-imgix)](https://github.com/imgix/vue-imgix/blob/master/LICENSE)
+[![License](https://img.shields.io/npm/l/vue-imgix)](https://github.com/imgix/vue-imgix/blob/main/LICENSE)
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fimgix%2Fvue-imgix.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fimgix%2Fvue-imgix?ref=badge_shield)
 [![Dependencies Status](https://david-dm.org/imgix/vue-imgix.svg)](https://david-dm.org/imgix/vue-imgix)
 [![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
@@ -300,7 +300,7 @@ This approach uses native lazy loading for browsers that support it, which is mo
 
 The approach taken here is to create a custom directive that will work differently based on whether native lazy loading is supported or not.
 
-You will need to ensure you polyfill Interaction Observer for older browsers. [Here's one](https://github.com/w3c/IntersectionObserver/tree/master/polyfill).
+You will need to ensure you polyfill Interaction Observer for older browsers. [Here's one](https://github.com/w3c/IntersectionObserver/tree/main/polyfill).
 
 Modify your app's setup code to add the following code:
 

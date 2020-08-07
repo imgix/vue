@@ -51,7 +51,7 @@ The development of this library follows [this very useful guide about Outside-In
 
 Semantic-release will auto-publish anything that is merged into the `next` branch to npm under the `next` dist-tag. Users can install this version by running `npm install vue-imgix@next`. To facilitate this, every commit must follow the [conventional commit specification](https://www.conventionalcommits.org/en/v1.0.0-beta.2/).
 
-The current process to publish the master dist-tag from the master branch:
+The current process to publish the main dist-tag from the main branch:
 
 1. Merge the latest changes from `next`
 1. Run `yarn` to install the latest deps
