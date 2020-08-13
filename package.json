@@ -69,7 +69,7 @@
     "eslint-plugin-vue": "6.2.2",
     "prettier": "2.0.5",
     "read-pkg": "5.2.0",
-    "rollup": "2.23.1",
+    "rollup": "2.24.0",
     "rollup-plugin-babel": "4.4.0",
     "rollup-plugin-vue": "5.1.9",
     "typescript": "3.9.7",
