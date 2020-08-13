@@ -17,6 +17,7 @@ module.exports = {
     'no-console': 'error',
     'no-debugger': 'error',
     '@typescript-eslint/interface-name-prefix': 'off',
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
   },
   overrides: [
     {
