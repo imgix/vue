@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-ignore */
 import _Vue from 'vue';
 import { IxPicture } from './ix-picture';
 import { IxSource } from './ix-source';
