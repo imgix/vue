@@ -12725,7 +12725,7 @@ yargs@~3.10.0:
     decamelize "^1.0.0"
     window-size "0.1.0"
 
-yarn-run-all@^3.1.1:
+yarn-run-all@3.1.1:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/yarn-run-all/-/yarn-run-all-3.1.1.tgz#385053ee85c7156f87cec8949a0ffb6bfd0de0b0"
   integrity sha1-OFBT7oXHFW+HzsiUmg/7a/0N4LA=
