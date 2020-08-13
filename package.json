@@ -28,6 +28,7 @@
     "serve": "vue-cli-service serve",
     "build": "rollup --config build/rollup.config.js",
     "build:test-app": "vue-cli-service build",
+    "test": "run-s test:unit test:e2e",
     "test:unit": "vue-cli-service test:unit",
     "test:e2e": "vue-cli-service test:e2e",
     "lint": "vue-cli-service lint",
@@ -66,7 +67,6 @@
     "eslint": "7.5.0",
     "eslint-plugin-prettier": "3.1.4",
     "eslint-plugin-vue": "6.2.2",
-    "npm-run-all": "4.1.5",
     "prettier": "2.0.5",
     "read-pkg": "5.2.0",
     "rollup": "2.23.1",
@@ -76,7 +76,8 @@
     "vue": "2.6.11",
     "vue-class-component": "7.2.5",
     "vue-property-decorator": "9.0.0",
-    "vue-template-compiler": "2.6.11"
+    "vue-template-compiler": "2.6.11",
+    "yarn-run-all": "^3.1.1"
   },
   "release": {
     "plugins": [
