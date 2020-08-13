@@ -1,11 +1,9 @@
 import ImgixClient from 'imgix-core-js';
 
-export type IImgixParams = {};
+export type IImgixParams = Record<string, unknown>;
 
-export type IBuildSrcSetOptions = Parameters<
-  ImgixClient['buildSrcSet']
->[2] & {};
-export type IBuildUrlOptions = {};
+export type IBuildSrcSetOptions = Parameters<ImgixClient['buildSrcSet']>[2];
+export type IBuildUrlOptions = Record<string, unknown>;
 export type IBuildUrlObjectOptions = IBuildSrcSetOptions & IBuildUrlOptions;
 
 export interface IImgixClientOptions {
