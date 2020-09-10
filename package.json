@@ -61,7 +61,7 @@
     "@vue/cli-service": "4.5.4",
     "@vue/eslint-config-prettier": "6.0.0",
     "@vue/eslint-config-typescript": "5.1.0",
-    "@vue/test-utils": "1.0.4",
+    "@vue/test-utils": "1.1.0",
     "core-js": "3.6.5",
     "cypress": "3.8.3",
     "eslint": "7.8.1",
