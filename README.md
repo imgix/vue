@@ -210,7 +210,7 @@ generating srcsets to resize and crop your image as specified. For the `ar` para
   <ix-img
     src="examples/pione.jpg"
     sizes="calc(100vw - 128px)"
-    imgixParams="{ ar: '16:9', fit: 'crop' }"
+    :imgixParams="{ ar: '16:9', fit: 'crop' }"
     width="16" // It's important to set these attributes to the aspect ratio that we manually specify.
     height="9"
   />
