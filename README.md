@@ -270,9 +270,9 @@ It is recommended to check out our [introduction blog post about how to best use
 ```html
 <ix-picture>
   <ix-source src="image.jpg" media="(min-width:
-  768px)" imgixParams="{ ar: '2:1' }"/> 
-  <ix-source src="image.jpg" media="(min-width: 320px)" imgixParams="{ ar: '1.5:1' }" /> 
-  <ix-img src="image.jpg" imgixParams="{ w: 100, ar: '3:1' }" />
+  768px)" :imgixParams="{ ar: '2:1' }"/> 
+  <ix-source src="image.jpg" media="(min-width: 320px)" :imgixParams="{ ar: '1.5:1' }" /> 
+  <ix-img src="image.jpg" :imgixParams="{ w: 100, ar: '3:1' }" />
 </ix-picture>
 ```
 <!-- prettier-ignore-end -->
