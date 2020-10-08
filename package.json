@@ -39,7 +39,7 @@
     "imgix-core-js": "^2.3.1"
   },
   "devDependencies": {
-    "@google/semantic-release-replace-plugin": "1.0.1",
+    "@google/semantic-release-replace-plugin": "1.0.2",
     "@rollup/plugin-buble": "0.21.3",
     "@rollup/plugin-commonjs": "15.1.0",
     "@rollup/plugin-node-resolve": "9.0.0",
