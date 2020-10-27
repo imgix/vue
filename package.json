@@ -43,7 +43,7 @@
     "@rollup/plugin-buble": "0.21.3",
     "@rollup/plugin-commonjs": "15.1.0",
     "@rollup/plugin-node-resolve": "9.0.0",
-    "@rollup/plugin-replace": "2.3.3",
+    "@rollup/plugin-replace": "2.3.4",
     "@rollup/plugin-typescript": "6.1.0",
     "@semantic-release/changelog": "5.0.1",
     "@semantic-release/git": "9.0.0",
