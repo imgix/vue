@@ -1653,10 +1653,10 @@
     lodash "^4.17.15"
     redent "^3.0.0"
 
-"@testing-library/vue@5.4.0":
-  version "5.4.0"
-  resolved "https://registry.yarnpkg.com/@testing-library/vue/-/vue-5.4.0.tgz#fe608a466e6805a657b0d0d856b08af18a391415"
-  integrity sha512-7Ra6HA6HH8dOt08wG+/qaPzYXDR7u7NvQ6F1B11jj3/S5EKuA6W1E7FKnjkHAELVpKqQ7/PlI0MTLsIXcaaINw==
+"@testing-library/vue@5.4.1":
+  version "5.4.1"
+  resolved "https://registry.yarnpkg.com/@testing-library/vue/-/vue-5.4.1.tgz#3aab54639a3717d8478a6620d360eac81c3bcda3"
+  integrity sha512-641iEo/1n65vJz9aZiL8pI43aq8gPFgjIvnYD4cP+n01qB0u+5WsqRGPFNxEvNXAsIcRkDQAjMp27sf+xm1P3A==
   dependencies:
     "@babel/runtime" "^7.12.5"
     "@testing-library/dom" "^7.26.6"
