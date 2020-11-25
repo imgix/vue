@@ -1631,10 +1631,10 @@
     lodash "^4.17.15"
     redent "^3.0.0"
 
-"@testing-library/vue@5.6.0":
-  version "5.6.0"
-  resolved "https://registry.yarnpkg.com/@testing-library/vue/-/vue-5.6.0.tgz#3c899372e66d08746508495c8eb37d54c5055821"
-  integrity sha512-Di2pPUHE3BDWFSBSmzdmuAFH7K0y8ILP0AW9uwPhFHU9Riwom5HdEAr/ZMWfUT4yXhDdRAKkx/fY/oYwKDbZcQ==
+"@testing-library/vue@5.6.1":
+  version "5.6.1"
+  resolved "https://registry.yarnpkg.com/@testing-library/vue/-/vue-5.6.1.tgz#09424b933b71720fa247dc4ba2ebc27a1c80c758"
+  integrity sha512-56wdi7qkr5Vq2iQZW5ceEbqu6Zx+rC+8Y9z9i5Qyd/sql9EP8b/jpNrAlYMKWxUzye7AFVs0cmigHJrtWhzFcA==
   dependencies:
     "@babel/runtime" "^7.12.5"
     "@testing-library/dom" "^7.26.6"
