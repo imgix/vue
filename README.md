@@ -5,7 +5,7 @@
 `vue-imgix` is a client library for generating URLs with [imgix](https://www.imgix.com/).
 
 [![npm version](https://img.shields.io/npm/v/vue-imgix.svg)](https://www.npmjs.com/package/vue-imgix)
-[![Build Status](https://travis-ci.org/imgix/vue-imgix.svg?branch=main)](https://travis-ci.org/imgix/vue-imgix)
+[![Build Status](https://travis-ci.com/imgix/vue-imgix.svg?branch=main)](https://travis-ci.com/imgix/vue-imgix)
 [![Downloads](https://img.shields.io/npm/dm/vue-imgix.svg)](https://www.npmjs.com/package/vue-imgix)
 [![License](https://img.shields.io/npm/l/vue-imgix)](https://github.com/imgix/vue-imgix/blob/main/LICENSE)
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fimgix%2Fvue-imgix.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fimgix%2Fvue-imgix?ref=badge_shield)
