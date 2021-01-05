@@ -302,7 +302,7 @@ The approach taken here is to create a custom directive that will work different
 
 You will need to ensure you polyfill Interaction Observer for older browsers. [Here's one](https://github.com/w3c/IntersectionObserver/tree/master/polyfill).
 
-Modify your app's setup code to add the following code:
+Modify your app's setup code (probably `src/main.js` or related file) to add the following code:
 
 ```js
 import lozad from 'lozad'; // Import Lozad
