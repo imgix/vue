@@ -226,7 +226,8 @@ If the fluid, dynamic nature explained above is not desired, the width and heigh
 ```js
 <ix-img
   src="image.jpg"
-  width="100" // This width and the height below sets what resolution the component should load from the CDN and the size of the resulting image
+  // This width and the height below sets what resolution the component should load from the CDN and the DPR1 size of the resulting image
+  width="100"
   height="200"
   fixed
 />
@@ -236,8 +237,10 @@ This will generate an image element like:
 
 ```jsx
 <ix-img 
-  src="image.jpg?w=100&h=200" // Notice the w and h parameters here
-  srcset="image.jpg?w=100&h=200&dpr=1 1x, image.jpg?w=100&h=200&dpr=2 2x, ..." // This allows the image to respond to different device DPRs
+  // Notice the w and h parameters here
+  src="image.jpg?w=100&h=200"
+  // This allows the image to respond to different device DPRs
+  srcset="image.jpg?w=100&h=200&dpr=1 1x, image.jpg?w=100&h=200&dpr=2 2x, ..."
   width="100" 
   height="200" 
 />
