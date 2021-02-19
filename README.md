@@ -226,7 +226,7 @@ If the fluid, dynamic nature explained above is not desired, the width and heigh
 ```js
 <ix-img
   src="image.jpg"
-  // This width and the height below sets what resolution the component should load from the CDN and the DPR1 size of the resulting image
+  // This width and the height below sets the size of the resulting image on the page, and what the DPR-1x resolution should be loaded from the CDN. Higher than 1x DPRs will load a higher resolution.
   width="100"
   height="200"
   fixed
