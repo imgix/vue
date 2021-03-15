@@ -24,13 +24,6 @@ script:
   - yarn test:unit
   - yarn test:e2e --headless
 
-branches:
-  only:
-    - main
-    - next
-    - beta
-    - alpha
-
 deploy:
   provider: script
   skip_cleanup: true
