@@ -1,10 +1,12 @@
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('vue')) :
     typeof define === 'function' && define.amd ? define(['exports', 'vue'], factory) :
-    (global = global || self, factory(global.VueImgix = {}, global.Vue));
+    (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.VueImgix = {}, global.Vue));
 }(this, (function (exports, Vue) { 'use strict';
 
-    Vue = Vue && Object.prototype.hasOwnProperty.call(Vue, 'default') ? Vue['default'] : Vue;
+    function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
+
+    var Vue__default = /*#__PURE__*/_interopDefaultLegacy(Vue);
 
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -30,18 +32,9 @@
 
     var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
-    function createCommonjsModule(fn, basedir, module) {
-    	return module = {
-    	  path: basedir,
-    	  exports: {},
-    	  require: function (path, base) {
-          return commonjsRequire(path, (base === undefined || base === null) ? module.path : base);
-        }
-    	}, fn(module, module.exports), module.exports;
-    }
-
-    function commonjsRequire () {
-    	throw new Error('Dynamic requires are not currently supported by @rollup/plugin-commonjs');
+    function createCommonjsModule(fn) {
+      var module = { exports: {} };
+    	return fn(module, module.exports), module.exports;
     }
 
     var crypt = createCommonjsModule(function (module) {
@@ -183,7 +176,6 @@
      * @author   Feross Aboukhadijeh <https://feross.org>
      * @license  MIT
      */
-
     // The _isBuffer check is for Safari 5-7 support, because it's missing
     // Object.prototype.constructor. Remove this eventually
     var isBuffer_1 = function (obj) {
@@ -361,6 +353,16 @@
 
     })();
     });
+
+    /*
+     *  base64.js
+     *
+     *  Licensed under the BSD 3-Clause License.
+     *    http://opensource.org/licenses/BSD-3-Clause
+     *
+     *  References:
+     *    http://en.wikipedia.org/wiki/Base64
+     */
 
     var base64 = createCommonjsModule(function (module, exports) {
     (function (global, factory) {
@@ -864,7 +866,7 @@
     });
 
     /**
-      * vue-class-component v7.2.4
+      * vue-class-component v7.2.6
       * (c) 2015-present Evan You
       * @license MIT
       */
@@ -1006,7 +1008,7 @@
       });
 
       if (process.env.NODE_ENV !== 'production') {
-        if (!(Component.prototype instanceof Vue) && Object.keys(plainData).length > 0) {
+        if (!(Component.prototype instanceof Vue__default['default']) && Object.keys(plainData).length > 0) {
           warn('Component class must inherit Vue or its descendant class ' + 'when class property is used.');
         }
       }
@@ -1071,7 +1073,7 @@
 
 
       var superProto = Object.getPrototypeOf(Component.prototype);
-      var Super = superProto instanceof Vue ? superProto.constructor : Vue;
+      var Super = superProto instanceof Vue__default['default'] ? superProto.constructor : Vue__default['default'];
       var Extended = Super.extend(options);
       forwardStaticMembers(Extended, Component, Super);
 
@@ -1154,7 +1156,7 @@
       $internalHooks.push.apply($internalHooks, _toConsumableArray(keys));
     };
 
-    var IxImgProps = Vue.extend({
+    var IxImgProps = Vue__default['default'].extend({
         props: {
             src: {
                 type: String,
@@ -1210,7 +1212,7 @@
 
     function objectWithoutProperties (obj, exclude) { var target = {}; for (var k in obj) if (Object.prototype.hasOwnProperty.call(obj, k) && exclude.indexOf(k) === -1) target[k] = obj[k]; return target; }
     // Do not change this
-    var VERSION = '2.8.0';
+    var VERSION = '2.8.1';
     var clientOptionDefaults = {
         includeLibraryParam: true,
     };
@@ -1247,7 +1249,7 @@
         this.options = Object.assign({}, clientOptionDefaults, options);
         this.client = new imgixCoreJs({
             domain: this.options.domain,
-            includeLibraryParam: false,
+            includeLibraryParam: false, // force false so that imgix-core-js doesn't include its own library param
         });
         // This is not a public API, so it is not included in the type definitions for ImgixClient
         if (this.options.includeLibraryParam) {
@@ -1291,7 +1293,7 @@
         return client.buildSrcSet.apply(client, args);
     };
 
-    var IxPictureProps = Vue.extend({
+    var IxPictureProps = Vue__default['default'].extend({
         props: {},
     });
     var IxPicture = /*@__PURE__*/(function (IxPictureProps) {
@@ -1316,7 +1318,7 @@
         Component
     ], IxPicture);
 
-    var IxSourceProps = Vue.extend({
+    var IxSourceProps = Vue__default['default'].extend({
         props: {
             src: {
                 type: String,

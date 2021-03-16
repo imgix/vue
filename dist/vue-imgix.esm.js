@@ -24,18 +24,9 @@ function __decorate(decorators, target, key, desc) {
 
 var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
-function createCommonjsModule(fn, basedir, module) {
-	return module = {
-	  path: basedir,
-	  exports: {},
-	  require: function (path, base) {
-      return commonjsRequire(path, (base === undefined || base === null) ? module.path : base);
-    }
-	}, fn(module, module.exports), module.exports;
-}
-
-function commonjsRequire () {
-	throw new Error('Dynamic requires are not currently supported by @rollup/plugin-commonjs');
+function createCommonjsModule(fn) {
+  var module = { exports: {} };
+	return fn(module, module.exports), module.exports;
 }
 
 var crypt = createCommonjsModule(function (module) {
@@ -177,7 +168,6 @@ var charenc_1 = charenc;
  * @author   Feross Aboukhadijeh <https://feross.org>
  * @license  MIT
  */
-
 // The _isBuffer check is for Safari 5-7 support, because it's missing
 // Object.prototype.constructor. Remove this eventually
 var isBuffer_1 = function (obj) {
@@ -355,6 +345,16 @@ var md5 = createCommonjsModule(function (module) {
 
 })();
 });
+
+/*
+ *  base64.js
+ *
+ *  Licensed under the BSD 3-Clause License.
+ *    http://opensource.org/licenses/BSD-3-Clause
+ *
+ *  References:
+ *    http://en.wikipedia.org/wiki/Base64
+ */
 
 var base64 = createCommonjsModule(function (module, exports) {
 (function (global, factory) {
@@ -858,7 +858,7 @@ var imgixCoreJs = createCommonjsModule(function (module, exports) {
 });
 
 /**
-  * vue-class-component v7.2.4
+  * vue-class-component v7.2.6
   * (c) 2015-present Evan You
   * @license MIT
   */
@@ -1204,7 +1204,7 @@ IxImg = __decorate([
 
 function objectWithoutProperties (obj, exclude) { var target = {}; for (var k in obj) if (Object.prototype.hasOwnProperty.call(obj, k) && exclude.indexOf(k) === -1) target[k] = obj[k]; return target; }
 // Do not change this
-var VERSION = '2.8.0';
+var VERSION = '2.8.1';
 var clientOptionDefaults = {
     includeLibraryParam: true,
 };
@@ -1241,7 +1241,7 @@ var VueImgixClient = function VueImgixClient(options) {
     this.options = Object.assign({}, clientOptionDefaults, options);
     this.client = new imgixCoreJs({
         domain: this.options.domain,
-        includeLibraryParam: false,
+        includeLibraryParam: false, // force false so that imgix-core-js doesn't include its own library param
     });
     // This is not a public API, so it is not included in the type definitions for ImgixClient
     if (this.options.includeLibraryParam) {
