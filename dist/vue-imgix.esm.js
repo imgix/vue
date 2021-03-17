@@ -1204,7 +1204,7 @@ IxImg = __decorate([
 
 function objectWithoutProperties (obj, exclude) { var target = {}; for (var k in obj) if (Object.prototype.hasOwnProperty.call(obj, k) && exclude.indexOf(k) === -1) target[k] = obj[k]; return target; }
 // Do not change this
-var VERSION = '2.8.1';
+var VERSION = '2.8.2';
 var clientOptionDefaults = {
     includeLibraryParam: true,
 };
