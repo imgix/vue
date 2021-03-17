@@ -103,7 +103,7 @@ And that's all you need to get started! Have fun!
 
 ### Vue 3.x
 
-⚠️ Currently this library does not explicitly support Vue 3. It is likely that everything works as intended, and we are looking to roll out official support for Vue 3 soon. We will also be supporting Vue 2 for the official support timeline (18 months) after we release Vue 3 support.
+⚠️ Currently this library does not explicitly support Vue 3, although we are planning to roll out official support for it soon. We will also be supporting Vue 2 for the official support timeline (18 months) after we release Vue 3 support.
 
 ### Nuxt.js
 
