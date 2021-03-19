@@ -30,10 +30,10 @@ export type IBuildSrcSet = (
   options?: IBuildSrcSetOptions,
 ) => string;
 
-export interface IVueImgixClient {
+export type IVueImgixClient = {
   buildUrlObject: IBuildUrlObject;
   buildUrl: IBuildUrl;
   buildSrcSet: IBuildSrcSet;
-}
+};
 
 export type IVueUseImgixOptions = IImgixClientOptions;

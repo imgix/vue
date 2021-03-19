@@ -9,8 +9,8 @@ import {
   IBuildUrlObjectResult,
   IImgixClientOptions,
   IImgixParams,
-  IVueImgixClient,
 } from './types';
+import type { IVueImgixClient } from './types';
 
 // Do not change this
 const VERSION = '2.8.3';
