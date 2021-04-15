@@ -1,17 +1,17 @@
-import _Vue from 'vue';
+import _App from './App.vue';
 import { IxPicture } from './ix-picture';
 import { IxSource } from './ix-source';
 import { IVueUseImgixOptions } from './types';
 import { initVueImgix, IxImg } from './vue-imgix';
 
 // Declare install function executed by Vue.use()
-export function install(Vue: typeof _Vue, options: IVueUseImgixOptions) {
+export function install(App: typeof _App, options: IVueUseImgixOptions) {
   if (install.installed) return;
   install.installed = true;
   initVueImgix(options);
-  Vue.component('ix-img', IxImg);
-  Vue.component('ix-picture', IxPicture);
-  Vue.component('ix-source', IxSource);
+  App.use('ix-img', IxImg);
+  App.use('ix-picture', IxPicture);
+  App.use('ix-source', IxSource);
 }
 install.installed = false;
 
