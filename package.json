@@ -90,7 +90,7 @@
       "main",
       {
         "name": "next",
-        "prerelease": "rc"
+        "prerelease": "next"
       },
       {
         "name": "beta",
