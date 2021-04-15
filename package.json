@@ -1,40 +1,28 @@
 {
   "name": "vue-imgix",
+  "version": "2.8.3",
   "description": "A simple yet powerful integration between Vue and Imgix",
   "author": "Frederick Fogerty <frederick.fogerty@gmail.com> (https://github.com/frederickfogerty)",
-  "contributors": [
-    "Frederick Fogerty <frederick.fogerty@gmail.com> (https://github.com/frederickfogerty)"
-  ],
-  "license": "BSD-2-Clause",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/imgix/vue-imgix.git"
-  },
-  "bugs": {
-    "url": "https://github.com/imgix/vue-imgix/issues"
-  },
-  "homepage": "https://github.com/imgix/vue-imgix#readme",
-  "keywords": [
-    "vue",
-    "imgix",
-    "component"
-  ],
-  "main": "dist/vue-imgix.umd.js",
-  "module": "dist/vue-imgix.esm.js",
-  "jsnext:main": "dist/vue-imgix.esm.js",
-  "unpkg": "dist/vue-imgix.min.js",
-  "version": "2.8.3",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "rollup --config build/rollup.config.js",
-    "build:test-app": "vue-cli-service build",
-    "test": "run-s test:unit test:e2e",
     "test:unit": "vue-cli-service test:unit",
     "test:e2e": "vue-cli-service test:e2e",
     "lint": "vue-cli-service lint",
+    "build:test-app": "vue-cli-service build",
     "lint:ci": "vue-cli-service lint --no-fix --max-warnings 0",
-    "prepublishOnly": "run-s build"
+    "prepublishOnly": "run-s build",
+    "test": "run-s test:unit test:e2e"
   },
+  "main": "dist/vue-imgix.umd.js",
+  "module": "dist/vue-imgix.esm.js",
+  "unpkg": "dist/vue-imgix.min.js",
+  "files": [
+    "/dist",
+    "/src/plugins/vue-imgix",
+    "README.md",
+    "LICENSE"
+  ],
   "dependencies": {
     "imgix-core-js": "^2.3.1"
   },
@@ -53,12 +41,13 @@
     "@types/jest": "26.0.20",
     "@typescript-eslint/eslint-plugin": "4.19.0",
     "@typescript-eslint/parser": "4.19.0",
-    "@vue/cli-plugin-babel": "4.5.11",
-    "@vue/cli-plugin-e2e-cypress": "4.5.11",
-    "@vue/cli-plugin-eslint": "4.5.11",
-    "@vue/cli-plugin-typescript": "4.5.11",
-    "@vue/cli-plugin-unit-jest": "4.5.11",
-    "@vue/cli-service": "4.5.11",
+    "@vue/cli-plugin-babel": "~4.5.12",
+    "@vue/cli-plugin-e2e-cypress": "~4.5.12",
+    "@vue/cli-plugin-eslint": "~4.5.12",
+    "@vue/cli-plugin-typescript": "~4.5.12",
+    "@vue/cli-plugin-unit-jest": "~4.5.12",
+    "@vue/cli-service": "~4.5.12",
+    "@vue/compiler-sfc": "^3.0.11",
     "@vue/eslint-config-prettier": "6.0.0",
     "@vue/eslint-config-typescript": "7.0.0",
     "@vue/test-utils": "1.1.3",
@@ -74,17 +63,38 @@
     "rollup-plugin-babel": "4.4.0",
     "rollup-plugin-vue": "5.1.9",
     "typescript": "4.2.3",
-    "vue": "2.6.12",
+    "vue": "^3.0.0",
     "vue-class-component": "7.2.6",
     "vue-property-decorator": "9.1.2",
-    "vue-router": "3.5.1",
+    "vue-router": "^4.0.0-beta.11",
     "vue-template-compiler": "2.6.12",
-    "vuex": "3.6.2",
+    "vuex": "^v4.0.0-beta.4",
     "yarn-run-all": "3.1.1"
   },
-  "resolutions": {
-    "cypress": "3.8.3"
+  "browserslist": [
+    "ie 11",
+    "last 1 edge versions",
+    "last 1 Chrome versions",
+    "last 1 Firefox versions",
+    "last 1 Safari versions",
+    "last 2 iOS versions",
+    "last 2 Android versions",
+    "not dead"
+  ],
+  "bugs": {
+    "url": "https://github.com/imgix/vue-imgix/issues"
   },
+  "contributors": [
+    "Frederick Fogerty <frederick.fogerty@gmail.com> (https://github.com/frederickfogerty)"
+  ],
+  "homepage": "https://github.com/imgix/vue-imgix#readme",
+  "jsnext:main": "dist/vue-imgix.esm.js",
+  "keywords": [
+    "vue",
+    "imgix",
+    "component"
+  ],
+  "license": "BSD-2-Clause",
   "release": {
     "branches": [
       "main",
@@ -224,20 +234,11 @@
       ]
     ]
   },
-  "files": [
-    "/dist",
-    "/src/plugins/vue-imgix",
-    "README.md",
-    "LICENSE"
-  ],
-  "browserslist": [
-    "ie 11",
-    "last 1 edge versions",
-    "last 1 Chrome versions",
-    "last 1 Firefox versions",
-    "last 1 Safari versions",
-    "last 2 iOS versions",
-    "last 2 Android versions",
-    "not dead"
-  ]
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/imgix/vue-imgix.git"
+  },
+  "resolutions": {
+    "cypress": "3.8.3"
+  }
 }
