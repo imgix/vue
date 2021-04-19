@@ -1,29 +1,37 @@
 import { ensureVueImgixClientSingleton, IVueImgixClient } from './vue-imgix';
-import Vue, { CreateElement } from 'vue';
-import Component from 'vue-class-component';
+import { Vue, prop } from 'vue-class-component';
 
-const IxImgProps = Vue.extend({
-  props: {
-    src: {
-      type: String,
-      required: true,
-    },
-    fixed: Boolean,
-    imgixParams: Object,
-    width: [String, Number],
-    height: [String, Number],
-    attributeConfig: Object,
-    disableVariableQuality: Boolean,
-  },
-});
+const Props = {
+  src: prop({ type: String, required: true }),
+  fixed:  prop({type: Boolean}),
+  imgixParams:  prop({type: Object}),
+  width:  prop({ [String, Number]}),
+  height:  prop({ [String, Number]}),
+  attributeConfig:  prop({type: Object}),
+  disableVariableQuality:  prop({type: Boolean}),
+};
+
+// const IxImgProps = defineComponent({
+//   props: {
+//     src: {
+//       type: String,
+//       required: true,
+//     },
+//     fixed: Boolean,
+//     imgixParams: Object,
+//     width: [String, Number],
+//     height: [String, Number],
+//     attributeConfig: Object,
+//     disableVariableQuality: Boolean,
+//   },
+// });
 
 const defaultAttributeMap = {
   src: 'src',
   srcset: 'srcset',
 };
 
-@Component
-export class IxImg extends IxImgProps {
+export class IxImg extends Vue.with(Props) {
   // Using !: here because we ensure it is set in created()
   private vueImgixSingleton!: IVueImgixClient;
 
@@ -31,7 +39,7 @@ export class IxImg extends IxImgProps {
     this.vueImgixSingleton = ensureVueImgixClientSingleton();
   }
 
-  render(createElement: CreateElement) {
+  render() {
     const imgixParamsFromImgAttributes = {
       ...(this.fixed && {
         ...(this.width != null ? { w: this.width } : {}),
@@ -55,13 +63,12 @@ export class IxImg extends IxImgProps {
       ...this.attributeConfig,
     };
 
-    return createElement('img', {
-      attrs: {
-        [attributeConfig.src]: src,
-        [attributeConfig.srcset]: srcset,
-        width: this.width,
-        height: this.height,
-      },
+    return h('img', {
+      [attributeConfig.src]: src,
+      [attributeConfig.srcset]: srcset,
+      width: this.width,
+      height: this.height,
     });
   }
-}
+
+};

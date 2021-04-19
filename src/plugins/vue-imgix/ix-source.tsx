@@ -1,8 +1,7 @@
 import { ensureVueImgixClientSingleton, IVueImgixClient } from './vue-imgix';
-import Vue, { CreateElement } from 'vue';
-import Component from 'vue-class-component';
+import {defineComponent, h } from 'vue';
 
-const IxSourceProps = Vue.extend({
+const IxSourceProps = defineComponent({
   props: {
     src: {
       type: String,
@@ -18,7 +17,6 @@ const defaultAttributeMap = {
   srcset: 'srcset',
 };
 
-@Component
 export class IxSource extends IxSourceProps {
   // Using !: here because we ensure it is set in created()
   private vueImgixSingleton!: IVueImgixClient;
@@ -27,7 +25,7 @@ export class IxSource extends IxSourceProps {
     this.vueImgixSingleton = ensureVueImgixClientSingleton();
   }
 
-  render(createElement: CreateElement) {
+  render() {
     const imgixParamsFromAttributes = {};
 
     const { srcset } = this.vueImgixSingleton.buildUrlObject(this.src, {
@@ -44,6 +42,6 @@ export class IxSource extends IxSourceProps {
       [attributeConfig.srcset]: srcset,
     };
 
-    return createElement('source', { attrs: childAttrs });
+    return h('source', { attrs: childAttrs });
   }
 }
