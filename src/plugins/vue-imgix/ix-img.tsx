@@ -1,37 +1,31 @@
+import { h } from 'vue';
 import { ensureVueImgixClientSingleton, IVueImgixClient } from './vue-imgix';
-import Vue, { CreateElement } from 'vue';
-import Component from 'vue-class-component';
-
-const IxImgProps = Vue.extend({
-  props: {
-    src: {
-      type: String,
-      required: true,
-    },
-    fixed: Boolean,
-    imgixParams: Object,
-    width: [String, Number],
-    height: [String, Number],
-    attributeConfig: Object,
-    disableVariableQuality: Boolean,
-  },
-});
+import { prop, Vue } from 'vue-class-component';
 
 const defaultAttributeMap = {
   src: 'src',
   srcset: 'srcset',
 };
 
-@Component
-export class IxImg extends IxImgProps {
-  // Using !: here because we ensure it is set in created()
+class Props {
+  src = prop({
+    type: String,
+    required: true,
+  });
+  fixed = prop({ type: Boolean });
+  imgixParams = prop({ type: Object });
+  width = { type: [String, Number] };
+  height = { type: [String, Number] };
+  attributeConfig = prop({ type: Object });
+  disableVariableQuality = prop({ type: Boolean });
+}
+export class IxImg extends Vue.with(Props) {
   private vueImgixSingleton!: IVueImgixClient;
-
   created() {
     this.vueImgixSingleton = ensureVueImgixClientSingleton();
   }
 
-  render(createElement: CreateElement) {
+  render() {
     const imgixParamsFromImgAttributes = {
       ...(this.fixed && {
         ...(this.width != null ? { w: this.width } : {}),
@@ -55,13 +49,11 @@ export class IxImg extends IxImgProps {
       ...this.attributeConfig,
     };
 
-    return createElement('img', {
-      attrs: {
-        [attributeConfig.src]: src,
-        [attributeConfig.srcset]: srcset,
-        width: this.width,
-        height: this.height,
-      },
+    return h('img', {
+      [attributeConfig.src]: src,
+      [attributeConfig.srcset]: srcset,
+      width: this.width,
+      height: this.height,
     });
   }
 }
