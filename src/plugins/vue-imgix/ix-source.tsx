@@ -1,23 +1,22 @@
 import { ensureVueImgixClientSingleton, IVueImgixClient } from './vue-imgix';
-import {defineComponent, h } from 'vue';
+import { h } from 'vue';
+import { Vue, prop } from 'vue-class-component';
 
-const IxSourceProps = defineComponent({
-  props: {
-    src: {
-      type: String,
-      required: true,
-    },
-    imgixParams: Object,
-    attributeConfig: Object,
-  },
-});
+class Props {
+  src = prop({
+    type: String,
+    required: true,
+  });
+  imgixParams = prop({ type: Object });
+  attributeConfig = prop({ type: Object });
+}
 
 const defaultAttributeMap = {
   src: 'src',
   srcset: 'srcset',
 };
 
-export class IxSource extends IxSourceProps {
+export class IxSource extends Vue.with(Props) {
   // Using !: here because we ensure it is set in created()
   private vueImgixSingleton!: IVueImgixClient;
 
