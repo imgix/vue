@@ -1,9 +1,8 @@
 import { ensureVueImgixClientSingleton, IVueImgixClient } from './vue-imgix';
-import { defineComponent, h } from 'vue';
+import { h } from 'vue';
+import { Vue } from 'vue-class-component';
 
-const IxPictureProps = defineComponent({});
-
-export class IxPicture extends IxPictureProps {
+export class IxPicture extends Vue {
   // Using !: here because we ensure it is set in created()
   private vueImgixSingleton!: IVueImgixClient;
 
