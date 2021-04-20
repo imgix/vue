@@ -4,6 +4,9 @@
 
 `vue-imgix` is a client library for generating URLs with [imgix](https://www.imgix.com/).
 
+> ### Vue 2.x 
+> ⚠️ You are viewing the Vue 3.0 `@next` development branch. This branch is for preview purposes. There will be bugs and undocumented behavior differences from v2. For Vue 2, please look at the [`main`](https://github.com/imgix/vue-imgix/tree/main) branch. We will be supporting Vue 2 for the official support timeline (18 months) after we release Vue 3 support.
+<!-- TODO(luis): update/remove badges for @next -->
 [![npm version](https://img.shields.io/npm/v/vue-imgix.svg)](https://www.npmjs.com/package/vue-imgix)
 [![Build Status](https://travis-ci.com/imgix/vue-imgix.svg?branch=main)](https://travis-ci.com/imgix/vue-imgix)
 [![Downloads](https://img.shields.io/npm/dm/vue-imgix.svg)](https://www.npmjs.com/package/vue-imgix)
@@ -29,26 +32,29 @@
 - [Overview / Resources](#overview--resources)
 - [Get Started](#get-started)
 - [Configure](#configure)
-    * [Polyfills required](#polyfills-required)
-    * [Standard Vue 2.x App](#standard-vue-2x-app)
-    * [Vue 3.x](#vue-3x)
-    * [Nuxt.js](#nuxtjs)
+  - [Polyfills required](#polyfills-required)
+  - [Standard Vue 3.x App](#standard-vue-3x-app)
+  - [Nuxt.js](#nuxtjs)
 - [Usage](#usage)
-    * [Examples](#examples)
-        + [Basic Use Case](#basic-use-case)
-        + [Flexible Image Rendering](#flexible-image-rendering)
-        + [Fixed Image Rendering (i.e. non-flexible)](#fixed-image-rendering-ie-non-flexible)
-        + [Picture Support](#picture-support)
-        + [Lazy-Loading](#lazy-loading)
-    * [Advanced Examples](#advanced-examples)
-        + [buildUrlObject](#buildurlobject)
-        + [buildUrl](#buildurl)
-        + [buildSrcSet](#buildsrcset)
-        + [Custom Attribute Mapping](#custom-attribute-mapping)
-        + [Custom Srcset Width](#custom-srcset-width)
-        + [Width Tolerance](#width-tolerance)
-        + [Minimum and Maximum Width Ranges](#minimum-and-maximum-width-ranges)
-        + [Base64 Encoding](#base64-encoding)
+  - [Examples](#examples)
+    - [Basic Use Case](#basic-use-case)
+    - [Flexible Image Rendering](#flexible-image-rendering)
+    - [Fixed Image Rendering (i.e. non-flexible)](#fixed-image-rendering-ie-non-flexible)
+    - [Picture Support](#picture-support)
+    - [Lazy-Loading](#lazy-loading)
+      - [Lazy-loading (Native + Interaction Observer) **Recommended**](#lazy-loading-native--interaction-observer-recommended)
+      - [Lazy-loading (Native)](#lazy-loading-native)
+      - [Lazy-loading (Interaction Observer)](#lazy-loading-interaction-observer)
+      - [Lazy-loading (Event Listener)](#lazy-loading-event-listener)
+  - [Advanced Examples](#advanced-examples)
+    - [buildUrlObject](#buildurlobject)
+    - [buildUrl](#buildurl)
+    - [buildSrcSet](#buildsrcset)
+    - [Custom Attribute Mapping](#custom-attribute-mapping)
+    - [Custom Srcset Width](#custom-srcset-width)
+    - [Width Tolerance](#width-tolerance)
+    - [Minimum and Maximum Width Ranges](#minimum-and-maximum-width-ranges)
+    - [Base64 Encoding](#base64-encoding)
 - [What Is the `ixlib` Param on Every Request?](#what-is-the-ixlib-param-on-every-request)
 - [Code of Conduct](#code-of-conduct)
 - [Contributors](#contributors)
@@ -71,8 +77,8 @@ Firstly, follow this [quick start guide](https://docs.imgix.com/setup/quick-star
 
 Then, install vue-imgix with the following commands, depending on your package manager.
 
-- **NPM**: `npm install vue-imgix`
-- **Yarn**: `yarn add vue-imgix`
+- **NPM**: `npm install imgix/vue-imgix/@next`
+- **Yarn**: `yarn add imgix/vue-imgix/@next`
 
 This module exports two transpiled versions. If a ES6-module-aware bundler is being used to consume this module, it will pick up an ES6 module version and can perform tree-shaking. **If you are not using ES6 modules, you don't have to do anything.**
 
@@ -82,55 +88,34 @@ This module exports two transpiled versions. If a ES6-module-aware bundler is be
 
 A polyfill for `Object.assign` must be supplied for browsers that need it. You probably have this already set up, so you likely don't need to do anything.
 
-### Standard Vue 2.x App
+### Standard Vue 3.x App
 
 Vue-imgix needs to be initialized with a minimal configuration before it can be used in components. Modify your startup/init file (usually `main.js` or similar) to include the following:
 
 ```js
-import Vue from 'vue';
+import { createApp } from 'vue';
 import VueImgix from 'vue-imgix';
+import App from './App.vue';
 
-Vue.use(VueImgix, {
+// Create and mount the root instance.
+const app = createApp(App);
+// Make sure to _use_ the VueImgix instance to make the
+// whole app VueImgix-aware.
+app.use(VueImgix, {
   domain: "<your company's imgix domain>",
   defaultIxParams: {
     // This enables the auto format imgix parameter by default for all images, which we recommend to reduce image size, but you might choose to turn this off.
     auto: 'format',
   },
 });
+
+app.mount('#app');
 ```
 
 And that's all you need to get started! Have fun!
-
-### Vue 3.x
-
-⚠️ Currently this library does not explicitly support Vue 3, although we are planning to roll out official support for it soon. We will also be supporting Vue 2 for the official support timeline (18 months) after we release Vue 3 support.
 
 ### Nuxt.js
-
-To configure vue-imgix for a Nuxt app:
-
-1. Add a `vue-imgix.js` file in `/plugins` with the following contents:
-
-```js
-import Vue from 'vue';
-import VueImgix from 'vue-imgix';
-
-Vue.use(VueImgix, {
-  domain: "<your company's imgix domain>",
-  defaultIxParams: {
-    // This enables the auto format imgix parameter by default for all images, which we recommend to reduce image size, but you might choose to turn this off.
-    auto: 'format',
-  },
-});
-```
-
-2. Add the plugin to your Nuxt config (in `nuxt.config.js`) like so:
-
-```js
-plugins: ['~/plugins/vue-imgix.js'],
-```
-
-And that's all you need to get started! Have fun!
+Nuxt.js *[beta](https://www.npmjs.com/package/nuxt3)* still isn't public. As such, we don't explicitly support Nuxt.js with Version 3.x as of right now.
 
 ## Usage
 
@@ -293,6 +278,7 @@ For lazy loading, there are a few options to choose from. They're listed here, a
 
 ##### Lazy-loading (Native + Interaction Observer) **Recommended**
 
+<!-- TODO(luis): change this to use Vue 3 directive API lifecycle methods -->
 This approach uses native lazy loading for browsers that support it, which is more and more every day, and uses [Lozad.js](https://apoorv.pro/lozad.js/) for those that don't. Lozad.js uses Interaction Observers to watch for changes to DOM elements, and is more performant than using event listeners.
 
 <picture>
@@ -473,7 +459,7 @@ We also provide `buildSrcSet` from imgix-core-js to help developers to create an
 
 ```html
 <template>
-  <img :src="advancedSrc" :srcset="advancedSrcSet" />
+  <img :src="advancedUrl" :srcset="advancedSrcSet" />
 </template>
 
 <script>
@@ -623,7 +609,7 @@ becomes:
 ```
 
 ## What Is the `ixlib` Param on Every Request?
-
+<!-- TODO(luis): update this to reflect Vue 3 Global API changes -->
 For security and diagnostic purposes, we tag all requests with the language and version of library used to generate the URL.
 
 To disable this, set `includeLibraryParam` to false when initializing `VueImgix`.
