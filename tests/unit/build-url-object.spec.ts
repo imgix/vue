@@ -9,15 +9,15 @@ describe('buildUrlObject', () => {
   let client: IVueImgixClient;
   beforeAll(() => {
     client = buildImgixClient({
-      domain: 'testing.imgix.net',
+      domain: 'assets.imgix.net',
     });
   });
 
   it('builds an imgix url', () => {
     const { src, srcset } = client.buildUrlObject('/examples/pione.jpg', {});
 
-    expect(src).toMatch(/testing.imgix.net\/examples\/pione.jpg/);
-    expect(srcset).toMatch(/testing.imgix.net\/examples\/pione.jpg/);
+    expect(src).toMatch(/assets.imgix.net\/examples\/pione.jpg/);
+    expect(srcset).toMatch(/assets.imgix.net\/examples\/pione.jpg/);
   });
   it('adds ixlib to imgix url', async () => {
     const { src, srcset } = client.buildUrlObject('/examples/pione.jpg', {});
@@ -54,7 +54,7 @@ describe('buildUrlObject', () => {
       };
       ImgixClient.mockImplementation(() => mockImgixClient);
       vueImgixClient = buildImgixClient({
-        domain: 'testing.imgix.net',
+        domain: 'assets.imgix.net',
       });
     });
     afterAll(() => {
