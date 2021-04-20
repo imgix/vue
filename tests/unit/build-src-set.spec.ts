@@ -37,7 +37,7 @@ describe('buildSrcSet', () => {
       };
       ImgixClient.mockImplementation(() => mockImgixClient);
       vueImgixClient = buildImgixClient({
-        domain: 'testing.imgix.net',
+        domain: 'assets.imgix.net',
       });
     });
     afterAll(() => {
