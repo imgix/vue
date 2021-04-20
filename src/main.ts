@@ -1,8 +1,8 @@
 import VueImgix from '@/plugins/vue-imgix';
-import Vue from 'vue';
+import {createApp} from 'vue';
 import App from './App.vue';
 
-const app = Vue.createApp(App);
+const app = createApp(App);
 
 app.use(
   VueImgix, {
