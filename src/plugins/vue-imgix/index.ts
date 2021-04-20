@@ -9,9 +9,9 @@ export function install(App: typeof _App, options: IVueUseImgixOptions) {
   if (install.installed) return;
   install.installed = true;
   initVueImgix(options);
-  App.use('ix-img', IxImg);
-  App.use('ix-picture', IxPicture);
-  App.use('ix-source', IxSource);
+  App.component('ix-img', IxImg);
+  App.component('ix-picture', IxPicture);
+  App.component('ix-source', IxSource);
 }
 install.installed = false;
 
