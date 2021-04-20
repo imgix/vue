@@ -1,8 +1,9 @@
 <template>
   <img
-    :src="advancedSrc"
+    :src="advancedUrl"
     :srcset="advancedSrcSet"
     data-testid="advanced-build-src-set"
+    alt="advanced-build-srcset-fruit-image"
   />
 </template>
 
