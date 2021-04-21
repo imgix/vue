@@ -1,4 +1,4 @@
-import _App from './App.vue';
+import _App from '../App.vue';
 import { IxPicture } from './ix-picture';
 import { IxSource } from './ix-source';
 import { IVueUseImgixOptions } from './types';
