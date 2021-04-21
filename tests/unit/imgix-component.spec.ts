@@ -1,20 +1,24 @@
+import { createApp } from 'vue';
 import VueImgix, { IxImg } from '@/plugins/vue-imgix';
 import '@testing-library/jest-dom';
 import { render } from '@testing-library/vue';
-import Vue from 'vue';
+import _App from '../../src/App.vue';
 import {
   expectElementToHaveFixedSrcAndSrcSet,
   expectElementToHaveFluidSrcAndSrcSet,
 } from '../helpers/url-assert';
+
+const App = createApp(_App);
+
 describe('imgix component', () => {
   beforeAll(() => {
-    Vue.use(VueImgix, {
+    App.use(VueImgix, {
       domain: 'assets.imgix.net',
     });
   });
   it('an img should be rendered', () => {
     const wrapper = render(IxImg, {
-      propsData: {
+      props: {
         src: 'examples/pione.jpg',
         'data-testid': 'img-rendering',
       },
@@ -24,7 +28,7 @@ describe('imgix component', () => {
   });
   it(`the rendered img's src should be set`, () => {
     const wrapper = render(IxImg, {
-      propsData: {
+      props: {
         src: 'examples/pione.jpg',
         'data-testid': 'img-rendering',
       },
@@ -37,7 +41,7 @@ describe('imgix component', () => {
   });
   it(`the rendered img's srcset should be set correctly`, () => {
     const wrapper = render(IxImg, {
-      propsData: {
+      props: {
         src: 'examples/pione.jpg',
         'data-testid': 'img-rendering',
       },
@@ -60,7 +64,7 @@ describe('imgix component', () => {
 
   it('imgixParams should be set on the rendered src and srcset', () => {
     const wrapper = render(IxImg, {
-      propsData: {
+      props: {
         'data-testid': 'img-rendering',
         src: 'examples/pione.jpg',
         imgixParams: { crop: 'faces' },
@@ -80,7 +84,7 @@ describe('imgix component', () => {
   describe('in fluid mode (no fixed props set)', () => {
     it('ix-img should render a fluid image if width is passed as attribute', () => {
       const wrapper = render(IxImg, {
-        propsData: {
+        props: {
           'data-testid': 'img-rendering',
           src: 'examples/pione.jpg',
           width: 100,
@@ -95,7 +99,7 @@ describe('imgix component', () => {
   describe('in fixed mode (fixed prop set, or width/height passed to imgixParams)', () => {
     it('the src and srcset should be in fixed size mode when a width is passed to imgixParams', () => {
       const wrapper = render(IxImg, {
-        propsData: {
+        props: {
           'data-testid': 'img-rendering',
           src: 'examples/pione.jpg',
           imgixParams: {
@@ -109,7 +113,7 @@ describe('imgix component', () => {
     });
     it('the src and srcset should be in fixed size mode when a fixed prop is passed to the element', () => {
       const wrapper = render(IxImg, {
-        propsData: {
+        props: {
           'data-testid': 'img-rendering',
           src: 'examples/pione.jpg',
           width: 100,
@@ -127,7 +131,7 @@ describe('imgix component', () => {
 
     it('a width attribute should be passed through to the underlying component', () => {
       const wrapper = render(IxImg, {
-        propsData: {
+        props: {
           'data-testid': 'img-rendering',
           src: 'examples/pione.jpg',
           width: 100,
@@ -141,7 +145,7 @@ describe('imgix component', () => {
     });
     it('a height attribute should be passed through to the underlying component', () => {
       const wrapper = render(IxImg, {
-        propsData: {
+        props: {
           'data-testid': 'img-rendering',
           src: 'examples/pione.jpg',
           height: 100,
@@ -160,7 +164,7 @@ describe('imgix component', () => {
     ATTRIBUTES.forEach((attribute) => {
       it(`${attribute} can be configured to use data-${attribute}`, () => {
         const wrapper = render(IxImg, {
-          propsData: {
+          props: {
             'data-testid': 'img-rendering',
             src: 'examples/pione.jpg',
             attributeConfig: {
@@ -197,14 +201,14 @@ describe('imgix component', () => {
       };
       const ImgixClient = require('imgix-core-js');
       ImgixClient.mockImplementation(() => mockImgixClient);
-      _Vue.use(_VueImgix, {
+      _App.use(_VueImgix, {
         domain: 'assets.imgix.net',
       });
       /* eslint-enable @typescript-eslint/no-var-requires */
     });
     it('should not pass disableVariableQuality: true to imgix-core-js by default', () => {
       render(_IxImg, {
-        propsData: {
+        props: {
           src: 'examples/pione.jpg',
           height: 100,
           fixed: true,
@@ -221,7 +225,7 @@ describe('imgix component', () => {
     });
     it('should pass disableVariableQuality: true to imgix-core-js when disableVariableQuality prop set', () => {
       render(_IxImg, {
-        propsData: {
+        props: {
           src: 'examples/pione.jpg',
           height: 100,
           disableVariableQuality: true,
