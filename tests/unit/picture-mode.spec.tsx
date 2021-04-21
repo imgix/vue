@@ -1,10 +1,14 @@
 import VueImgix from '@/plugins/vue-imgix';
 import '@testing-library/jest-dom';
 import { render } from '@testing-library/vue';
-import Vue from 'vue';
+import { createApp } from 'vue';
+import _App from "../../src/App.vue"
+
+const App = createApp(_App)
+
 describe('Picture Mode', () => {
   beforeAll(() => {
-    Vue.use(VueImgix, {
+    App.use(VueImgix, {
       domain: 'assets.imgix.net',
     });
   });
@@ -12,7 +16,7 @@ describe('Picture Mode', () => {
   describe('ix-picture', () => {
     it('should render a picture', () => {
       const wrapper = render(
-        Vue.component('test-component', {
+        App.component('test-component', {
           render() {
             return <ix-picture data-testid="test-picture" />;
           },
@@ -24,7 +28,7 @@ describe('Picture Mode', () => {
 
     it('should render a source as a child', () => {
       const wrapper = render(
-        Vue.component('test-component', {
+        App.component('test-component', {
           render() {
             return (
               <ix-picture data-testid="test-picture">
@@ -43,7 +47,7 @@ describe('Picture Mode', () => {
 
     it('the developer can pass an ix-img component as a fallback src', () => {
       const wrapper = render(
-        Vue.component('test-component', {
+        App.component('test-component', {
           render() {
             return (
               <ix-picture data-testid="test-picture">
@@ -72,7 +76,7 @@ describe('Picture Mode', () => {
   describe('ix-source', () => {
     it('should render a <source> component', () => {
       const wrapper = render(
-        Vue.component('test-component', {
+        App.component('test-component', {
           render() {
             return <ix-source src="image.jpg" data-testid="test-source" />;
           },
@@ -84,7 +88,7 @@ describe('Picture Mode', () => {
 
     it('should have a srcset attribute', () => {
       const wrapper = render(
-        Vue.component('test-component', {
+        App.component('test-component', {
           render() {
             return <ix-source data-testid="test-source" src="image.png" />;
           },
@@ -106,7 +110,7 @@ describe('Picture Mode', () => {
       ([attribute, value]) => {
         it(`should allow developer to set ${attribute} attribute`, () => {
           const wrapper = render(
-            Vue.component('test-component', {
+            App.component('test-component', {
               render() {
                 return (
                   <ix-source
@@ -130,7 +134,7 @@ describe('Picture Mode', () => {
 
     it('should pass params from imgixParams', () => {
       const wrapper = render(
-        Vue.component('test-component', {
+        App.component('test-component', {
           render() {
             return (
               <ix-source
