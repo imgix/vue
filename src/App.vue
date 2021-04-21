@@ -15,15 +15,15 @@
 </template>
 
 <script>
+import { Options, Vue } from "vue-class-component";
+
 import advancedBuildUrlObject from './components/advanced/buildUrlObject';
 import advancedBuildUrl from './components/advanced/buildUrl';
 import advancedBuildSrcSet from './components/advanced/buildSrcSet';
 import advancedApi from './components/advanced/advanced';
 import simple from './components/simple/simple';
 
-export default {
-  name: 'App',
-
+@Options({
   components: {
     advancedBuildUrlObject,
     advancedBuildUrl,
@@ -31,7 +31,7 @@ export default {
     advancedApi,
     simple,
   },
-
   computed: {},
-};
+})
+export default class App extends Vue {}
 </script>
