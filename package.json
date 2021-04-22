@@ -36,7 +36,7 @@
     "prepublishOnly": "run-s build"
   },
   "dependencies": {
-    "imgix-core-js": "^2.3.1"
+    "@imgix/js-core": "^3.1.3"
   },
   "devDependencies": {
     "@google/semantic-release-replace-plugin": "1.0.2",
