@@ -189,20 +189,20 @@ describe('imgix component', () => {
       const _Vue = require('vue');
       const _VueImgix = require('@/plugins/vue-imgix');
       _IxImg = _VueImgix.IxImg;
-      jest.mock('imgix-core-js');
+      jest.mock('@imgix/js-core');
       mockImgixClient = {
         settings: {},
         buildSrcSet: jest.fn(),
         buildURL: jest.fn(),
       };
-      const ImgixClient = require('imgix-core-js');
+      const ImgixClient = require('@imgix/js-core');
       ImgixClient.mockImplementation(() => mockImgixClient);
       _Vue.use(_VueImgix, {
         domain: 'assets.imgix.net',
       });
       /* eslint-enable @typescript-eslint/no-var-requires */
     });
-    it('should not pass disableVariableQuality: true to imgix-core-js by default', () => {
+    it('should not pass disableVariableQuality: true to @imgix/js-core by default', () => {
       render(_IxImg, {
         propsData: {
           src: 'examples/pione.jpg',
@@ -219,7 +219,7 @@ describe('imgix component', () => {
         }),
       );
     });
-    it('should pass disableVariableQuality: true to imgix-core-js when disableVariableQuality prop set', () => {
+    it('should pass disableVariableQuality: true to @imgix/js-core when disableVariableQuality prop set', () => {
       render(_IxImg, {
         propsData: {
           src: 'examples/pione.jpg',
