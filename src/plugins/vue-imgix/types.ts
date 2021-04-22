@@ -1,4 +1,4 @@
-import ImgixClient from 'imgix-core-js';
+import ImgixClient from '@imgix/js-core';
 
 export type IImgixParams = Record<string, unknown>;
 

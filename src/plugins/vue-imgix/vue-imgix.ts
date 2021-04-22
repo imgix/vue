@@ -1,4 +1,4 @@
-import ImgixClient from 'imgix-core-js';
+import ImgixClient from '@imgix/js-core';
 import { IxImg } from './ix-img';
 import {
   IBuildSrcSet,
@@ -28,7 +28,7 @@ class VueImgixClient implements IVueImgixClient {
 
     this.client = new ImgixClient({
       domain: this.options.domain,
-      includeLibraryParam: false, // force false so that imgix-core-js doesn't include its own library param
+      includeLibraryParam: false, // force false so that @imgix/js-core doesn't include its own library param
     });
     // This is not a public API, so it is not included in the type definitions for ImgixClient
     if (this.options.includeLibraryParam) {
