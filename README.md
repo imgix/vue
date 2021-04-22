@@ -443,7 +443,7 @@ In a component:
 
 #### buildUrl
 
-In addition to the helper above, we provide `buildURL` from imgix-core-js to help developers to create any URL they need.
+In addition to the helper above, we provide `buildURL` from @imgix/js-core to help developers to create any URL they need.
 
 ```html
 <template>
@@ -469,7 +469,7 @@ In addition to the helper above, we provide `buildURL` from imgix-core-js to hel
 
 #### buildSrcSet
 
-We also provide `buildSrcSet` from imgix-core-js to help developers to create any srcset URL they need.
+We also provide `buildSrcSet` from @imgix/js-core to help developers to create any srcset URL they need.
 
 ```html
 <template>
