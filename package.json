@@ -47,7 +47,7 @@
     "@rollup/plugin-typescript": "8.2.1",
     "@semantic-release/changelog": "5.0.1",
     "@semantic-release/git": "9.0.0",
-    "@testing-library/cypress": "7.0.4",
+    "@testing-library/cypress": "7.0.6",
     "@testing-library/jest-dom": "5.11.9",
     "@testing-library/vue": "5.6.1",
     "@types/jest": "26.0.20",
