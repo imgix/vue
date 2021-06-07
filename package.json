@@ -63,7 +63,7 @@
     "@vue/eslint-config-typescript": "7.0.0",
     "@vue/test-utils": "1.2.0",
     "conventional-changelog-conventionalcommits": "4.6.0",
-    "core-js": "3.9.1",
+    "core-js": "3.14.0",
     "cypress": "3.8.3",
     "eslint": "7.22.0",
     "eslint-plugin-prettier": "3.3.1",
