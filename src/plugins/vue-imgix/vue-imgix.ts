@@ -57,8 +57,8 @@ class VueImgixClient implements IVueImgixClient {
       ...sharedOptions // Right now this is only passed to buildSrcSet, but in the future it might be passed to buildUrl
     } = options;
 
-    const src = this.buildUrl(url, ixParams);
-    const srcset = this.buildSrcSet(url, ixParams, {
+    const src = this._buildUrl(url, ixParams);
+    const srcset = this._buildSrcSet(url, ixParams, {
       widths,
       widthTolerance,
       minWidth,
@@ -73,12 +73,48 @@ class VueImgixClient implements IVueImgixClient {
     return this.client.buildURL(url, this.buildIxParams(ixParams));
   };
 
+  _buildUrl = (url: string, ixParams?: IImgixParams): string => {
+    // if 2-step URL
+    if (!url.includes('://')) {
+      return this.client.buildURL(url, this.buildIxParams(ixParams));
+    } else {
+      return ImgixClient._buildURL({ url, params: this.buildIxParams(ixParams) });
+    }
+
+  };
+
   buildSrcSet = (
     url: string,
     ixParams?: IImgixParams,
     options?: IBuildSrcSetOptions,
   ): string => {
-    return this.client.buildSrcSet(url, this.buildIxParams(ixParams), options);
+    return this.client.buildSrcSet(
+      url,
+      this.buildIxParams(ixParams),
+      options,
+    );
+  };
+
+  _buildSrcSet = (
+    url: string,
+    ixParams?: IImgixParams,
+    options?: IBuildSrcSetOptions,
+  ): string => {
+    // if 2-step URL
+    // eslint-disable-next-line
+    if (!url.includes('://')) {
+      return this.client.buildSrcSet(
+        url,
+        this.buildIxParams(ixParams),
+        options,
+      );
+    } else {
+      return ImgixClient._buildSrcSet({
+        url,
+        params: this.buildIxParams(ixParams),
+        options,
+      });
+    }
   };
 }
 
@@ -112,12 +148,12 @@ export const buildUrlObject: IBuildUrlObject = (...args) => {
 
 export const buildUrl: IBuildUrl = (...args) => {
   const client = ensureVueImgixClientSingleton();
-  return client.buildUrl(...args);
+  return client._buildUrl(...args);
 };
 
 export const buildSrcSet: IBuildSrcSet = (...args) => {
   const client = ensureVueImgixClientSingleton();
-  return client.buildSrcSet(...args);
+  return client._buildSrcSet(...args);
 };
 
 export { IVueImgixClient, IxImg };
