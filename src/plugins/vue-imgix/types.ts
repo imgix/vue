@@ -33,7 +33,9 @@ export type IBuildSrcSet = (
 export type IVueImgixClient = {
   buildUrlObject: IBuildUrlObject;
   buildUrl: IBuildUrl;
+  _buildUrl: IBuildUrl;
   buildSrcSet: IBuildSrcSet;
+  _buildSrcSet: IBuildSrcSet;
 };
 
 export type IVueUseImgixOptions = IImgixClientOptions;
