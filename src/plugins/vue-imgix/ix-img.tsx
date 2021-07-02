@@ -1,67 +1,67 @@
-import { ensureVueImgixClientSingleton, IVueImgixClient } from './vue-imgix';
-import Vue, { CreateElement } from 'vue';
-import Component from 'vue-class-component';
+import { ensureVueImgixClientSingleton } from './vue-imgix';
+import { h, defineComponent } from 'vue';
 
-const IxImgProps = Vue.extend({
-  props: {
-    src: {
-      type: String,
-      required: true,
-    },
-    fixed: Boolean,
-    imgixParams: Object,
-    width: [String, Number],
-    height: [String, Number],
-    attributeConfig: Object,
-    disableVariableQuality: Boolean,
+const IxImgProps = {
+  src: {
+    type: String,
+    required: true,
   },
-});
+  fixed: Boolean,
+  imgixParams: Object,
+  width: [String, Number],
+  height: [String, Number],
+  attributeConfig: Object,
+  disableVariableQuality: Boolean,
+  sizes: [String],
+  // TODO(luis): remove dataTestId props in favor of a better solution
+  dataTestId: {
+    type: String,
+    required: false,
+  }
+};
 
 const defaultAttributeMap = {
   src: 'src',
   srcset: 'srcset',
 };
 
-@Component
-export class IxImg extends IxImgProps {
-  // Using !: here because we ensure it is set in created()
-  private vueImgixSingleton!: IVueImgixClient;
+export const IxImg = defineComponent({
+  props: IxImgProps,
 
-  created() {
-    this.vueImgixSingleton = ensureVueImgixClientSingleton();
-  }
-
-  render(createElement: CreateElement) {
+  setup(props) {
+    const vueImgixSingleton = ensureVueImgixClientSingleton();
     const imgixParamsFromImgAttributes = {
-      ...(this.fixed && {
-        ...(this.width != null ? { w: this.width } : {}),
-        ...(this.height != null ? { h: this.height } : {}),
+      ...(props.fixed && {
+        ...(props.width != null ? { w: props.width } : {}),
+        ...(props.height != null ? { h: props.height } : {}),
       }),
     };
 
-    const { src, srcset } = this.vueImgixSingleton.buildUrlObject(
-      this.src,
+    const { src, srcset } = vueImgixSingleton.buildUrlObject(
+      props.src as string,
       {
         ...imgixParamsFromImgAttributes,
-        ...this.imgixParams,
+        ...props.imgixParams,
       },
       {
-        disableVariableQuality: Boolean(this.disableVariableQuality),
+        disableVariableQuality: Boolean(props.disableVariableQuality),
       },
     );
 
     const attributeConfig = {
       ...defaultAttributeMap,
-      ...this.attributeConfig,
+      ...props.attributeConfig,
     };
 
-    return createElement('img', {
-      attrs: {
-        [attributeConfig.src]: src,
-        [attributeConfig.srcset]: srcset,
-        width: this.width,
-        height: this.height,
-      },
-    });
-  }
-}
+    return () =>
+      h('img', {
+          [attributeConfig.src]: src,
+          [attributeConfig.srcset]: srcset,
+          width: props.width,
+          height: props.height,
+          sizes: props.sizes,
+          // TODO(luis): remove dataTestId props in favor of a better solution
+          ['data-testid']: props.dataTestId || undefined,
+      });
+  },
+});
