@@ -14,7 +14,7 @@ export default {
   name: 'advanced-build-srcset',
 
   computed: {
-    advancedUrl: () =>
+    advancedSrc: () =>
       buildUrl('examples/pione.jpg', {
         auto: 'format',
       }),
