@@ -21,7 +21,7 @@ describe('imgix component', () => {
       props: {
         src: 'examples/pione.jpg',
         // TODO(luis): remove this when we have a better way of testing
-        dataTestId: 'img-rendering',
+        ['data-testid']: 'img-rendering',
       },
     });
 
@@ -31,7 +31,7 @@ describe('imgix component', () => {
     render(IxImg, {
       props: {
         src: 'examples/pione.jpg',
-        dataTestId: 'img-rendering',
+        ['data-testid']: 'img-rendering',
       },
     });
 
@@ -44,7 +44,7 @@ describe('imgix component', () => {
     render(IxImg, {
       props: {
         src: 'examples/pione.jpg',
-        dataTestId: 'img-rendering',
+        ['data-testid']: 'img-rendering',
       },
     });
 
@@ -66,7 +66,7 @@ describe('imgix component', () => {
   it('imgixParams should be set on the rendered src and srcset', () => {
     render(IxImg, {
       props: {
-        dataTestId: 'img-rendering',
+        ['data-testid']: 'img-rendering',
         src: 'examples/pione.jpg',
         imgixParams: { crop: 'faces' },
       },
@@ -86,7 +86,7 @@ describe('imgix component', () => {
     it('ix-img should render a fluid image if width is passed as attribute', () => {
       render(IxImg, {
         props: {
-          dataTestId: 'img-rendering',
+          ['data-testid']: 'img-rendering',
           src: 'examples/pione.jpg',
           width: 100,
         },
@@ -101,7 +101,7 @@ describe('imgix component', () => {
     it('the src and srcset should be in fixed size mode when a width is passed to imgixParams', () => {
       render(IxImg, {
         props: {
-          dataTestId: 'img-rendering',
+          ['data-testid']: 'img-rendering',
           src: 'examples/pione.jpg',
           imgixParams: {
             w: 100,
@@ -115,7 +115,7 @@ describe('imgix component', () => {
     it('the src and srcset should be in fixed size mode when a fixed prop is passed to the element', () => {
       render(IxImg, {
         props: {
-          dataTestId: 'img-rendering',
+          ['data-testid']: 'img-rendering',
           src: 'examples/pione.jpg',
           width: 100,
           height: 150,
@@ -133,7 +133,7 @@ describe('imgix component', () => {
     it('a width attribute should be passed through to the underlying component', () => {
       render(IxImg, {
         props: {
-          dataTestId: 'img-rendering',
+          ['data-testid']: 'img-rendering',
           src: 'examples/pione.jpg',
           width: 100,
         },
@@ -147,7 +147,7 @@ describe('imgix component', () => {
     it('a height attribute should be passed through to the underlying component', () => {
       render(IxImg, {
         props: {
-          dataTestId: 'img-rendering',
+          ['data-testid']: 'img-rendering',
           src: 'examples/pione.jpg',
           height: 100,
         },
@@ -166,7 +166,7 @@ describe('imgix component', () => {
       it(`${attribute} can be configured to use data-${attribute}`, () => {
         render(IxImg, {
           props: {
-            dataTestId: 'img-rendering',
+            ['data-testid']: 'img-rendering',
             src: 'examples/pione.jpg',
             attributeConfig: {
               [attribute]: `data-${attribute}`,
