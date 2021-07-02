@@ -13,11 +13,6 @@ const IxImgProps = {
   attributeConfig: Object,
   disableVariableQuality: Boolean,
   sizes: [String],
-  // TODO(luis): remove dataTestId props in favor of a better solution
-  dataTestId: {
-    type: String,
-    required: false,
-  }
 };
 
 const defaultAttributeMap = {
@@ -28,7 +23,7 @@ const defaultAttributeMap = {
 export const IxImg = defineComponent({
   props: IxImgProps,
 
-  setup(props) {
+  setup(props, { attrs }) {
     const vueImgixSingleton = ensureVueImgixClientSingleton();
     const imgixParamsFromImgAttributes = {
       ...(props.fixed && {
@@ -60,8 +55,7 @@ export const IxImg = defineComponent({
           width: props.width,
           height: props.height,
           sizes: props.sizes,
-          // TODO(luis): remove dataTestId props in favor of a better solution
-          ['data-testid']: props.dataTestId || undefined,
+          ['data-testid']: attrs['data-testid'] || undefined,
       });
   },
 });
