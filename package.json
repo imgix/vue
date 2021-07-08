@@ -33,7 +33,8 @@
     "test:e2e": "vue-cli-service test:e2e",
     "lint": "vue-cli-service lint",
     "lint:ci": "vue-cli-service lint --no-fix --max-warnings 0",
-    "prepublishOnly": "run-s build"
+    "prepublishOnly": "run-s build",
+    "release:dryRun": "npx node-env-run --exec 'npx semantic-release --dryRun'"
   },
   "dependencies": {
     "@imgix/js-core": "^3.1.3"
