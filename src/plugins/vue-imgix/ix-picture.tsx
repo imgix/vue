@@ -1,4 +1,4 @@
-import { ensureVueImgixClientSingleton, IVueImgixClient } from './vue-imgix';
+import { ensureVueImgixClientSingleton } from './vue-imgix';
 import { defineComponent, h } from 'vue';
 
 const IxPictureProps = defineComponent({
@@ -8,7 +8,7 @@ const IxPictureProps = defineComponent({
 export const IxPicture = defineComponent({
   mixins: [IxPictureProps],
   render() {
-    const vueImgixSingleton: IVueImgixClient = ensureVueImgixClientSingleton();
+    ensureVueImgixClientSingleton();
 
     return h('picture', this.$slots.default);
   },
