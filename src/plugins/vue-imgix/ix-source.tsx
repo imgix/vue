@@ -1,7 +1,6 @@
 import { ensureVueImgixClientSingleton, IVueImgixClient } from './vue-imgix';
 import { defineComponent, h } from 'vue';
 
-
 const defaultAttributeMap = {
   src: 'src',
   srcset: 'srcset',
@@ -35,6 +34,6 @@ export const IxSource = defineComponent({
       [attributeConfig.srcset]: srcset,
     };
 
-    return () => h('source', childAttrs );
+    return () => h('source', childAttrs);
   },
 });

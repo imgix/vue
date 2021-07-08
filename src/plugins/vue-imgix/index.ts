@@ -1,4 +1,4 @@
-import { app } from '@/main'
+import { app } from '@/main';
 import { IxPicture } from './ix-picture';
 import { IxSource } from './ix-source';
 import { IVueUseImgixOptions } from './types';
