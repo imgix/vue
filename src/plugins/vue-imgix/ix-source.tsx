@@ -35,6 +35,6 @@ export const IxSource = defineComponent({
       [attributeConfig.srcset]: srcset,
     };
 
-    return () => h('source',  childAttrs );
+    return () => h('source', childAttrs );
   },
 });
