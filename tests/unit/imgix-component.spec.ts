@@ -191,6 +191,7 @@ describe('imgix component', () => {
     beforeEach(() => {
       /* eslint-disable @typescript-eslint/no-var-requires */
       jest.resetModules();
+      /* eslint-disable @typescript-eslint/no-unused-vars */
       const _Vue = require('vue');
       const _VueImgix = require('@/plugins/vue-imgix');
       _IxImg = _VueImgix.IxImg;
