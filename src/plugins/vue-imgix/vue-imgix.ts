@@ -80,7 +80,6 @@ class VueImgixClient implements IVueImgixClient {
     } else {
       return ImgixClient._buildURL(url, this.buildIxParams(ixParams));
     }
-
   };
 
   buildSrcSet = (
@@ -88,11 +87,7 @@ class VueImgixClient implements IVueImgixClient {
     ixParams?: IImgixParams,
     options?: IBuildSrcSetOptions,
   ): string => {
-    return this.client.buildSrcSet(
-      url,
-      this.buildIxParams(ixParams),
-      options,
-    );
+    return this.client.buildSrcSet(url, this.buildIxParams(ixParams), options);
   };
 
   _buildSrcSet = (
