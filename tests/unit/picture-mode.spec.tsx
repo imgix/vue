@@ -1,4 +1,4 @@
-import { createApp } from 'vue'
+import { createApp } from 'vue';
 import { render, screen } from '@testing-library/vue';
 import '@testing-library/jest-dom';
 
@@ -16,7 +16,6 @@ describe.skip('Picture Mode', () => {
   });
 
   describe('ix-picture', () => {
-
     it('should render a picture', () => {
       render(IxPicture, {
         props: {
@@ -39,9 +38,9 @@ describe.skip('Picture Mode', () => {
       `,
         }),
       );
-      expect(getByTestId('test-picture')
-        .querySelectorAll('source'))
-        .toHaveLength(1);
+      expect(
+        getByTestId('test-picture').querySelectorAll('source'),
+      ).toHaveLength(1);
     });
 
     it('the developer can pass an ix-img component as a fallback src', () => {

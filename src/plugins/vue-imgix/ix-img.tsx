@@ -50,12 +50,12 @@ export const IxImg = defineComponent({
 
     return () =>
       h('img', {
-          [attributeConfig.src]: src,
-          [attributeConfig.srcset]: srcset,
-          width: props.width,
-          height: props.height,
-          sizes: props.sizes,
-          ['data-testid']: attrs['data-testid'] || undefined,
+        [attributeConfig.src]: src,
+        [attributeConfig.srcset]: srcset,
+        width: props.width,
+        height: props.height,
+        sizes: props.sizes,
+        ['data-testid']: attrs['data-testid'] || undefined,
       });
   },
 });
