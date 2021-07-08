@@ -78,7 +78,7 @@ class VueImgixClient implements IVueImgixClient {
     if (!url.includes('://')) {
       return this.client.buildURL(url, this.buildIxParams(ixParams));
     } else {
-      return ImgixClient._buildURL({ url, params: this.buildIxParams(ixParams) });
+      return ImgixClient._buildURL(url, this.buildIxParams(ixParams));
     }
 
   };
@@ -109,11 +109,11 @@ class VueImgixClient implements IVueImgixClient {
         options,
       );
     } else {
-      return ImgixClient._buildSrcSet({
+      return ImgixClient._buildSrcSet(
         url,
-        params: this.buildIxParams(ixParams),
+        this.buildIxParams(ixParams),
         options,
-      });
+      );
     }
   };
 }
