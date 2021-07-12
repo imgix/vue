@@ -1704,10 +1704,10 @@
     lodash "^4.17.15"
     redent "^3.0.0"
 
-"@testing-library/vue@5.8.0":
-  version "5.8.0"
-  resolved "https://registry.yarnpkg.com/@testing-library/vue/-/vue-5.8.0.tgz#97e6caad71f67ed2903684bcbf630ad2a83b10dc"
-  integrity sha512-FS4x0INbmsCZKOlh85ROBPTk+SzdUSEkCqxEIxoLQi/dIlmP9PYiRVgHWs4JmvjotypeYiRS05A1d2Y20/YL8A==
+"@testing-library/vue@5.8.1":
+  version "5.8.1"
+  resolved "https://registry.yarnpkg.com/@testing-library/vue/-/vue-5.8.1.tgz#0292c030f99fcd40e0828f0ebed531ba35fb681f"
+  integrity sha512-QX9L6dlJXi/6gfmf+yQBB9lmjGo5iI5xSwpRPJ2ma36D5aXwliHGkJg+w3aPaHDvkbEzxZSmXMt0jvP06BJZVA==
   dependencies:
     "@babel/runtime" "^7.12.5"
     "@testing-library/dom" "^7.26.6"
