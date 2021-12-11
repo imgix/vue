@@ -50,7 +50,7 @@
     "@testing-library/cypress": "8.0.2",
     "@testing-library/jest-dom": "5.16.1",
     "@testing-library/vue": "5.8.2",
-    "@types/jest": "26.0.24",
+    "@types/jest": "27.0.3",
     "@typescript-eslint/eslint-plugin": "4.33.0",
     "@typescript-eslint/parser": "4.33.0",
     "@vue/cli-plugin-babel": "4.5.15",
