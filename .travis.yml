@@ -1,8 +1,10 @@
 language: node_js
 
-node_js:
-  - stable
-  - lts/*
+jobs:
+  include:
+  - node: lts/*
+  - node: stable
+    env: NODE_OPTIONS=--openssl-legacy-provider
 
 addons:
   apt:
