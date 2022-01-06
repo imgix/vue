@@ -55,94 +55,43 @@ describe('Picture Mode', () => {
       wrapper.unmount();
     });
 
-    it(`should allow developer to set sizes, media, and type attributes`, () => {
-      const wrapper = mount(IxPictureSimple, {
+    const subsetOfImportantSourceAttributes = {
+      sizes: '100vw',
+      media: '(min-width: 100em)',
+      type: 'image/webp',
+    };
+    Object.entries(subsetOfImportantSourceAttributes).forEach(
+      ([attribute, value]) => {
+        it(`should allow developer to set ${attribute} attribute`, () => {
+          const wrapper = mount(IxSource, {
+            shallow: false,
+            props: {
+              src: 'https://sdk-test.imgix.net/amsterdam.jpg',
+            },
+            attrs: {
+              [attribute]: value,
+            },
+          });
+          const ele = wrapper.find('source');
+          const eleAttr = ele.element.getAttribute(attribute);
+          expect(eleAttr).toBe(value);
+          wrapper.unmount();
+        });
+      },
+    );
+
+    it('should pass params from imgixParams', () => {
+      const wrapper = mount(IxSource, {
         shallow: false,
         props: {
-          foo: 'bar',
-          sizes: '100vw',
-          media: '(min-width: 100em)',
-          type: 'image/webp',
+          src: 'https://sdk-test.imgix.net/amsterdam.jpg',
+          'data-testid': 'test-source',
+          imgixParams: { w: 100 },
         },
       });
-
-      const sourceElement = wrapper.find('picture > source');
-      // log the component props
-      console.log('props', wrapper.props());
-      console.log('outerHtml', sourceElement.element.outerHTML);
-      
-      const eleSizes = sourceElement.element.getAttribute('sizes');
-      const eleMedia = sourceElement.element.getAttribute('media');
-      const eleType = sourceElement.element.getAttribute('sizes');
-      
-      console.log('attrs', eleSizes, eleMedia, eleType);
-
-      expect(eleSizes).toBeTruthy()
-      expect(eleType).toBeTruthy();
-      expect(eleMedia).toBeTruthy();
-      wrapper.unmount();
+      const eleSrcset = wrapper.find('source').element.getAttribute('srcset');
+      expect(eleSrcset).toBeTruthy();
+      expect(eleSrcset).toMatch(/w=100/);
     });
   });
 });
-
-// describe('Picture Mode', () => {
-//   beforeAll(() => {
-//     App.use(VueImgix, {
-//       domain: 'assets.imgix.net',
-//     });
-//   });
-
-//     it('should have a srcset attribute', () => {
-//     const subsetOfImportantSourceAttributes = {
-//       sizes: '100vw',
-//       media: '(min-width: 100em)',
-//       type: 'image/webp',
-//     };
-//     Object.entries(subsetOfImportantSourceAttributes).forEach(
-//       ([attribute, value]) => {
-//         it(`should allow developer to set ${attribute} attribute`, () => {
-//           render(
-//             App.component('test-component', {
-//               render() {
-//                 return (
-//                   <ix-source
-//                     data-testid="test-source"
-//                     src="image.png"
-//                     // Don't understand why this works? Me neither. Just joking - take a read of this to see why attrs={} is necessary https://github.com/vuejs/babel-plugin-transform-vue-jsx/issues/143
-//                     attrs={{ [attribute]: value }}
-//                   />
-//                 );
-//               },
-//             }),
-//           );
-
-//           expect(screen.getByTestId('test-source')).toHaveAttribute(
-//             attribute,
-//             value,
-//           );
-//         });
-//       },
-//     );
-
-//     it('should pass params from imgixParams', () => {
-//       render(
-//         App.component('test-component', {
-//           render() {
-//             return (
-//               <ix-source
-//                 data-testid="test-source"
-//                 src="image.png"
-//                 imgixParams={{ w: 100 }}
-//               />
-//             );
-//           },
-//         }),
-//       );
-
-//       expect(screen.getByTestId('test-source')).toHaveAttribute(
-//         'srcset',
-//         expect.stringMatching('w=100'),
-//       );
-//     });
-//   });
-// });
