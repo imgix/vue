@@ -11,7 +11,7 @@
 </template>
 
 <script>
-  export default {
-    name: 'ix-picture-simple',
-  };
+export default {
+  name: 'ix-picture-simple',
+};
 </script>

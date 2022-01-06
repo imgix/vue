@@ -6,16 +6,18 @@ import { createApp } from 'vue';
 import _App from '../../src/App.vue';
 import {
   expectElementToHaveFixedSrcAndSrcSet,
-  expectElementToHaveFluidSrcAndSrcSet
+  expectElementToHaveFluidSrcAndSrcSet,
 } from '../helpers/url-assert';
 
 beforeAll(() => {
   const el = document.createElement('div');
   el.id = 'app';
   document.body.appendChild(el);
-  createApp(_App).use(VueImgix, {
-    domain: 'assets.imgix.net',
-  }).mount('#app');
+  createApp(_App)
+    .use(VueImgix, {
+      domain: 'assets.imgix.net',
+    })
+    .mount('#app');
 });
 
 describe('imgix component', () => {

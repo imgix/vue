@@ -3,7 +3,7 @@ import VueImgix from '@/plugins/vue-imgix/index';
 import { IxPicture } from '@/plugins/vue-imgix/ix-picture';
 import { config, mount } from '@vue/test-utils';
 
-config.global.plugins = [[VueImgix, { domain: 'assets.imgix.net' }]]
+config.global.plugins = [[VueImgix, { domain: 'assets.imgix.net' }]];
 
 describe('Picture Mode', () => {
   describe('ix-picture', () => {

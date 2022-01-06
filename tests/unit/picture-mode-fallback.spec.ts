@@ -2,9 +2,9 @@
  * This test had to split out of the main test suite because there is a bug in
  * the test runner that causes the test to fail if it is run after the main
  * test suite.
- * 
+ *
  * See https://github.com/vuejs/vue-jest/issues/389#issuecomment-960248054.
- * 
+ *
  * For similar issues you can also see:
  * https://github.com/vuejs/vue-test-utils-next/issues/1043,
  * https://github.com/vuejs/vue-test-utils-next/pull/1202, or
