@@ -1,19 +1,18 @@
 import IxPictureSimple from '@/components/simple/ix-picture.vue';
 import VueImgix from '@/plugins/vue-imgix/index';
+import { IxImg } from '@/plugins/vue-imgix/ix-img';
 import { IxPicture } from '@/plugins/vue-imgix/ix-picture';
+import { IxSource } from '@/plugins/vue-imgix/ix-source';
 import { config, mount } from '@vue/test-utils';
-
 config.global.plugins = [[VueImgix, { domain: 'assets.imgix.net' }]];
+config.global.components = {
+  IxImg,
+  IxPicture,
+  IxSource,
+};
 
 describe('Picture Mode', () => {
   describe('ix-picture', () => {
-    it('should render a source as a child', () => {
-      const wrapper = mount(IxPictureSimple, {
-        shallow: false,
-      });
-      expect(wrapper.find('source').exists()).toBe(true);
-    });
-
     it('should render a picture', () => {
       const wrapper = mount(IxPicture, {
         shallow: false,
@@ -21,6 +20,67 @@ describe('Picture Mode', () => {
 
       const picture = wrapper.find('picture');
       expect(picture.element.tagName).toBe('PICTURE');
+    });
+
+    it('should allow developer to pass an ix-img component as a fallback src', () => {
+      const wrapper = mount(IxPictureSimple, {
+        shallow: false,
+      });
+      const fallbackImgEl = wrapper.get('img');
+      const fallBackSrc = fallbackImgEl.element.getAttribute('src');
+      const fallBackSrcSet = fallbackImgEl.element.getAttribute('srcset');
+      expect(fallBackSrc).toBeDefined();
+      expect(fallBackSrc).toMatch(/ixlib=vue/);
+      expect(fallBackSrcSet).toBeDefined();
+      expect(fallBackSrcSet).toMatch(/ixlib/);
+    });
+
+    it('should render a <source> component as a child', () => {
+      const wrapper = mount(IxPictureSimple, {
+        shallow: false,
+      });
+      const sourceElement = wrapper.find('picture > source');
+      expect(sourceElement.exists()).toBe(true);
+      expect(sourceElement.element.tagName).toBe('SOURCE');
+    });
+
+    it('should have a srcset attribute', () => {
+      const wrapper = mount(IxPictureSimple, {
+        shallow: false,
+      });
+      const sourceElement = wrapper.find('picture > source');
+      const elementSrcset = sourceElement.element.getAttribute('srcset');
+      expect(sourceElement.exists()).toBe(true);
+      expect(elementSrcset).toMatch('100w');
+      wrapper.unmount();
+    });
+
+    it(`should allow developer to set sizes, media, and type attributes`, () => {
+      const wrapper = mount(IxPictureSimple, {
+        shallow: false,
+        props: {
+          foo: 'bar',
+          sizes: '100vw',
+          media: '(min-width: 100em)',
+          type: 'image/webp',
+        },
+      });
+
+      const sourceElement = wrapper.find('picture > source');
+      // log the component props
+      console.log('props', wrapper.props());
+      console.log('outerHtml', sourceElement.element.outerHTML);
+      
+      const eleSizes = sourceElement.element.getAttribute('sizes');
+      const eleMedia = sourceElement.element.getAttribute('media');
+      const eleType = sourceElement.element.getAttribute('sizes');
+      
+      console.log('attrs', eleSizes, eleMedia, eleType);
+
+      expect(eleSizes).toBeTruthy()
+      expect(eleType).toBeTruthy();
+      expect(eleMedia).toBeTruthy();
+      wrapper.unmount();
     });
   });
 });
@@ -32,101 +92,7 @@ describe('Picture Mode', () => {
 //     });
 //   });
 
-//   describe('ix-picture', () => {
-//     it('should render a picture', () => {
-//       render(IxPicture, {
-//         props: {
-//           src: 'examples/pione.jpg',
-//           ['data-testid']: 'test-picture',
-//         },
-//         global: {
-//           plugins: [[VueImgix, { domain: 'assets.imgix.net' }]],
-//         },
-//       });
-//       screen.debug();
-//       expect(screen.getByTestId('test-picture').tagName).toBe('PICTURE');
-//     });
-
-//     it('should render a source as a child', () => {
-//       const { getByTestId } = render(
-//         App.component('test', {
-//           render() {
-//             return (
-//               <ix-picture data-testid="test-picture">
-//                 <ix-source src="image.jpg" />
-//                 <ix-img src="image.jpg" />
-//               </ix-picture>
-//             )
-//           }
-//         }),
-//         {
-//           global: {
-//             plugins: [[VueImgix, { domain: 'assets.imgix.net' }]],
-//           }
-//         },
-//       );
-//       screen.debug();
-//       expect(
-//         getByTestId('test-picture').querySelectorAll('source'),
-//       ).toHaveLength(1);
-//     });
-
-//     it('the developer can pass an ix-img component as a fallback src', () => {
-//       render(
-//         App.component('test-component', {
-//           render() {
-//             return (
-//               <ix-picture data-testid="test-picture">
-//                 <ix-source src="image.jpg" />
-//                 <ix-img src="image.jpg" />
-//               </ix-picture>
-//             );
-//           },
-//         }),
-//       );
-
-//       const fallbackImgEl = screen
-//         .getByTestId('test-picture')
-//         .querySelectorAll('img')[0];
-//       expect(fallbackImgEl).toHaveAttribute(
-//         'src',
-//         expect.stringMatching(/ixlib=vue/),
-//       );
-//       expect(fallbackImgEl).toHaveAttribute(
-//         'srcset',
-//         expect.stringMatching(/ixlib/),
-//       );
-//     });
-//   });
-
-//   describe('ix-source', () => {
-//     it('should render a <source> component', () => {
-//       render(
-//         App.component('test-component', {
-//           render() {
-//             return <ix-source src="image.jpg" data-testid="test-source" />;
-//           },
-//         }),
-//       );
-
-//       expect(screen.getByTestId('test-source').tagName).toBe('SOURCE');
-//     });
-
 //     it('should have a srcset attribute', () => {
-//       render(
-//         App.component('test-component', {
-//           render() {
-//             return <ix-source data-testid="test-source" src="image.png" />;
-//           },
-//         }),
-//       );
-
-//       expect(screen.getByTestId('test-source')).toHaveAttribute(
-//         'srcset',
-//         expect.stringMatching('100w'),
-//       );
-//     });
-
 //     const subsetOfImportantSourceAttributes = {
 //       sizes: '100vw',
 //       media: '(min-width: 100em)',
