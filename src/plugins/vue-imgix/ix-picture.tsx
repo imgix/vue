@@ -7,9 +7,11 @@ const IxPictureProps = defineComponent({
 
 export const IxPicture = defineComponent({
   mixins: [IxPictureProps],
-  render() {
+  setup(_, { slots }) {
     ensureVueImgixClientSingleton();
-    const slots = this.$slots.default ? this.$slots.default : [];
-    return h('picture', slots);
+    const defaultSlots = slots && slots.default && slots.default();
+    return () => {
+      return h('picture', defaultSlots);
+    };
   },
 });
