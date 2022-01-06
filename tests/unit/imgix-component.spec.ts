@@ -1,21 +1,24 @@
-import { createApp } from 'vue';
-import VueImgix, { IxImg } from '@/plugins/vue-imgix';
+import { IxImg } from '@/plugins/vue-imgix';
+import VueImgix from '@/plugins/vue-imgix/index';
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/vue';
+import { createApp } from 'vue';
 import _App from '../../src/App.vue';
 import {
   expectElementToHaveFixedSrcAndSrcSet,
-  expectElementToHaveFluidSrcAndSrcSet,
+  expectElementToHaveFluidSrcAndSrcSet
 } from '../helpers/url-assert';
 
-const App = createApp(_App);
+beforeAll(() => {
+  const el = document.createElement('div');
+  el.id = 'app';
+  document.body.appendChild(el);
+  createApp(_App).use(VueImgix, {
+    domain: 'assets.imgix.net',
+  }).mount('#app');
+});
 
 describe('imgix component', () => {
-  beforeAll(() => {
-    App.use(VueImgix, {
-      domain: 'assets.imgix.net',
-    });
-  });
   it('an img should be rendered', () => {
     render(IxImg, {
       props: {
@@ -185,6 +188,7 @@ describe('imgix component', () => {
     });
   });
   describe('disableVariableQuality', () => {
+    const App = createApp(_App);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let mockImgixClient: any;
     let _IxImg: typeof IxImg;
