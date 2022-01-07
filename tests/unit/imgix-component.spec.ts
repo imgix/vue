@@ -10,6 +10,17 @@ import {
   expectElementToHaveFixedSrcAndSrcSet,
   expectElementToHaveFluidSrcAndSrcSet
 } from '../helpers/url-assert';
+/**
+ * Why register the plugin and each individual component globally?
+ *
+ * It's a limitation with  @vue/test-utils at the moment. The
+ * `config.global.plugins` option is supposed to register plugins globally,
+ * but it doesn't seem to work when tests are run in parallel.
+ * 
+ * The only reliable way to register plugins components globally is to register
+ * them individually as `config.global.components` as well as
+ * `config.global.plugins`.
+ */
 config.global.plugins = [[VueImgix, { domain: 'assets.imgix.net' }]];
 config.global.components = {
   IxImg,
