@@ -8,7 +8,7 @@ import { createApp } from 'vue';
 import _App from '../../src/App.vue';
 import {
   expectElementToHaveFixedSrcAndSrcSet,
-  expectElementToHaveFluidSrcAndSrcSet,
+  expectElementToHaveFluidSrcAndSrcSet
 } from '../helpers/url-assert';
 /**
  * Why register the plugin and each individual component globally?
@@ -49,10 +49,7 @@ describe('imgix component', () => {
       },
     });
 
-    const el = wrapper.get('img[data-testid="img-rendering"]').html();
-    // create HTMLElement from el
-    const img = new DOMParser().parseFromString(el, 'text/html').body
-      .firstChild as HTMLImageElement;
+    const img = wrapper.get('img[data-testid="img-rendering"]').element as HTMLImageElement;
     const srcAttr = img.getAttribute('src');
 
     expect(srcAttr).toBeTruthy();
@@ -94,11 +91,7 @@ describe('imgix component', () => {
       },
     });
 
-    const el = wrapper.find('img[data-testid="img-rendering"]').html();
-    // create HTMLElement from el
-    const img = new DOMParser().parseFromString(el, 'text/html').body
-      .firstChild as HTMLImageElement;
-
+    const img = wrapper.find('img[data-testid="img-rendering"]').element as HTMLElement;
     const srcAttr = img.getAttribute('src');
     const srcsetAttr = img.getAttribute('srcset');
 
@@ -117,10 +110,7 @@ describe('imgix component', () => {
         },
       });
 
-      const el = wrapper.get('img[data-testid="img-rendering"]').html();
-      // create HTMLElement from el
-      const img = new DOMParser().parseFromString(el, 'text/html').body
-        .firstChild as HTMLImageElement;
+      const img = wrapper.get('img[data-testid="img-rendering"]').element as HTMLElement;
       expectElementToHaveFluidSrcAndSrcSet(img);
     });
   });
@@ -137,10 +127,7 @@ describe('imgix component', () => {
         },
       });
 
-      const el = wrapper.get('img[data-testid="img-rendering"]').html();
-      // create HTMLElement from el
-      const img = new DOMParser().parseFromString(el, 'text/html').body
-        .firstChild as HTMLImageElement;
+      const img = wrapper.get('img[data-testid="img-rendering"]').element as HTMLElement;
       expectElementToHaveFixedSrcAndSrcSet(img, 100);
     });
     it('the src and srcset should be in fixed size mode when a fixed prop is passed to the element', () => {
@@ -154,10 +141,7 @@ describe('imgix component', () => {
         },
       });
 
-      const el = wrapper.get('img[data-testid="img-rendering"]').html();
-      const img = new DOMParser().parseFromString(el, 'text/html').body
-        .firstChild as HTMLImageElement;
-
+      const img = wrapper.get('img[data-testid="img-rendering"]').element as HTMLElement;
       const srcAttr = img.getAttribute('src');
       const srcsetAttr = img.getAttribute('srcset');
 
@@ -177,10 +161,7 @@ describe('imgix component', () => {
         },
       });
 
-      const el = wrapper.get('img[data-testid="img-rendering"]').html();
-      const img = new DOMParser().parseFromString(el, 'text/html').body
-        .firstChild as HTMLImageElement;
-
+      const img = wrapper.get('img[data-testid="img-rendering"]').element as HTMLElement;
       const widthAttr = img.getAttribute('width');
 
       expect(widthAttr).toBeTruthy();
@@ -195,9 +176,7 @@ describe('imgix component', () => {
         },
       });
 
-      const el = wrapper.get('img[data-testid="img-rendering"]').html();
-      const img = new DOMParser().parseFromString(el, 'text/html').body
-        .firstChild as HTMLImageElement;
+      const img = wrapper.get('img[data-testid="img-rendering"]').element as HTMLElement;
 
       const heightAttr = img.getAttribute('height');
 
@@ -220,10 +199,7 @@ describe('imgix component', () => {
           },
         });
 
-        const el = wrapper.get('img[data-testid="img-rendering"]').html();
-        const img = new DOMParser().parseFromString(el, 'text/html').body
-          .firstChild as HTMLImageElement;
-
+        const img = wrapper.get('img[data-testid="img-rendering"]').element as HTMLElement;
         const customImgAttr = img.getAttribute(`data-${attribute}`);
         const imgAttr = img.getAttribute(attribute);
 
