@@ -231,6 +231,7 @@ describe('imgix component', () => {
       });
     });
   });
+  // TODO: remove instances of createApp and `render` from test.
   describe('disableVariableQuality', () => {
     const App = createApp(_App);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
