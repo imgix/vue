@@ -22,6 +22,15 @@ describe('Picture Mode', () => {
       expect(picture.element.tagName).toBe('PICTURE');
     });
 
+    it('should render a <source> component as a child', () => {
+      const wrapper = mount(IxPictureSimple, {
+        shallow: false,
+      });
+      const sourceElement = wrapper.find('picture > source');
+      expect(sourceElement.exists()).toBe(true);
+      expect(sourceElement.element.tagName).toBe('SOURCE');
+    });
+
     it('should allow developer to pass an ix-img component as a fallback src', () => {
       const wrapper = mount(IxPictureSimple, {
         shallow: false,
@@ -33,15 +42,6 @@ describe('Picture Mode', () => {
       expect(fallBackSrc).toMatch(/ixlib=vue/);
       expect(fallBackSrcSet).toBeDefined();
       expect(fallBackSrcSet).toMatch(/ixlib/);
-    });
-
-    it('should render a <source> component as a child', () => {
-      const wrapper = mount(IxPictureSimple, {
-        shallow: false,
-      });
-      const sourceElement = wrapper.find('picture > source');
-      expect(sourceElement.exists()).toBe(true);
-      expect(sourceElement.element.tagName).toBe('SOURCE');
     });
 
     it('should have a srcset attribute', () => {
