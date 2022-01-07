@@ -33,11 +33,10 @@ describe('imgix component', () => {
     const wrapper = mount(IxImg, {
       props: {
         src: 'examples/pione.jpg',
-        ['data-testid']: 'img-rendering',
       },
     });
 
-    const el = wrapper.find('img[data-testid="img-rendering"]').html();
+    const el = wrapper.find('img').html();
 
     expect(el).toBeTruthy();
   });
@@ -45,11 +44,10 @@ describe('imgix component', () => {
     const wrapper = mount(IxImg, {
       props: {
         src: 'examples/pione.jpg',
-        ['data-testid']: 'img-rendering',
       },
     });
 
-    const img = wrapper.get('img[data-testid="img-rendering"]').element as HTMLImageElement;
+    const img = wrapper.get('img').element as HTMLImageElement;
     const srcAttr = img.getAttribute('src');
 
     expect(srcAttr).toBeTruthy();
@@ -59,12 +57,11 @@ describe('imgix component', () => {
     const wrapper = mount(IxImg, {
       props: {
         src: 'examples/pione.jpg',
-        ['data-testid']: 'img-rendering',
       },
     });
 
     const srcset = wrapper
-      .find('img[data-testid="img-rendering"]')
+      .find('img')
       .element.getAttribute('srcset');
 
     expect(srcset).not.toBeFalsy();
@@ -84,14 +81,13 @@ describe('imgix component', () => {
     const wrapper = mount(IxImg, {
       props: {
         src: 'examples/pione.jpg',
-        ['data-testid']: 'img-rendering',
         imgixParams: {
           crop: 'faces',
         },
       },
     });
 
-    const img = wrapper.find('img[data-testid="img-rendering"]').element as HTMLElement;
+    const img = wrapper.find('img').element as HTMLElement;
     const srcAttr = img.getAttribute('src');
     const srcsetAttr = img.getAttribute('srcset');
 
@@ -106,11 +102,10 @@ describe('imgix component', () => {
       const wrapper = mount(IxImg, {
         props: {
           src: 'examples/pione.jpg',
-          ['data-testid']: 'img-rendering',
         },
       });
 
-      const img = wrapper.get('img[data-testid="img-rendering"]').element as HTMLElement;
+      const img = wrapper.get('img').element as HTMLElement;
       expectElementToHaveFluidSrcAndSrcSet(img);
     });
   });
@@ -119,7 +114,6 @@ describe('imgix component', () => {
     it('the src and srcset should be in fixed size mode when a width is passed to imgixParams', () => {
       const wrapper = mount(IxImg, {
         props: {
-          ['data-testid']: 'img-rendering',
           src: 'examples/pione.jpg',
           imgixParams: {
             w: 100,
@@ -127,13 +121,12 @@ describe('imgix component', () => {
         },
       });
 
-      const img = wrapper.get('img[data-testid="img-rendering"]').element as HTMLElement;
+      const img = wrapper.get('img').element as HTMLElement;
       expectElementToHaveFixedSrcAndSrcSet(img, 100);
     });
     it('the src and srcset should be in fixed size mode when a fixed prop is passed to the element', () => {
       const wrapper = mount(IxImg, {
         props: {
-          ['data-testid']: 'img-rendering',
           src: 'examples/pione.jpg',
           width: 100,
           height: 150,
@@ -141,7 +134,7 @@ describe('imgix component', () => {
         },
       });
 
-      const img = wrapper.get('img[data-testid="img-rendering"]').element as HTMLElement;
+      const img = wrapper.get('img').element as HTMLElement;
       const srcAttr = img.getAttribute('src');
       const srcsetAttr = img.getAttribute('srcset');
 
@@ -155,13 +148,12 @@ describe('imgix component', () => {
     it('a width attribute should be passed through to the underlying component', () => {
       const wrapper = mount(IxImg, {
         props: {
-          ['data-testid']: 'img-rendering',
           src: 'examples/pione.jpg',
           width: 100,
         },
       });
 
-      const img = wrapper.get('img[data-testid="img-rendering"]').element as HTMLElement;
+      const img = wrapper.get('img').element as HTMLElement;
       const widthAttr = img.getAttribute('width');
 
       expect(widthAttr).toBeTruthy();
@@ -170,13 +162,12 @@ describe('imgix component', () => {
     it('a height attribute should be passed through to the underlying component', () => {
       const wrapper = mount(IxImg, {
         props: {
-          ['data-testid']: 'img-rendering',
           src: 'examples/pione.jpg',
           height: 100,
         },
       });
 
-      const img = wrapper.get('img[data-testid="img-rendering"]').element as HTMLElement;
+      const img = wrapper.get('img').element as HTMLElement;
 
       const heightAttr = img.getAttribute('height');
 
@@ -191,7 +182,6 @@ describe('imgix component', () => {
       it(`${attribute} can be configured to use data-${attribute}`, () => {
         const wrapper = mount(IxImg, {
           props: {
-            ['data-testid']: 'img-rendering',
             src: 'examples/pione.jpg',
             attributeConfig: {
               [attribute]: `data-${attribute}`,
@@ -199,7 +189,7 @@ describe('imgix component', () => {
           },
         });
 
-        const img = wrapper.get('img[data-testid="img-rendering"]').element as HTMLElement;
+        const img = wrapper.get('img').element as HTMLElement;
         const customImgAttr = img.getAttribute(`data-${attribute}`);
         const imgAttr = img.getAttribute(attribute);
 
