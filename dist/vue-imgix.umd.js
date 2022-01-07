@@ -1021,7 +1021,7 @@
 
 	function objectWithoutProperties (obj, exclude) { var target = {}; for (var k in obj) if (Object.prototype.hasOwnProperty.call(obj, k) && exclude.indexOf(k) === -1) target[k] = obj[k]; return target; }
 	// Do not change this
-	var VERSION = '2.8.4';
+	var VERSION = '2.9.0-rc.1';
 	var clientOptionDefaults = {
 	    includeLibraryParam: true,
 	};
@@ -1107,9 +1107,14 @@
 	});
 	var IxPicture = vue.defineComponent({
 	    mixins: [IxPictureProps],
-	    render: function render() {
+	    setup: function setup(_, ref) {
+	        var slots = ref.slots;
+
 	        ensureVueImgixClientSingleton();
-	        return vue.h('picture', this.$slots.default);
+	        var defaultSlots = slots && slots.default && slots.default();
+	        return function () {
+	            return vue.h('picture', defaultSlots);
+	        };
 	    },
 	});
 
