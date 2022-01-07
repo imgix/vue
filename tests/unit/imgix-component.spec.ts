@@ -8,7 +8,7 @@ import { createApp } from 'vue';
 import _App from '../../src/App.vue';
 import {
   expectElementToHaveFixedSrcAndSrcSet,
-  expectElementToHaveFluidSrcAndSrcSet
+  expectElementToHaveFluidSrcAndSrcSet,
 } from '../helpers/url-assert';
 /**
  * Why register the plugin and each individual component globally?
@@ -16,7 +16,7 @@ import {
  * It's a limitation with  @vue/test-utils at the moment. The
  * `config.global.plugins` option is supposed to register plugins globally,
  * but it doesn't seem to work when tests are run in parallel.
- * 
+ *
  * The only reliable way to register plugins components globally is to register
  * them individually as `config.global.components` as well as
  * `config.global.plugins`.
@@ -57,7 +57,6 @@ describe('imgix component', () => {
 
     expect(srcAttr).toBeTruthy();
     expect(srcAttr).toMatch(/examples\/pione.jpg/);
-
   });
   it(`the rendered img's srcset should be set correctly`, () => {
     const wrapper = mount(IxImg, {
@@ -67,7 +66,9 @@ describe('imgix component', () => {
       },
     });
 
-    const srcset = wrapper.find('img[data-testid="img-rendering"]').element.getAttribute('srcset');
+    const srcset = wrapper
+      .find('img[data-testid="img-rendering"]')
+      .element.getAttribute('srcset');
 
     expect(srcset).not.toBeFalsy();
     if (!srcset) {
@@ -89,7 +90,7 @@ describe('imgix component', () => {
         ['data-testid']: 'img-rendering',
         imgixParams: {
           crop: 'faces',
-        }
+        },
       },
     });
 
@@ -118,7 +119,8 @@ describe('imgix component', () => {
 
       const el = wrapper.get('img[data-testid="img-rendering"]').html();
       // create HTMLElement from el
-      const img = new DOMParser().parseFromString(el, 'text/html').body.firstChild as HTMLImageElement;
+      const img = new DOMParser().parseFromString(el, 'text/html').body
+        .firstChild as HTMLImageElement;
       expectElementToHaveFluidSrcAndSrcSet(img);
     });
   });
@@ -158,7 +160,7 @@ describe('imgix component', () => {
 
       const srcAttr = img.getAttribute('src');
       const srcsetAttr = img.getAttribute('srcset');
-      
+
       expectElementToHaveFixedSrcAndSrcSet(img, 100);
       expect(srcAttr).toBeTruthy();
       expect(srcsetAttr).toBeTruthy();
@@ -178,7 +180,7 @@ describe('imgix component', () => {
       const el = wrapper.get('img[data-testid="img-rendering"]').html();
       const img = new DOMParser().parseFromString(el, 'text/html').body
         .firstChild as HTMLImageElement;
-      
+
       const widthAttr = img.getAttribute('width');
 
       expect(widthAttr).toBeTruthy();
@@ -196,7 +198,7 @@ describe('imgix component', () => {
       const el = wrapper.get('img[data-testid="img-rendering"]').html();
       const img = new DOMParser().parseFromString(el, 'text/html').body
         .firstChild as HTMLImageElement;
-      
+
       const heightAttr = img.getAttribute('height');
 
       expect(heightAttr).toBeTruthy();
@@ -208,20 +210,20 @@ describe('imgix component', () => {
     const ATTRIBUTES = ['src', 'srcset'];
     ATTRIBUTES.forEach((attribute) => {
       it(`${attribute} can be configured to use data-${attribute}`, () => {
-      const wrapper = mount(IxImg, {
-        props: {
-          ['data-testid']: 'img-rendering',
-          src: 'examples/pione.jpg',
-          attributeConfig: {
-            [attribute]: `data-${attribute}`,
+        const wrapper = mount(IxImg, {
+          props: {
+            ['data-testid']: 'img-rendering',
+            src: 'examples/pione.jpg',
+            attributeConfig: {
+              [attribute]: `data-${attribute}`,
+            },
           },
-        },
-      });
-        
+        });
+
         const el = wrapper.get('img[data-testid="img-rendering"]').html();
         const img = new DOMParser().parseFromString(el, 'text/html').body
           .firstChild as HTMLImageElement;
-        
+
         const customImgAttr = img.getAttribute(`data-${attribute}`);
         const imgAttr = img.getAttribute(attribute);
 
