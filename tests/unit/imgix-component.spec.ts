@@ -1,59 +1,62 @@
-import { IxImg } from '@/plugins/vue-imgix';
 import VueImgix from '@/plugins/vue-imgix/index';
-import '@testing-library/jest-dom';
-import { render, screen } from '@testing-library/vue';
+import { IxImg } from '@/plugins/vue-imgix/ix-img';
+import { IxPicture } from '@/plugins/vue-imgix/ix-picture';
+import { IxSource } from '@/plugins/vue-imgix/ix-source';
+import { render } from '@testing-library/vue';
+import { config, mount } from '@vue/test-utils';
 import { createApp } from 'vue';
 import _App from '../../src/App.vue';
 import {
   expectElementToHaveFixedSrcAndSrcSet,
-  expectElementToHaveFluidSrcAndSrcSet,
+  expectElementToHaveFluidSrcAndSrcSet
 } from '../helpers/url-assert';
-
-beforeAll(() => {
-  const el = document.createElement('div');
-  el.id = 'app';
-  document.body.appendChild(el);
-  createApp(_App)
-    .use(VueImgix, {
-      domain: 'assets.imgix.net',
-    })
-    .mount('#app');
-});
+config.global.plugins = [[VueImgix, { domain: 'assets.imgix.net' }]];
+config.global.components = {
+  IxImg,
+  IxPicture,
+  IxSource,
+};
 
 describe('imgix component', () => {
   it('an img should be rendered', () => {
-    render(IxImg, {
+    const wrapper = mount(IxImg, {
       props: {
         src: 'examples/pione.jpg',
-        // TODO(luis): remove this when we have a better way of testing
         ['data-testid']: 'img-rendering',
       },
     });
 
-    expect(screen.getByTestId('img-rendering'));
+    const el = wrapper.find('img[data-testid="img-rendering"]').html();
+
+    expect(el).toBeTruthy();
   });
   it(`the rendered img's src should be set`, () => {
-    render(IxImg, {
+    const wrapper = mount(IxImg, {
       props: {
         src: 'examples/pione.jpg',
         ['data-testid']: 'img-rendering',
       },
     });
 
-    expect(screen.getByTestId('img-rendering')).toHaveAttribute(
-      'src',
-      expect.stringMatching('examples/pione.jpg'),
-    );
+    const el = wrapper.get('img[data-testid="img-rendering"]').html();
+    // create HTMLElement from el
+    const img = new DOMParser().parseFromString(el, 'text/html').body
+      .firstChild as HTMLImageElement;
+    const srcAttr = img.getAttribute('src');
+
+    expect(srcAttr).toBeTruthy();
+    expect(srcAttr).toMatch(/examples\/pione.jpg/);
+
   });
   it(`the rendered img's srcset should be set correctly`, () => {
-    render(IxImg, {
+    const wrapper = mount(IxImg, {
       props: {
         src: 'examples/pione.jpg',
         ['data-testid']: 'img-rendering',
       },
     });
 
-    const srcset = screen.getByTestId('img-rendering').getAttribute('srcset');
+    const srcset = wrapper.find('img[data-testid="img-rendering"]').element.getAttribute('srcset');
 
     expect(srcset).not.toBeFalsy();
     if (!srcset) {
@@ -69,42 +72,49 @@ describe('imgix component', () => {
   });
 
   it('imgixParams should be set on the rendered src and srcset', () => {
-    render(IxImg, {
+    const wrapper = mount(IxImg, {
       props: {
-        ['data-testid']: 'img-rendering',
         src: 'examples/pione.jpg',
-        imgixParams: { crop: 'faces' },
+        ['data-testid']: 'img-rendering',
+        imgixParams: {
+          crop: 'faces',
+        }
       },
     });
 
-    expect(screen.getByTestId('img-rendering')).toHaveAttribute(
-      'src',
-      expect.stringMatching('crop=faces'),
-    );
-    expect(screen.getByTestId('img-rendering')).toHaveAttribute(
-      'srcset',
-      expect.stringMatching('crop=faces'),
-    );
+    const el = wrapper.find('img[data-testid="img-rendering"]').html();
+    // create HTMLElement from el
+    const img = new DOMParser().parseFromString(el, 'text/html').body
+      .firstChild as HTMLImageElement;
+
+    const srcAttr = img.getAttribute('src');
+    const srcsetAttr = img.getAttribute('srcset');
+
+    expect(srcAttr).toBeTruthy();
+    expect(srcsetAttr).toBeTruthy();
+    expect(srcAttr).toMatch(/crop=faces/);
+    expect(srcsetAttr).toMatch(/crop=faces/);
   });
 
   describe('in fluid mode (no fixed props set)', () => {
     it('ix-img should render a fluid image if width is passed as attribute', () => {
-      render(IxImg, {
+      const wrapper = mount(IxImg, {
         props: {
-          ['data-testid']: 'img-rendering',
           src: 'examples/pione.jpg',
-          width: 100,
+          ['data-testid']: 'img-rendering',
         },
       });
 
-      const el = screen.getByTestId('img-rendering');
-      expectElementToHaveFluidSrcAndSrcSet(el);
+      const el = wrapper.get('img[data-testid="img-rendering"]').html();
+      // create HTMLElement from el
+      const img = new DOMParser().parseFromString(el, 'text/html').body.firstChild as HTMLImageElement;
+      expectElementToHaveFluidSrcAndSrcSet(img);
     });
   });
 
   describe('in fixed mode (fixed prop set, or width/height passed to imgixParams)', () => {
     it('the src and srcset should be in fixed size mode when a width is passed to imgixParams', () => {
-      render(IxImg, {
+      const wrapper = mount(IxImg, {
         props: {
           ['data-testid']: 'img-rendering',
           src: 'examples/pione.jpg',
@@ -114,11 +124,14 @@ describe('imgix component', () => {
         },
       });
 
-      const el = screen.getByTestId('img-rendering');
-      expectElementToHaveFixedSrcAndSrcSet(el, 100);
+      const el = wrapper.get('img[data-testid="img-rendering"]').html();
+      // create HTMLElement from el
+      const img = new DOMParser().parseFromString(el, 'text/html').body
+        .firstChild as HTMLImageElement;
+      expectElementToHaveFixedSrcAndSrcSet(img, 100);
     });
     it('the src and srcset should be in fixed size mode when a fixed prop is passed to the element', () => {
-      render(IxImg, {
+      const wrapper = mount(IxImg, {
         props: {
           ['data-testid']: 'img-rendering',
           src: 'examples/pione.jpg',
@@ -128,15 +141,22 @@ describe('imgix component', () => {
         },
       });
 
-      const el = screen.getByTestId('img-rendering');
-      expectElementToHaveFixedSrcAndSrcSet(el, 100);
+      const el = wrapper.get('img[data-testid="img-rendering"]').html();
+      const img = new DOMParser().parseFromString(el, 'text/html').body
+        .firstChild as HTMLImageElement;
 
-      expect(el).toHaveAttribute('src', expect.stringMatching('h=150'));
-      expect(el).toHaveAttribute('srcset', expect.stringMatching('h=150'));
+      const srcAttr = img.getAttribute('src');
+      const srcsetAttr = img.getAttribute('srcset');
+      
+      expectElementToHaveFixedSrcAndSrcSet(img, 100);
+      expect(srcAttr).toBeTruthy();
+      expect(srcsetAttr).toBeTruthy();
+      expect(srcAttr).toMatch(/h=150/);
+      expect(srcsetAttr).toMatch(/h=150/);
     });
 
     it('a width attribute should be passed through to the underlying component', () => {
-      render(IxImg, {
+      const wrapper = mount(IxImg, {
         props: {
           ['data-testid']: 'img-rendering',
           src: 'examples/pione.jpg',
@@ -144,13 +164,17 @@ describe('imgix component', () => {
         },
       });
 
-      expect(screen.getByTestId('img-rendering')).toHaveAttribute(
-        'width',
-        '100',
-      );
+      const el = wrapper.get('img[data-testid="img-rendering"]').html();
+      const img = new DOMParser().parseFromString(el, 'text/html').body
+        .firstChild as HTMLImageElement;
+      
+      const widthAttr = img.getAttribute('width');
+
+      expect(widthAttr).toBeTruthy();
+      expect(widthAttr).toBe('100');
     });
     it('a height attribute should be passed through to the underlying component', () => {
-      render(IxImg, {
+      const wrapper = mount(IxImg, {
         props: {
           ['data-testid']: 'img-rendering',
           src: 'examples/pione.jpg',
@@ -158,10 +182,14 @@ describe('imgix component', () => {
         },
       });
 
-      expect(screen.getByTestId('img-rendering')).toHaveAttribute(
-        'height',
-        '100',
-      );
+      const el = wrapper.get('img[data-testid="img-rendering"]').html();
+      const img = new DOMParser().parseFromString(el, 'text/html').body
+        .firstChild as HTMLImageElement;
+      
+      const heightAttr = img.getAttribute('height');
+
+      expect(heightAttr).toBeTruthy();
+      expect(heightAttr).toBe('100');
     });
   });
 
@@ -169,23 +197,26 @@ describe('imgix component', () => {
     const ATTRIBUTES = ['src', 'srcset'];
     ATTRIBUTES.forEach((attribute) => {
       it(`${attribute} can be configured to use data-${attribute}`, () => {
-        render(IxImg, {
-          props: {
-            ['data-testid']: 'img-rendering',
-            src: 'examples/pione.jpg',
-            attributeConfig: {
-              [attribute]: `data-${attribute}`,
-            },
+      const wrapper = mount(IxImg, {
+        props: {
+          ['data-testid']: 'img-rendering',
+          src: 'examples/pione.jpg',
+          attributeConfig: {
+            [attribute]: `data-${attribute}`,
           },
-        });
+        },
+      });
+        
+        const el = wrapper.get('img[data-testid="img-rendering"]').html();
+        const img = new DOMParser().parseFromString(el, 'text/html').body
+          .firstChild as HTMLImageElement;
+        
+        const customImgAttr = img.getAttribute(`data-${attribute}`);
+        const imgAttr = img.getAttribute(attribute);
 
-        expect(screen.getByTestId('img-rendering')).toHaveAttribute(
-          `data-${attribute}`,
-          expect.stringMatching(/ixlib/),
-        );
-        expect(screen.getByTestId('img-rendering')).not.toHaveAttribute(
-          attribute,
-        );
+        expect(customImgAttr).toBeTruthy();
+        expect(imgAttr).toBeFalsy();
+        expect(customImgAttr).toMatch(/ixlib/);
       });
     });
   });
