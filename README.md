@@ -115,7 +115,24 @@ app.mount('#app');
 And that's all you need to get started! Have fun!
 
 ### Nuxt.js
-Nuxt.js *[beta](https://www.npmjs.com/package/nuxt3)* still isn't public. As such, we don't explicitly support Nuxt.js with version 3.x as of right now.
+This module is not yet compatible with [Nuxt 3](https://v3.nuxtjs.org/getting-started/introduction). As Nuxt 3 is still in development, we recommend using [Nuxt 2](https://nuxtjs.org/guide/getting-started) and [@imgix/vue-imgix](https://github.com/imgix/vue-imgix) v2.x.x. instead.
+
+However, Nuxt.js now has a built-in [Image component](https://image.nuxtjs.org/getting-started/installation) that can be used alongside imgix.
+
+You can read more about our `nuxt-image` provider and how to use it in the [Nuxt docs](https://image.nuxtjs.org/providers/imgix).
+
+#### Example usage
+
+```html
+<nuxt-img
+  provider="imgix"
+  src="/blog/woman-hat.jpg"
+  width="300"
+  height="500"
+  fit="cover"
+  :modifiers="{ auto: 'format,compress', crop: 'faces' }"
+/>
+```
 
 ## Usage
 
