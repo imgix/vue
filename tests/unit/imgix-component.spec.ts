@@ -8,7 +8,7 @@ import { createApp } from 'vue';
 import _App from '../../src/App.vue';
 import {
   expectElementToHaveFixedSrcAndSrcSet,
-  expectElementToHaveFluidSrcAndSrcSet
+  expectElementToHaveFluidSrcAndSrcSet,
 } from '../helpers/url-assert';
 /**
  * Why register the plugin and each individual component globally?
@@ -60,9 +60,7 @@ describe('imgix component', () => {
       },
     });
 
-    const srcset = wrapper
-      .find('img')
-      .element.getAttribute('srcset');
+    const srcset = wrapper.find('img').element.getAttribute('srcset');
 
     expect(srcset).not.toBeFalsy();
     if (!srcset) {
