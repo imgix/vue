@@ -1017,7 +1017,7 @@ var IxImg = defineComponent({
 
 function objectWithoutProperties (obj, exclude) { var target = {}; for (var k in obj) if (Object.prototype.hasOwnProperty.call(obj, k) && exclude.indexOf(k) === -1) target[k] = obj[k]; return target; }
 // Do not change this
-var VERSION = '2.9.0-rc.1';
+var VERSION = '2.9.0-rc.2';
 var clientOptionDefaults = {
     includeLibraryParam: true,
 };
@@ -1054,7 +1054,7 @@ var VueImgixClient = function VueImgixClient(options) {
     this.options = Object.assign({}, clientOptionDefaults, options);
     this.client = new ImgixClient({
         domain: this.options.domain,
-        includeLibraryParam: false, // force false so that @imgix/js-core doesn't include its own library param
+        includeLibraryParam: false,
     });
     // This is not a public API, so it is not included in the type definitions for ImgixClient
     if (this.options.includeLibraryParam) {

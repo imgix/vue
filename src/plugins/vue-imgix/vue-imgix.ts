@@ -13,7 +13,7 @@ import {
 import type { IVueImgixClient } from './types';
 
 // Do not change this
-const VERSION = '2.9.0-rc.2';
+const VERSION = '3.0.0-rc.1';
 
 const clientOptionDefaults = {
   includeLibraryParam: true,
