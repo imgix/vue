@@ -1,5 +1,6 @@
 import ImgixClient from '@imgix/js-core';
 import { IxImg } from './ix-img';
+import type { IVueImgixClient } from './types';
 import {
   IBuildSrcSet,
   IBuildSrcSetOptions,
@@ -8,9 +9,8 @@ import {
   IBuildUrlObjectOptions,
   IBuildUrlObjectResult,
   IImgixClientOptions,
-  IImgixParams,
+  IImgixParams
 } from './types';
-import type { IVueImgixClient } from './types';
 
 // Do not change this
 const VERSION = '3.0.0-rc.1';
@@ -78,7 +78,7 @@ class VueImgixClient implements IVueImgixClient {
     if (!url.includes('://')) {
       return this.client.buildURL(url, this.buildIxParams(ixParams));
     } else {
-      return ImgixClient._buildURL({ url, params: this.buildIxParams(ixParams) });
+      return ImgixClient._buildURL(url, this.buildIxParams(ixParams) );
     }
 
   };
@@ -109,11 +109,11 @@ class VueImgixClient implements IVueImgixClient {
         options,
       );
     } else {
-      return ImgixClient._buildSrcSet({
+      return ImgixClient._buildSrcSet(
         url,
-        params: this.buildIxParams(ixParams),
+        this.buildIxParams(ixParams),
         options,
-      });
+      );
     }
   };
 }

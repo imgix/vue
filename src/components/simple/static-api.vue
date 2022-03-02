@@ -1,26 +1,23 @@
 <template>
   <div>
-    <h2>2-step URL API Example</h2>
+    <h2>Absolute URL Static API Example</h2>
+    // partial URL gets domain from client
     <ix-img
       src="/examples/pione.jpg"
       width="100"
-      data-testid="2-step-api"
+      data-testid="static-api-relative"
     />
-    <ix-img
-      src="https://assets.imgix.net/examples/pione.jpg"
-      width="100"
-      data-testid="2-step-api"
-    />
+    // absolute URL domain does not get overridden
     <ix-img
       src="https://sdk-test.imgix.net/amsterdam.jpg"
       width="100"
-      data-testid="2-step-api"
+      data-testid="static-api-absolute"
     />
   </div>
 </template>
 
 <script>
 export default {
-  name: '2-step-api',
+  name: 'static-api',
 };
 </script>
