@@ -37,7 +37,7 @@
     "release:dryRun": "npx node-env-run --exec 'npx semantic-release --dryRun'"
   },
   "dependencies": {
-    "@imgix/js-core": "^3.1.3"
+    "@imgix/js-core": "^3.6.0-rc.1"
   },
   "devDependencies": {
     "@babel/core": "^7.6.14",
