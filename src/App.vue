@@ -13,6 +13,8 @@
     <advanced-build-url />
     <h2>buildSrcSet</h2>
     <advanced-build-src-set />
+    <h2>_buildSrcSet</h2>
+    <static-build-src-set />
   </div>
 </template>
 
@@ -20,6 +22,7 @@
 import advancedBuildUrlObject from './components/advanced/buildUrlObject';
 import advancedBuildUrl from './components/advanced/buildUrl';
 import advancedBuildSrcSet from './components/advanced/buildSrcSet';
+import staticBuildSrcSet from './components/advanced/_buildSrcSet';
 import advancedApi from './components/advanced/advanced';
 import simple from './components/simple/simple';
 import staticApi from './components/simple/static-api';
@@ -31,6 +34,7 @@ export default {
     advancedBuildUrlObject,
     advancedBuildUrl,
     advancedBuildSrcSet,
+    staticBuildSrcSet,
     advancedApi,
     simple,
     staticApi,
