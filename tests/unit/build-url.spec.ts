@@ -1,6 +1,6 @@
 import {
-    buildImgixClient,
-    IVueImgixClient
+  buildImgixClient,
+  IVueImgixClient,
 } from '@/plugins/vue-imgix/vue-imgix';
 
 describe('buildUrl', () => {
@@ -17,7 +17,7 @@ describe('buildUrl', () => {
   });
 
   it('should accept absolute URLs', () => {
-    let customUrl = client._buildUrl(
+    const customUrl = client._buildUrl(
       'https://sdk-test.imgix.net/amsterdam.jpg',
       {},
     );
