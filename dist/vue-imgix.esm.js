@@ -1,6 +1,290 @@
 import { defineComponent, h } from 'vue';
 
-var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
+/**
+ *  base64.ts
+ *
+ *  Licensed under the BSD 3-Clause License.
+ *    http://opensource.org/licenses/BSD-3-Clause
+ *
+ *  References:
+ *    http://en.wikipedia.org/wiki/Base64
+ *
+ * @author Dan Kogai (https://github.com/dankogai)
+ */
+var version = '3.7.2';
+/**
+ * @deprecated use lowercase `version`.
+ */
+var VERSION$2 = version;
+var _hasatob = typeof atob === 'function';
+var _hasbtoa = typeof btoa === 'function';
+var _hasBuffer = typeof Buffer === 'function';
+var _TD = typeof TextDecoder === 'function' ? new TextDecoder() : undefined;
+var _TE = typeof TextEncoder === 'function' ? new TextEncoder() : undefined;
+var b64ch = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
+var b64chs = Array.prototype.slice.call(b64ch);
+var b64tab = (function (a) {
+    var tab = {};
+    a.forEach(function (c, i) { return tab[c] = i; });
+    return tab;
+})(b64chs);
+var b64re = /^(?:[A-Za-z\d+\/]{4})*?(?:[A-Za-z\d+\/]{2}(?:==)?|[A-Za-z\d+\/]{3}=?)?$/;
+var _fromCC = String.fromCharCode.bind(String);
+var _U8Afrom = typeof Uint8Array.from === 'function'
+    ? Uint8Array.from.bind(Uint8Array)
+    : function (it, fn) {
+      if ( fn === void 0 ) fn = function (x) { return x; };
+
+      return new Uint8Array(Array.prototype.slice.call(it, 0).map(fn));
+};
+var _mkUriSafe = function (src) { return src
+    .replace(/=/g, '').replace(/[+\/]/g, function (m0) { return m0 == '+' ? '-' : '_'; }); };
+var _tidyB64 = function (s) { return s.replace(/[^A-Za-z0-9\+\/]/g, ''); };
+/**
+ * polyfill version of `btoa`
+ */
+var btoaPolyfill = function (bin) {
+    // console.log('polyfilled');
+    var u32, c0, c1, c2, asc = '';
+    var pad = bin.length % 3;
+    for (var i = 0; i < bin.length;) {
+        if ((c0 = bin.charCodeAt(i++)) > 255 ||
+            (c1 = bin.charCodeAt(i++)) > 255 ||
+            (c2 = bin.charCodeAt(i++)) > 255)
+            { throw new TypeError('invalid character found'); }
+        u32 = (c0 << 16) | (c1 << 8) | c2;
+        asc += b64chs[u32 >> 18 & 63]
+            + b64chs[u32 >> 12 & 63]
+            + b64chs[u32 >> 6 & 63]
+            + b64chs[u32 & 63];
+    }
+    return pad ? asc.slice(0, pad - 3) + "===".substring(pad) : asc;
+};
+/**
+ * does what `window.btoa` of web browsers do.
+ * @param {String} bin binary string
+ * @returns {string} Base64-encoded string
+ */
+var _btoa = _hasbtoa ? function (bin) { return btoa(bin); }
+    : _hasBuffer ? function (bin) { return Buffer.from(bin, 'binary').toString('base64'); }
+        : btoaPolyfill;
+var _fromUint8Array = _hasBuffer
+    ? function (u8a) { return Buffer.from(u8a).toString('base64'); }
+    : function (u8a) {
+        // cf. https://stackoverflow.com/questions/12710001/how-to-convert-uint8-array-to-base64-encoded-string/12713326#12713326
+        var maxargs = 0x1000;
+        var strs = [];
+        for (var i = 0, l = u8a.length; i < l; i += maxargs) {
+            strs.push(_fromCC.apply(null, u8a.subarray(i, i + maxargs)));
+        }
+        return _btoa(strs.join(''));
+    };
+/**
+ * converts a Uint8Array to a Base64 string.
+ * @param {boolean} [urlsafe] URL-and-filename-safe a la RFC4648 §5
+ * @returns {string} Base64 string
+ */
+var fromUint8Array = function (u8a, urlsafe) {
+  if ( urlsafe === void 0 ) urlsafe = false;
+
+  return urlsafe ? _mkUriSafe(_fromUint8Array(u8a)) : _fromUint8Array(u8a);
+};
+// This trick is found broken https://github.com/dankogai/js-base64/issues/130
+// const utob = (src: string) => unescape(encodeURIComponent(src));
+// reverting good old fationed regexp
+var cb_utob = function (c) {
+    if (c.length < 2) {
+        var cc = c.charCodeAt(0);
+        return cc < 0x80 ? c
+            : cc < 0x800 ? (_fromCC(0xc0 | (cc >>> 6))
+                + _fromCC(0x80 | (cc & 0x3f)))
+                : (_fromCC(0xe0 | ((cc >>> 12) & 0x0f))
+                    + _fromCC(0x80 | ((cc >>> 6) & 0x3f))
+                    + _fromCC(0x80 | (cc & 0x3f)));
+    }
+    else {
+        var cc = 0x10000
+            + (c.charCodeAt(0) - 0xD800) * 0x400
+            + (c.charCodeAt(1) - 0xDC00);
+        return (_fromCC(0xf0 | ((cc >>> 18) & 0x07))
+            + _fromCC(0x80 | ((cc >>> 12) & 0x3f))
+            + _fromCC(0x80 | ((cc >>> 6) & 0x3f))
+            + _fromCC(0x80 | (cc & 0x3f)));
+    }
+};
+var re_utob = /[\uD800-\uDBFF][\uDC00-\uDFFFF]|[^\x00-\x7F]/g;
+/**
+ * @deprecated should have been internal use only.
+ * @param {string} src UTF-8 string
+ * @returns {string} UTF-16 string
+ */
+var utob = function (u) { return u.replace(re_utob, cb_utob); };
+//
+var _encode = _hasBuffer
+    ? function (s) { return Buffer.from(s, 'utf8').toString('base64'); }
+    : _TE
+        ? function (s) { return _fromUint8Array(_TE.encode(s)); }
+        : function (s) { return _btoa(utob(s)); };
+/**
+ * converts a UTF-8-encoded string to a Base64 string.
+ * @param {boolean} [urlsafe] if `true` make the result URL-safe
+ * @returns {string} Base64 string
+ */
+var encode$1 = function (src, urlsafe) {
+  if ( urlsafe === void 0 ) urlsafe = false;
+
+  return urlsafe
+    ? _mkUriSafe(_encode(src))
+    : _encode(src);
+};
+/**
+ * converts a UTF-8-encoded string to URL-safe Base64 RFC4648 §5.
+ * @returns {string} Base64 string
+ */
+var encodeURI$1 = function (src) { return encode$1(src, true); };
+// This trick is found broken https://github.com/dankogai/js-base64/issues/130
+// const btou = (src: string) => decodeURIComponent(escape(src));
+// reverting good old fationed regexp
+var re_btou = /[\xC0-\xDF][\x80-\xBF]|[\xE0-\xEF][\x80-\xBF]{2}|[\xF0-\xF7][\x80-\xBF]{3}/g;
+var cb_btou = function (cccc) {
+    switch (cccc.length) {
+        case 4:
+            var cp = ((0x07 & cccc.charCodeAt(0)) << 18)
+                | ((0x3f & cccc.charCodeAt(1)) << 12)
+                | ((0x3f & cccc.charCodeAt(2)) << 6)
+                | (0x3f & cccc.charCodeAt(3)), offset = cp - 0x10000;
+            return (_fromCC((offset >>> 10) + 0xD800)
+                + _fromCC((offset & 0x3FF) + 0xDC00));
+        case 3:
+            return _fromCC(((0x0f & cccc.charCodeAt(0)) << 12)
+                | ((0x3f & cccc.charCodeAt(1)) << 6)
+                | (0x3f & cccc.charCodeAt(2)));
+        default:
+            return _fromCC(((0x1f & cccc.charCodeAt(0)) << 6)
+                | (0x3f & cccc.charCodeAt(1)));
+    }
+};
+/**
+ * @deprecated should have been internal use only.
+ * @param {string} src UTF-16 string
+ * @returns {string} UTF-8 string
+ */
+var btou = function (b) { return b.replace(re_btou, cb_btou); };
+/**
+ * polyfill version of `atob`
+ */
+var atobPolyfill = function (asc) {
+    // console.log('polyfilled');
+    asc = asc.replace(/\s+/g, '');
+    if (!b64re.test(asc))
+        { throw new TypeError('malformed base64.'); }
+    asc += '=='.slice(2 - (asc.length & 3));
+    var u24, bin = '', r1, r2;
+    for (var i = 0; i < asc.length;) {
+        u24 = b64tab[asc.charAt(i++)] << 18
+            | b64tab[asc.charAt(i++)] << 12
+            | (r1 = b64tab[asc.charAt(i++)]) << 6
+            | (r2 = b64tab[asc.charAt(i++)]);
+        bin += r1 === 64 ? _fromCC(u24 >> 16 & 255)
+            : r2 === 64 ? _fromCC(u24 >> 16 & 255, u24 >> 8 & 255)
+                : _fromCC(u24 >> 16 & 255, u24 >> 8 & 255, u24 & 255);
+    }
+    return bin;
+};
+/**
+ * does what `window.atob` of web browsers do.
+ * @param {String} asc Base64-encoded string
+ * @returns {string} binary string
+ */
+var _atob = _hasatob ? function (asc) { return atob(_tidyB64(asc)); }
+    : _hasBuffer ? function (asc) { return Buffer.from(asc, 'base64').toString('binary'); }
+        : atobPolyfill;
+//
+var _toUint8Array = _hasBuffer
+    ? function (a) { return _U8Afrom(Buffer.from(a, 'base64')); }
+    : function (a) { return _U8Afrom(_atob(a), function (c) { return c.charCodeAt(0); }); };
+/**
+ * converts a Base64 string to a Uint8Array.
+ */
+var toUint8Array = function (a) { return _toUint8Array(_unURI(a)); };
+//
+var _decode = _hasBuffer
+    ? function (a) { return Buffer.from(a, 'base64').toString('utf8'); }
+    : _TD
+        ? function (a) { return _TD.decode(_toUint8Array(a)); }
+        : function (a) { return btou(_atob(a)); };
+var _unURI = function (a) { return _tidyB64(a.replace(/[-_]/g, function (m0) { return m0 == '-' ? '+' : '/'; })); };
+/**
+ * converts a Base64 string to a UTF-8 string.
+ * @param {String} src Base64 string.  Both normal and URL-safe are supported
+ * @returns {string} UTF-8 string
+ */
+var decode$1 = function (src) { return _decode(_unURI(src)); };
+/**
+ * check if a value is a valid Base64 string
+ * @param {String} src a value to check
+  */
+var isValid = function (src) {
+    if (typeof src !== 'string')
+        { return false; }
+    var s = src.replace(/\s+/g, '').replace(/={0,2}$/, '');
+    return !/[^\s0-9a-zA-Z\+/]/.test(s) || !/[^\s0-9a-zA-Z\-_]/.test(s);
+};
+//
+var _noEnum = function (v) {
+    return {
+        value: v, enumerable: false, writable: true, configurable: true
+    };
+};
+/**
+ * extend String.prototype with relevant methods
+ */
+var extendString = function () {
+    var _add = function (name, body) { return Object.defineProperty(String.prototype, name, _noEnum(body)); };
+    _add('fromBase64', function () { return decode$1(this); });
+    _add('toBase64', function (urlsafe) { return encode$1(this, urlsafe); });
+    _add('toBase64URI', function () { return encode$1(this, true); });
+    _add('toBase64URL', function () { return encode$1(this, true); });
+    _add('toUint8Array', function () { return toUint8Array(this); });
+};
+/**
+ * extend Uint8Array.prototype with relevant methods
+ */
+var extendUint8Array = function () {
+    var _add = function (name, body) { return Object.defineProperty(Uint8Array.prototype, name, _noEnum(body)); };
+    _add('toBase64', function (urlsafe) { return fromUint8Array(this, urlsafe); });
+    _add('toBase64URI', function () { return fromUint8Array(this, true); });
+    _add('toBase64URL', function () { return fromUint8Array(this, true); });
+};
+/**
+ * extend Builtin prototypes with relevant methods
+ */
+var extendBuiltins = function () {
+    extendString();
+    extendUint8Array();
+};
+var gBase64 = {
+    version: version,
+    VERSION: VERSION$2,
+    atob: _atob,
+    atobPolyfill: atobPolyfill,
+    btoa: _btoa,
+    btoaPolyfill: btoaPolyfill,
+    fromBase64: decode$1,
+    toBase64: encode$1,
+    encode: encode$1,
+    encodeURI: encodeURI$1,
+    encodeURL: encodeURI$1,
+    utob: utob,
+    btou: btou,
+    decode: decode$1,
+    isValid: isValid,
+    fromUint8Array: fromUint8Array,
+    toUint8Array: toUint8Array,
+    extendString: extendString,
+    extendUint8Array: extendUint8Array,
+    extendBuiltins: extendBuiltins,
+};
 
 function createCommonjsModule(fn) {
   var module = { exports: {} };
@@ -324,232 +608,432 @@ var md5 = createCommonjsModule(function (module) {
 })();
 });
 
-/*
- *  base64.js
- *
- *  Licensed under the BSD 3-Clause License.
- *    http://opensource.org/licenses/BSD-3-Clause
- *
- *  References:
- *    http://en.wikipedia.org/wiki/Base64
- */
+var n = /[^\0-\x7E]/;
+var t = /[\x2E\u3002\uFF0E\uFF61]/g;
+var o = { overflow: "Overflow Error", "not-basic": "Illegal Input", "invalid-input": "Invalid Input" };
+var e = Math.floor;
+var r = String.fromCharCode;
+function s(n2) {
+  throw new RangeError(o[n2]);
+}
+var c = function(n2, t2) {
+  return n2 + 22 + 75 * (n2 < 26) - ((t2 != 0) << 5);
+};
+var u = function(n2, t2, o2) {
+  var r2 = 0;
+  for (n2 = o2 ? e(n2 / 700) : n2 >> 1, n2 += e(n2 / t2); n2 > 455; r2 += 36) {
+    n2 = e(n2 / 35);
+  }
+  return e(r2 + 36 * n2 / (n2 + 38));
+};
+function toASCII(o2) {
+  return function(n2, o3) {
+    var e2 = n2.split("@");
+    var r2 = "";
+    e2.length > 1 && (r2 = e2[0] + "@", n2 = e2[1]);
+    var s2 = function(n3, t2) {
+      var o4 = [];
+      var e3 = n3.length;
+      for (; e3--; ) {
+        o4[e3] = t2(n3[e3]);
+      }
+      return o4;
+    }((n2 = n2.replace(t, ".")).split("."), o3).join(".");
+    return r2 + s2;
+  }(o2, function(t2) {
+    return n.test(t2) ? "xn--" + function(n2) {
+      var t3 = [];
+      var o3 = (n2 = function(n3) {
+        var t4 = [];
+        var o4 = 0;
+        var e2 = n3.length;
+        for (; o4 < e2; ) {
+          var r2 = n3.charCodeAt(o4++);
+          if (r2 >= 55296 && r2 <= 56319 && o4 < e2) {
+            var e3 = n3.charCodeAt(o4++);
+            (64512 & e3) == 56320 ? t4.push(((1023 & r2) << 10) + (1023 & e3) + 65536) : (t4.push(r2), o4--);
+          } else {
+            t4.push(r2);
+          }
+        }
+        return t4;
+      }(n2)).length;
+      var f = 128;
+      var i = 0;
+      var l = 72;
+      for (var i$1 = 0, list = n2; i$1 < list.length; i$1 += 1) {
+        var o4 = list[i$1];
 
-var base64 = createCommonjsModule(function (module, exports) {
-(function (global, factory) {
-    module.exports = factory(global)
-        ;
-}((
-    typeof self !== 'undefined' ? self
-        : typeof window !== 'undefined' ? window
-        : typeof commonjsGlobal !== 'undefined' ? commonjsGlobal
-: commonjsGlobal
-), function(global) {
-    // existing version for noConflict()
-    global = global || {};
-    var _Base64 = global.Base64;
-    var version = "2.6.4";
-    // constants
-    var b64chars
-        = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
-    var b64tab = function(bin) {
-        var t = {};
-        for (var i = 0, l = bin.length; i < l; i++) { t[bin.charAt(i)] = i; }
-        return t;
-    }(b64chars);
-    var fromCharCode = String.fromCharCode;
-    // encoder stuff
-    var cb_utob = function(c) {
-        if (c.length < 2) {
-            var cc = c.charCodeAt(0);
-            return cc < 0x80 ? c
-                : cc < 0x800 ? (fromCharCode(0xc0 | (cc >>> 6))
-                                + fromCharCode(0x80 | (cc & 0x3f)))
-                : (fromCharCode(0xe0 | ((cc >>> 12) & 0x0f))
-                    + fromCharCode(0x80 | ((cc >>>  6) & 0x3f))
-                    + fromCharCode(0x80 | ( cc         & 0x3f)));
-        } else {
-            var cc = 0x10000
-                + (c.charCodeAt(0) - 0xD800) * 0x400
-                + (c.charCodeAt(1) - 0xDC00);
-            return (fromCharCode(0xf0 | ((cc >>> 18) & 0x07))
-                    + fromCharCode(0x80 | ((cc >>> 12) & 0x3f))
-                    + fromCharCode(0x80 | ((cc >>>  6) & 0x3f))
-                    + fromCharCode(0x80 | ( cc         & 0x3f)));
+        o4 < 128 && t3.push(r(o4));
+      }
+      var h = t3.length;
+      var p = h;
+      for (h && t3.push("-"); p < o3; ) {
+        var o4$1 = 2147483647;
+        for (var i$2 = 0, list$1 = n2; i$2 < list$1.length; i$2 += 1) {
+          var t4 = list$1[i$2];
+
+          t4 >= f && t4 < o4$1 && (o4$1 = t4);
         }
-    };
-    var re_utob = /[\uD800-\uDBFF][\uDC00-\uDFFFF]|[^\x00-\x7F]/g;
-    var utob = function(u) {
-        return u.replace(re_utob, cb_utob);
-    };
-    var cb_encode = function(ccc) {
-        var padlen = [0, 2, 1][ccc.length % 3],
-        ord = ccc.charCodeAt(0) << 16
-            | ((ccc.length > 1 ? ccc.charCodeAt(1) : 0) << 8)
-            | ((ccc.length > 2 ? ccc.charCodeAt(2) : 0)),
-        chars = [
-            b64chars.charAt( ord >>> 18),
-            b64chars.charAt((ord >>> 12) & 63),
-            padlen >= 2 ? '=' : b64chars.charAt((ord >>> 6) & 63),
-            padlen >= 1 ? '=' : b64chars.charAt(ord & 63)
-        ];
-        return chars.join('');
-    };
-    var btoa = global.btoa && typeof global.btoa == 'function'
-        ? function(b){ return global.btoa(b) } : function(b) {
-        if (b.match(/[^\x00-\xFF]/)) { throw new RangeError(
-            'The string contains invalid characters.'
-        ); }
-        return b.replace(/[\s\S]{1,3}/g, cb_encode);
-    };
-    var _encode = function(u) {
-        return btoa(utob(String(u)));
-    };
-    var mkUriSafe = function (b64) {
-        return b64.replace(/[+\/]/g, function(m0) {
-            return m0 == '+' ? '-' : '_';
-        }).replace(/=/g, '');
-    };
-    var encode = function(u, urisafe) {
-        return urisafe ? mkUriSafe(_encode(u)) : _encode(u);
-    };
-    var encodeURI = function(u) { return encode(u, true) };
-    var fromUint8Array;
-    if (global.Uint8Array) { fromUint8Array = function(a, urisafe) {
-        // return btoa(fromCharCode.apply(null, a));
-        var b64 = '';
-        for (var i = 0, l = a.length; i < l; i += 3) {
-            var a0 = a[i], a1 = a[i+1], a2 = a[i+2];
-            var ord = a0 << 16 | a1 << 8 | a2;
-            b64 +=    b64chars.charAt( ord >>> 18)
-                +     b64chars.charAt((ord >>> 12) & 63)
-                + ( typeof a1 != 'undefined'
-                    ? b64chars.charAt((ord >>>  6) & 63) : '=')
-                + ( typeof a2 != 'undefined'
-                    ? b64chars.charAt( ord         & 63) : '=');
+        var a = p + 1;
+        o4$1 - f > e((2147483647 - i) / a) && s("overflow"), i += (o4$1 - f) * a, f = o4$1;
+        for (var i$3 = 0, list$2 = n2; i$3 < list$2.length; i$3 += 1) {
+          var o5 = list$2[i$3];
+
+          if (o5 < f && ++i > 2147483647 && s("overflow"), o5 == f) {
+            var n3 = i;
+            for (var o6 = 36; ; o6 += 36) {
+              var s2 = o6 <= l ? 1 : o6 >= l + 26 ? 26 : o6 - l;
+              if (n3 < s2) {
+                break;
+              }
+              var u2 = n3 - s2;
+              var f2 = 36 - s2;
+              t3.push(r(c(s2 + u2 % f2, 0))), n3 = e(u2 / f2);
+            }
+            t3.push(r(c(n3, 0))), l = u(i, a, p == h), i = 0, ++p;
+          }
         }
-        return urisafe ? mkUriSafe(b64) : b64;
-    }; }
-    // decoder stuff
-    var re_btou = /[\xC0-\xDF][\x80-\xBF]|[\xE0-\xEF][\x80-\xBF]{2}|[\xF0-\xF7][\x80-\xBF]{3}/g;
-    var cb_btou = function(cccc) {
-        switch(cccc.length) {
-        case 4:
-            var cp = ((0x07 & cccc.charCodeAt(0)) << 18)
-                |    ((0x3f & cccc.charCodeAt(1)) << 12)
-                |    ((0x3f & cccc.charCodeAt(2)) <<  6)
-                |     (0x3f & cccc.charCodeAt(3)),
-            offset = cp - 0x10000;
-            return (fromCharCode((offset  >>> 10) + 0xD800)
-                    + fromCharCode((offset & 0x3FF) + 0xDC00));
-        case 3:
-            return fromCharCode(
-                ((0x0f & cccc.charCodeAt(0)) << 12)
-                    | ((0x3f & cccc.charCodeAt(1)) << 6)
-                    |  (0x3f & cccc.charCodeAt(2))
-            );
-        default:
-            return  fromCharCode(
-                ((0x1f & cccc.charCodeAt(0)) << 6)
-                    |  (0x3f & cccc.charCodeAt(1))
-            );
-        }
-    };
-    var btou = function(b) {
-        return b.replace(re_btou, cb_btou);
-    };
-    var cb_decode = function(cccc) {
-        var len = cccc.length,
-        padlen = len % 4,
-        n = (len > 0 ? b64tab[cccc.charAt(0)] << 18 : 0)
-            | (len > 1 ? b64tab[cccc.charAt(1)] << 12 : 0)
-            | (len > 2 ? b64tab[cccc.charAt(2)] <<  6 : 0)
-            | (len > 3 ? b64tab[cccc.charAt(3)]       : 0),
-        chars = [
-            fromCharCode( n >>> 16),
-            fromCharCode((n >>>  8) & 0xff),
-            fromCharCode( n         & 0xff)
-        ];
-        chars.length -= [0, 0, 2, 1][padlen];
-        return chars.join('');
-    };
-    var _atob = global.atob && typeof global.atob == 'function'
-        ? function(a){ return global.atob(a) } : function(a){
-        return a.replace(/\S{1,4}/g, cb_decode);
-    };
-    var atob = function(a) {
-        return _atob(String(a).replace(/[^A-Za-z0-9\+\/]/g, ''));
-    };
-    var _decode = function(a) { return btou(_atob(a)) };
-    var _fromURI = function(a) {
-        return String(a).replace(/[-_]/g, function(m0) {
-            return m0 == '-' ? '+' : '/'
-        }).replace(/[^A-Za-z0-9\+\/]/g, '');
-    };
-    var decode = function(a){
-        return _decode(_fromURI(a));
-    };
-    var toUint8Array;
-    if (global.Uint8Array) { toUint8Array = function(a) {
-        return Uint8Array.from(atob(_fromURI(a)), function(c) {
-            return c.charCodeAt(0);
-        });
-    }; }
-    var noConflict = function() {
-        var Base64 = global.Base64;
-        global.Base64 = _Base64;
-        return Base64;
-    };
-    // export Base64
-    global.Base64 = {
-        VERSION: version,
-        atob: atob,
-        btoa: btoa,
-        fromBase64: decode,
-        toBase64: encode,
-        utob: utob,
-        encode: encode,
-        encodeURI: encodeURI,
-        btou: btou,
-        decode: decode,
-        noConflict: noConflict,
-        fromUint8Array: fromUint8Array,
-        toUint8Array: toUint8Array
-    };
-    // if ES5 is available, make Base64.extendString() available
-    if (typeof Object.defineProperty === 'function') {
-        var noEnum = function(v){
-            return {value:v,enumerable:false,writable:true,configurable:true};
-        };
-        global.Base64.extendString = function () {
-            Object.defineProperty(
-                String.prototype, 'fromBase64', noEnum(function () {
-                    return decode(this)
-                }));
-            Object.defineProperty(
-                String.prototype, 'toBase64', noEnum(function (urisafe) {
-                    return encode(this, urisafe)
-                }));
-            Object.defineProperty(
-                String.prototype, 'toBase64URI', noEnum(function () {
-                    return encode(this, true)
-                }));
-        };
+        ++i, ++f;
+      }
+      return t3.join("");
+    }(t2) : t2;
+  });
+}
+
+var HASH_RE = /#/g;
+var AMPERSAND_RE = /&/g;
+var EQUAL_RE = /=/g;
+var IM_RE = /\?/g;
+var PLUS_RE = /\+/g;
+var ENC_BRACKET_OPEN_RE = /%5B/gi;
+var ENC_BRACKET_CLOSE_RE = /%5D/gi;
+var ENC_CARET_RE = /%5E/gi;
+var ENC_BACKTICK_RE = /%60/gi;
+var ENC_CURLY_OPEN_RE = /%7B/gi;
+var ENC_PIPE_RE = /%7C/gi;
+var ENC_CURLY_CLOSE_RE = /%7D/gi;
+var ENC_SPACE_RE = /%20/gi;
+var ENC_SLASH_RE = /%2F/gi;
+var ENC_ENC_SLASH_RE = /%252F/gi;
+function encode(text) {
+  return encodeURI("" + text).replace(ENC_PIPE_RE, "|").replace(ENC_BRACKET_OPEN_RE, "[").replace(ENC_BRACKET_CLOSE_RE, "]");
+}
+function encodeHash(text) {
+  return encode(text).replace(ENC_CURLY_OPEN_RE, "{").replace(ENC_CURLY_CLOSE_RE, "}").replace(ENC_CARET_RE, "^");
+}
+function encodeQueryValue(text) {
+  return encode(text).replace(PLUS_RE, "%2B").replace(ENC_SPACE_RE, "+").replace(HASH_RE, "%23").replace(AMPERSAND_RE, "%26").replace(ENC_BACKTICK_RE, "`").replace(ENC_CURLY_OPEN_RE, "{").replace(ENC_CURLY_CLOSE_RE, "}").replace(ENC_CARET_RE, "^");
+}
+function encodeQueryKey(text) {
+  return encodeQueryValue(text).replace(EQUAL_RE, "%3D");
+}
+function encodePath(text) {
+  return encode(text).replace(HASH_RE, "%23").replace(IM_RE, "%3F").replace(ENC_ENC_SLASH_RE, "%2F").replace(AMPERSAND_RE, "%26").replace(PLUS_RE, "%2B");
+}
+function decode(text) {
+  if ( text === void 0 ) text = "";
+
+  try {
+    return decodeURIComponent("" + text);
+  } catch (_err) {
+    return "" + text;
+  }
+}
+function decodePath(text) {
+  return decode(text.replace(ENC_SLASH_RE, "%252F"));
+}
+function decodeQueryValue(text) {
+  return decode(text.replace(PLUS_RE, " "));
+}
+function encodeHost(name) {
+  if ( name === void 0 ) name = "";
+
+  return toASCII(name);
+}
+
+function parseQuery(paramsStr) {
+  if ( paramsStr === void 0 ) paramsStr = "";
+
+  var obj = {};
+  if (paramsStr[0] === "?") {
+    paramsStr = paramsStr.substr(1);
+  }
+  for (var i = 0, list = paramsStr.split("&"); i < list.length; i += 1) {
+    var param = list[i];
+
+    var s = param.match(/([^=]+)=?(.*)/) || [];
+    if (s.length < 2) {
+      continue;
     }
-    //
-    // export Base64 to the namespace
-    //
-    if (global['Meteor']) { // Meteor.js
-        Base64 = global.Base64;
+    var key = decode(s[1]);
+    if (key === "__proto__" || key === "constructor") {
+      continue;
     }
-    // module.exports and AMD are mutually exclusive.
-    // module.exports has precedence.
-    if (module.exports) {
-        module.exports.Base64 = global.Base64;
+    var value = decodeQueryValue(s[2] || "");
+    if (obj[key]) {
+      if (Array.isArray(obj[key])) {
+        obj[key].push(value);
+      } else {
+        obj[key] = [obj[key], value];
+      }
+    } else {
+      obj[key] = value;
     }
-    // that's it!
-    return {Base64: global.Base64}
-}));
-});
+  }
+  return obj;
+}
+function encodeQueryItem(key, val) {
+  if (!val) {
+    return encodeQueryKey(key);
+  }
+  if (Array.isArray(val)) {
+    return val.map(function (_val) { return ((encodeQueryKey(key)) + "=" + (encodeQueryValue(_val))); }).join("&");
+  }
+  return ((encodeQueryKey(key)) + "=" + (encodeQueryValue(val)));
+}
+function stringifyQuery(query) {
+  return Object.keys(query).map(function (k) { return encodeQueryItem(k, query[k]); }).join("&");
+}
+
+var $URL = function $URL(input) {
+  if ( input === void 0 ) input = "";
+
+  this.query = {};
+  if (typeof input !== "string") {
+    throw new TypeError(("URL input should be string received " + (typeof input) + " (" + input + ")"));
+  }
+  var parsed = parseURL(input);
+  this.protocol = decode(parsed.protocol);
+  this.host = decode(parsed.host);
+  this.auth = decode(parsed.auth);
+  this.pathname = decodePath(parsed.pathname);
+  this.query = parseQuery(parsed.search);
+  this.hash = decode(parsed.hash);
+};
+
+var prototypeAccessors = { hostname: { configurable: true },port: { configurable: true },username: { configurable: true },password: { configurable: true },hasProtocol: { configurable: true },isAbsolute: { configurable: true },search: { configurable: true },searchParams: { configurable: true },origin: { configurable: true },fullpath: { configurable: true },encodedAuth: { configurable: true },href: { configurable: true } };
+prototypeAccessors.hostname.get = function () {
+  return parseHost(this.host).hostname;
+};
+prototypeAccessors.port.get = function () {
+  return parseHost(this.host).port || "";
+};
+prototypeAccessors.username.get = function () {
+  return parseAuth(this.auth).username;
+};
+prototypeAccessors.password.get = function () {
+  return parseAuth(this.auth).password || "";
+};
+prototypeAccessors.hasProtocol.get = function () {
+  return this.protocol.length;
+};
+prototypeAccessors.isAbsolute.get = function () {
+  return this.hasProtocol || this.pathname[0] === "/";
+};
+prototypeAccessors.search.get = function () {
+  var q = stringifyQuery(this.query);
+  return q.length ? "?" + q : "";
+};
+prototypeAccessors.searchParams.get = function () {
+    var this$1$1 = this;
+
+  var p = new URLSearchParams();
+  var loop = function ( name ) {
+    var value = this$1$1.query[name];
+    if (Array.isArray(value)) {
+      value.forEach(function (v) { return p.append(name, v); });
+    } else {
+      p.append(name, value || "");
+    }
+  };
+
+    for (var name in this$1$1.query) loop( name );
+  return p;
+};
+prototypeAccessors.origin.get = function () {
+  return (this.protocol ? this.protocol + "//" : "") + encodeHost(this.host);
+};
+prototypeAccessors.fullpath.get = function () {
+  return encodePath(this.pathname) + this.search + encodeHash(this.hash);
+};
+prototypeAccessors.encodedAuth.get = function () {
+  if (!this.auth) {
+    return "";
+  }
+  var ref = parseAuth(this.auth);
+    var username = ref.username;
+    var password = ref.password;
+  return encodeURIComponent(username) + (password ? ":" + encodeURIComponent(password) : "");
+};
+prototypeAccessors.href.get = function () {
+  var auth = this.encodedAuth;
+  var originWithAuth = (this.protocol ? this.protocol + "//" : "") + (auth ? auth + "@" : "") + encodeHost(this.host);
+  return this.hasProtocol && this.isAbsolute ? originWithAuth + this.fullpath : this.fullpath;
+};
+$URL.prototype.append = function append (url) {
+  if (url.hasProtocol) {
+    throw new Error("Cannot append a URL with protocol");
+  }
+  Object.assign(this.query, url.query);
+  if (url.pathname) {
+    this.pathname = withTrailingSlash(this.pathname) + withoutLeadingSlash(url.pathname);
+  }
+  if (url.hash) {
+    this.hash = url.hash;
+  }
+};
+$URL.prototype.toJSON = function toJSON () {
+  return this.href;
+};
+$URL.prototype.toString = function toString () {
+  return this.href;
+};
+
+Object.defineProperties( $URL.prototype, prototypeAccessors );
+function hasProtocol(inputStr, acceptProtocolRelative) {
+  if ( acceptProtocolRelative === void 0 ) acceptProtocolRelative = false;
+
+  return /^\w+:\/\/.+/.test(inputStr) || acceptProtocolRelative && /^\/\/[^/]+/.test(inputStr);
+}
+var TRAILING_SLASH_RE = /\/$|\/\?/;
+function hasTrailingSlash(input, queryParams) {
+  if ( input === void 0 ) input = "";
+  if ( queryParams === void 0 ) queryParams = false;
+
+  if (!queryParams) {
+    return input.endsWith("/");
+  }
+  return TRAILING_SLASH_RE.test(input);
+}
+function withTrailingSlash(input, queryParams) {
+  if ( input === void 0 ) input = "";
+  if ( queryParams === void 0 ) queryParams = false;
+
+  if (!queryParams) {
+    return input.endsWith("/") ? input : input + "/";
+  }
+  if (hasTrailingSlash(input, true)) {
+    return input || "/";
+  }
+  var ref = input.split("?");
+  var s0 = ref[0];
+  var s = ref.slice(1);
+  return s0 + "/" + (s.length ? ("?" + (s.join("?"))) : "");
+}
+function hasLeadingSlash(input) {
+  if ( input === void 0 ) input = "";
+
+  return input.startsWith("/");
+}
+function withoutLeadingSlash(input) {
+  if ( input === void 0 ) input = "";
+
+  return (hasLeadingSlash(input) ? input.substr(1) : input) || "/";
+}
+function getQuery(input) {
+  return parseQuery(parseURL(input).search);
+}
+
+function parseURL(input, defaultProto) {
+  if ( input === void 0 ) input = "";
+
+  if (!hasProtocol(input, true)) {
+    return defaultProto ? parseURL(defaultProto + input) : parsePath(input);
+  }
+  var ref = (input.replace(/\\/g, "/").match(/([^:/]+:)?\/\/([^/@]+@)?(.*)/) || []).splice(1);
+  var protocol = ref[0]; if ( protocol === void 0 ) protocol = "";
+  var auth = ref[1];
+  var hostAndPath = ref[2];
+  var ref$1 = (hostAndPath.match(/([^/?#]*)(.*)?/) || []).splice(1);
+  var host = ref$1[0]; if ( host === void 0 ) host = "";
+  var path = ref$1[1]; if ( path === void 0 ) path = "";
+  var ref$2 = parsePath(path);
+  var pathname = ref$2.pathname;
+  var search = ref$2.search;
+  var hash = ref$2.hash;
+  return {
+    protocol: protocol,
+    auth: auth ? auth.substr(0, auth.length - 1) : "",
+    host: host,
+    pathname: pathname,
+    search: search,
+    hash: hash
+  };
+}
+function parsePath(input) {
+  if ( input === void 0 ) input = "";
+
+  var ref = (input.match(/([^#?]*)(\?[^#]*)?(#.*)?/) || []).splice(1);
+  var pathname = ref[0]; if ( pathname === void 0 ) pathname = "";
+  var search = ref[1]; if ( search === void 0 ) search = "";
+  var hash = ref[2]; if ( hash === void 0 ) hash = "";
+  return {
+    pathname: pathname,
+    search: search,
+    hash: hash
+  };
+}
+function parseAuth(input) {
+  if ( input === void 0 ) input = "";
+
+  var ref = input.split(":");
+  var username = ref[0];
+  var password = ref[1];
+  return {
+    username: decode(username),
+    password: decode(password)
+  };
+}
+function parseHost(input) {
+  if ( input === void 0 ) input = "";
+
+  var ref = (input.match(/([^/]*)(:0-9+)?/) || []).splice(1);
+  var hostname = ref[0];
+  var port = ref[1];
+  return {
+    hostname: decode(hostname),
+    port: port
+  };
+}
+
+function ownKeys(object, enumerableOnly) {
+  var keys = Object.keys(object);
+
+  if (Object.getOwnPropertySymbols) {
+    var symbols = Object.getOwnPropertySymbols(object);
+    enumerableOnly && (symbols = symbols.filter(function (sym) {
+      return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+    })), keys.push.apply(keys, symbols);
+  }
+
+  return keys;
+}
+
+function _objectSpread2(target) {
+  var arguments$1 = arguments;
+
+  for (var i = 1; i < arguments.length; i++) {
+    var source = null != arguments$1[i] ? arguments$1[i] : {};
+    i % 2 ? ownKeys(Object(source), !0).forEach(function (key) {
+      _defineProperty(target, key, source[key]);
+    }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) {
+      Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+    });
+  }
+
+  return target;
+}
+
+function _typeof(obj) {
+  "@babel/helpers - typeof";
+
+  return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) {
+    return typeof obj;
+  } : function (obj) {
+    return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+  }, _typeof(obj);
+}
 
 function _classCallCheck(instance, Constructor) {
   if (!(instance instanceof Constructor)) {
@@ -570,6 +1054,9 @@ function _defineProperties(target, props) {
 function _createClass(Constructor, protoProps, staticProps) {
   if (protoProps) { _defineProperties(Constructor.prototype, protoProps); }
   if (staticProps) { _defineProperties(Constructor, staticProps); }
+  Object.defineProperty(Constructor, "prototype", {
+    writable: false
+  });
   return Constructor;
 }
 
@@ -586,42 +1073,6 @@ function _defineProperty(obj, key, value) {
   }
 
   return obj;
-}
-
-function ownKeys(object, enumerableOnly) {
-  var keys = Object.keys(object);
-
-  if (Object.getOwnPropertySymbols) {
-    var symbols = Object.getOwnPropertySymbols(object);
-    if (enumerableOnly) { symbols = symbols.filter(function (sym) {
-      return Object.getOwnPropertyDescriptor(object, sym).enumerable;
-    }); }
-    keys.push.apply(keys, symbols);
-  }
-
-  return keys;
-}
-
-function _objectSpread2(target) {
-  var arguments$1 = arguments;
-
-  for (var i = 1; i < arguments.length; i++) {
-    var source = arguments$1[i] != null ? arguments$1[i] : {};
-
-    if (i % 2) {
-      ownKeys(Object(source), true).forEach(function (key) {
-        _defineProperty(target, key, source[key]);
-      });
-    } else if (Object.getOwnPropertyDescriptors) {
-      Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
-    } else {
-      ownKeys(Object(source)).forEach(function (key) {
-        Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
-      });
-    }
-  }
-
-  return target;
 }
 
 function _slicedToArray(arr, i) {
@@ -641,18 +1092,21 @@ function _arrayWithHoles(arr) {
 }
 
 function _iterableToArray(iter) {
-  if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) { return Array.from(iter); }
+  if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) { return Array.from(iter); }
 }
 
 function _iterableToArrayLimit(arr, i) {
-  if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) { return; }
+  var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"];
+
+  if (_i == null) { return; }
   var _arr = [];
   var _n = true;
   var _d = false;
-  var _e = undefined;
+
+  var _s, _e;
 
   try {
-    for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
+    for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) {
       _arr.push(_s.value);
 
       if (i && _arr.length === i) { break; }
@@ -697,7 +1151,7 @@ function _nonIterableRest() {
 }
 
 // package version used in the ix-lib parameter
-var VERSION$1 = 'v3.1.3'; // regex pattern used to determine if a domain is valid
+var VERSION$1 = '3.6.0-rc.1'; // regex pattern used to determine if a domain is valid
 
 var DOMAIN_REGEX = /^(?:[a-z\d\-_]{1,62}\.){0,125}(?:[a-z\d](?:\-(?=\-*[a-z\d])|[a-z]|\d){0,62}\.)[a-z\d]{1,63}$/i; // minimum generated srcset width
 
@@ -714,6 +1168,7 @@ var DPR_QUALITIES = {
   4: 23,
   5: 20
 };
+var DEFAULT_DPR = [1, 2, 3, 4, 5];
 var DEFAULT_OPTIONS = {
   domain: null,
   useHTTPS: true,
@@ -721,6 +1176,43 @@ var DEFAULT_OPTIONS = {
   urlPrefix: 'https://',
   secureURLToken: null
 };
+
+/**
+ * `extractUrl()` extracts URL components from a source URL string.
+ * It does this by matching the URL against regular expressions. The irrelevant
+ * (entire URL) matches are removed and the rest stored as their corresponding
+ * URL components.
+ *
+ * `url` can be a partial, full URL, or full proxy URL. `useHttps` boolean
+ * defaults to false.
+ *
+ * @returns {Object} `{ protocol, auth, host, pathname, search, hash }`
+ * extracted from the URL.
+ */
+
+function extractUrl(_ref) {
+  var _ref$url = _ref.url,
+      url = _ref$url === void 0 ? '' : _ref$url,
+      _ref$useHttps = _ref.useHttps,
+      useHttps = _ref$useHttps === void 0 ? false : _ref$useHttps;
+  var defaultProto = useHttps ? 'https://' : 'http://';
+
+  if (!hasProtocol(url, true)) {
+    return extractUrl({
+      url: defaultProto + url
+    });
+  }
+  /**
+   * Regex are hard to parse. Leaving this breakdown here for reference.
+   * - `protocol`: ([^:/]+:)? - all not `:` or `/` & preceded by `:`, 0-1 times
+   * - `auth`: ([^/@]+@)? - all not `/` or `@` & preceded by `@`, 0-1 times
+   * - `domainAndPath`: (.*) /) -  all except line breaks
+   * - `domain`: `([^/]*)` - all before a `/` token
+   */
+
+
+  return parseURL(url);
+}
 
 function validateAndDestructureOptions(options) {
   var widthTolerance;
@@ -769,6 +1261,24 @@ function validateVariableQuality(disableVariableQuality) {
     throw new Error('The disableVariableQuality argument can only be passed a Boolean value');
   }
 }
+function validateDevicePixelRatios(devicePixelRatios) {
+  if (!Array.isArray(devicePixelRatios) || !devicePixelRatios.length) {
+    throw new Error('The devicePixelRatios argument can only be passed a valid non-empty array of integers');
+  } else {
+    var allValidDPR = devicePixelRatios.every(function (dpr) {
+      return typeof dpr === 'number' && dpr >= 1 && dpr <= 5;
+    });
+
+    if (!allValidDPR) {
+      throw new Error('The devicePixelRatios argument can only contain positive integer values between 1 and 5');
+    }
+  }
+}
+function validateVariableQualities(variableQualities) {
+  if (_typeof(variableQualities) !== 'object') {
+    throw new Error('The variableQualities argument can only be an object');
+  }
+}
 
 var ImgixClient = /*#__PURE__*/function () {
   function ImgixClient() {
@@ -798,32 +1308,64 @@ var ImgixClient = /*#__PURE__*/function () {
   _createClass(ImgixClient, [{
     key: "buildURL",
     value: function buildURL() {
-      var path = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+      var rawPath = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
       var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+      var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
-      var sanitizedPath = this._sanitizePath(path);
+      var path = this._sanitizePath(rawPath, {
+        encode: !options.disablePathEncoding
+      });
 
       var finalParams = this._buildParams(params);
 
       if (!!this.settings.secureURLToken) {
-        finalParams = this._signParams(sanitizedPath, finalParams);
+        finalParams = this._signParams(path, finalParams);
       }
 
-      return this.settings.urlPrefix + this.settings.domain + sanitizedPath + finalParams;
+      return this.settings.urlPrefix + this.settings.domain + path + finalParams;
     }
+    /**
+     *`_buildURL` static method allows full URLs to be formatted for use with
+     * imgix.
+     *
+     * - If the source URL has included parameters, they are merged with
+     * the `params` passed in as an argument.
+     * - URL must match `{host}/{pathname}?{query}` otherwise an error is thrown.
+     *
+     * @param {String} url - full source URL path string, required
+     * @param {Object} params - imgix params object, optional
+     * @param {Object} options - imgix client options, optional
+     *
+     * @returns URL string formatted to imgix specifications.
+     *
+     * @example
+     * const client = ImgixClient
+     * const params = { w: 100 }
+     * const opts = { useHttps: true }
+     * const src = "sdk-test.imgix.net/amsterdam.jpg?h=100"
+     * const url = client._buildURL(src, params, opts)
+     * console.log(url)
+     * // => "https://sdk-test.imgix.net/amsterdam.jpg?h=100&w=100"
+     */
+
   }, {
     key: "_buildParams",
     value: function _buildParams() {
       var params = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-      var queryParams = [].concat(_toConsumableArray(this.settings.libraryParam ? ["ixlib=".concat(this.settings.libraryParam)] : []), _toConsumableArray(Object.entries(params).map(function (_ref) {
+      var queryParams = [].concat(_toConsumableArray(this.settings.libraryParam ? ["ixlib=".concat(this.settings.libraryParam)] : []), _toConsumableArray(Object.entries(params).reduce(function (prev, _ref) {
         var _ref2 = _slicedToArray(_ref, 2),
             key = _ref2[0],
             value = _ref2[1];
 
+        if (value == null) {
+          return prev;
+        }
+
         var encodedKey = encodeURIComponent(key);
-        var encodedValue = key.substr(-2) === '64' ? base64.Base64.encodeURI(value) : encodeURIComponent(value);
-        return "".concat(encodedKey, "=").concat(encodedValue);
-      })));
+        var encodedValue = key.substr(-2) === '64' ? gBase64.encodeURI(value) : encodeURIComponent(value);
+        prev.push("".concat(encodedKey, "=").concat(encodedValue));
+        return prev;
+      }, [])));
       return "".concat(queryParams.length > 0 ? '?' : '').concat(queryParams.join('&'));
     }
   }, {
@@ -833,20 +1375,35 @@ var ImgixClient = /*#__PURE__*/function () {
       var signature = md5(signatureBase);
       return queryParams.length > 0 ? queryParams + '&s=' + signature : '?s=' + signature;
     }
+    /**
+     * "Sanitize" the path of the image URL.
+     * Ensures that the path has a leading slash, and that the path is correctly
+     * encoded. If it's a proxy path (begins with http/https), then encode the
+     * whole path as a URI component, otherwise only encode specific characters.
+     * @param {string} path The URL path of the image
+     * @param {Object} options Sanitization options
+     * @param {boolean} options.encode Whether to encode the path, default true
+     * @returns {string} The sanitized path
+     */
+
   }, {
     key: "_sanitizePath",
     value: function _sanitizePath(path) {
+      var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
       // Strip leading slash first (we'll re-add after encoding)
       var _path = path.replace(/^\//, '');
 
-      if (/^https?:\/\//.test(_path)) {
-        // Use de/encodeURIComponent to ensure *all* characters are handled,
-        // since it's being used as a path
-        _path = encodeURIComponent(_path);
-      } else {
-        // Use de/encodeURI if we think the path is just a path,
-        // so it leaves legal characters like '/' and '@' alone
-        _path = encodeURI(_path).replace(/[#?:+]/g, encodeURIComponent);
+      if (!(options.encode === false)) {
+        if (/^https?:\/\//.test(_path)) {
+          // Use de/encodeURIComponent to ensure *all* characters are handled,
+          // since it's being used as a path
+          _path = encodeURIComponent(_path);
+        } else {
+          // Use de/encodeURI if we think the path is just a path,
+          // so it leaves legal characters like '/' and '@' alone
+          _path = encodeURI(_path).replace(/[#?:+]/g, encodeURIComponent);
+        }
       }
 
       return '/' + _path;
@@ -864,12 +1421,29 @@ var ImgixClient = /*#__PURE__*/function () {
       } else {
         return this._buildSrcSetPairs(path, params, options);
       }
-    } // returns an array of width values used during srcset generation
+    }
+    /**
+     * _buildSrcSet static method allows full URLs to be used when generating
+     * imgix formatted `srcset` string values.
+     *
+     * - If the source URL has included parameters, they are merged with
+     * the `params` passed in as an argument.
+     * - URL must match `{host}/{pathname}?{query}` otherwise an error is thrown.
+     *
+     * @param {String} url - full source URL path string, required
+     * @param {Object} params - imgix params object, optional
+     * @param {Object} srcsetModifiers - srcset modifiers, optional
+     * @param {Object} clientOptions - imgix client options, optional
+     * @returns imgix `srcset` for full URLs.
+     */
 
   }, {
     key: "_buildSrcSetPairs",
-    value: function _buildSrcSetPairs(path, params, options) {
+    value: function _buildSrcSetPairs(path) {
       var _this = this;
+
+      var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+      var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
       var _validateAndDestructu = validateAndDestructureOptions(options),
           _validateAndDestructu2 = _slicedToArray(_validateAndDestructu, 3),
@@ -889,33 +1463,52 @@ var ImgixClient = /*#__PURE__*/function () {
       var srcset = targetWidthValues.map(function (w) {
         return "".concat(_this.buildURL(path, _objectSpread2(_objectSpread2({}, params), {}, {
           w: w
-        })), " ").concat(w, "w");
+        }), {
+          disablePathEncoding: options.disablePathEncoding
+        }), " ").concat(w, "w");
       });
       return srcset.join(',\n');
     }
   }, {
     key: "_buildDPRSrcSet",
-    value: function _buildDPRSrcSet(path, params, options) {
+    value: function _buildDPRSrcSet(path) {
       var _this2 = this;
 
-      var targetRatios = [1, 2, 3, 4, 5];
+      var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+      var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+
+      if (options.devicePixelRatios) {
+        validateDevicePixelRatios(options.devicePixelRatios);
+      }
+
+      var targetRatios = options.devicePixelRatios || DEFAULT_DPR;
       var disableVariableQuality = options.disableVariableQuality || false;
 
       if (!disableVariableQuality) {
         validateVariableQuality(disableVariableQuality);
       }
 
+      if (options.variableQualities) {
+        validateVariableQualities(options.variableQualities);
+      }
+
+      var qualities = _objectSpread2(_objectSpread2({}, DPR_QUALITIES), options.variableQualities);
+
       var withQuality = function withQuality(path, params, dpr) {
         return "".concat(_this2.buildURL(path, _objectSpread2(_objectSpread2({}, params), {}, {
           dpr: dpr,
-          q: params.q || DPR_QUALITIES[dpr]
-        })), " ").concat(dpr, "x");
+          q: params.q || qualities[dpr] || qualities[Math.floor(dpr)]
+        }), {
+          disablePathEncoding: options.disablePathEncoding
+        }), " ").concat(dpr, "x");
       };
 
       var srcset = disableVariableQuality ? targetRatios.map(function (dpr) {
         return "".concat(_this2.buildURL(path, _objectSpread2(_objectSpread2({}, params), {}, {
           dpr: dpr
-        })), " ").concat(dpr, "x");
+        }), {
+          disablePathEncoding: options.disablePathEncoding
+        }), " ").concat(dpr, "x");
       }) : targetRatios.map(function (dpr) {
         return withQuality(path, params, dpr);
       });
@@ -926,6 +1519,70 @@ var ImgixClient = /*#__PURE__*/function () {
     value: function version() {
       return VERSION$1;
     }
+  }, {
+    key: "_buildURL",
+    value: function _buildURL(url) {
+      var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+      var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+
+      if (url == null) {
+        return '';
+      }
+
+      var _extractUrl = extractUrl({
+        url: url,
+        useHTTPS: options.useHTTPS
+      }),
+          host = _extractUrl.host,
+          pathname = _extractUrl.pathname,
+          search = _extractUrl.search; // merge source URL parameters with options parameters
+
+
+      var combinedParams = _objectSpread2(_objectSpread2({}, getQuery(search)), params); // throw error if no host or no pathname present
+
+
+      if (!host.length || !pathname.length) {
+        throw new Error('_buildURL: URL must match {host}/{pathname}?{query}');
+      }
+
+      var client = new ImgixClient(_objectSpread2({
+        domain: host
+      }, options));
+      return client.buildURL(pathname, combinedParams);
+    }
+  }, {
+    key: "_buildSrcSet",
+    value: function _buildSrcSet(url) {
+      var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+      var srcsetModifiers = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+      var clientOptions = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
+
+      if (url == null) {
+        return '';
+      }
+
+      var _extractUrl2 = extractUrl({
+        url: url,
+        useHTTPS: clientOptions.useHTTPS
+      }),
+          host = _extractUrl2.host,
+          pathname = _extractUrl2.pathname,
+          search = _extractUrl2.search; // merge source URL parameters with options parameters
+
+
+      var combinedParams = _objectSpread2(_objectSpread2({}, getQuery(search)), params); // throw error if no host or no pathname present
+
+
+      if (!host.length || !pathname.length) {
+        throw new Error('_buildOneStepURL: URL must match {host}/{pathname}?{query}');
+      }
+
+      var client = new ImgixClient(_objectSpread2({
+        domain: host
+      }, clientOptions));
+      return client.buildSrcSet(pathname, combinedParams, srcsetModifiers);
+    } // returns an array of width values used during srcset generation
+
   }, {
     key: "targetWidths",
     value: function targetWidths() {
@@ -1017,7 +1674,7 @@ var IxImg = defineComponent({
 
 function objectWithoutProperties (obj, exclude) { var target = {}; for (var k in obj) if (Object.prototype.hasOwnProperty.call(obj, k) && exclude.indexOf(k) === -1) target[k] = obj[k]; return target; }
 // Do not change this
-var VERSION = '2.9.0-rc.2';
+var VERSION = '3.0.0-rc.1';
 var clientOptionDefaults = {
     includeLibraryParam: true,
 };
@@ -1037,8 +1694,8 @@ var VueImgixClient = function VueImgixClient(options) {
         var maxWidth = options.maxWidth;
         var rest = objectWithoutProperties( options, ["widths", "widthTolerance", "minWidth", "maxWidth"] );
         var sharedOptions = rest;
-        var src = this$1$1.buildUrl(url, ixParams);
-        var srcset = this$1$1.buildSrcSet(url, ixParams, Object.assign({}, {widths: widths,
+        var src = this$1$1._buildUrl(url, ixParams);
+        var srcset = this$1$1._buildSrcSet(url, ixParams, Object.assign({}, {widths: widths,
             widthTolerance: widthTolerance,
             minWidth: minWidth,
             maxWidth: maxWidth},
@@ -1048,8 +1705,27 @@ var VueImgixClient = function VueImgixClient(options) {
     this.buildUrl = function (url, ixParams) {
         return this$1$1.client.buildURL(url, this$1$1.buildIxParams(ixParams));
     };
+    this._buildUrl = function (url, ixParams) {
+        // if 2-step URL
+        if (!url.includes('://')) {
+            return this$1$1.client.buildURL(url, this$1$1.buildIxParams(ixParams));
+        }
+        else {
+            return ImgixClient._buildURL(url, this$1$1.buildIxParams(ixParams));
+        }
+    };
     this.buildSrcSet = function (url, ixParams, options) {
         return this$1$1.client.buildSrcSet(url, this$1$1.buildIxParams(ixParams), options);
+    };
+    this._buildSrcSet = function (url, ixParams, options) {
+        // if 2-step URL
+        // eslint-disable-next-line
+        if (!url.includes('://')) {
+            return this$1$1.client.buildSrcSet(url, this$1$1.buildIxParams(ixParams), options);
+        }
+        else {
+            return ImgixClient._buildSrcSet(url, this$1$1.buildIxParams(ixParams), options);
+        }
     };
     this.options = Object.assign({}, clientOptionDefaults, options);
     this.client = new ImgixClient({
@@ -1088,14 +1764,14 @@ var buildUrl = function () {
     while ( len-- ) args[ len ] = arguments[ len ];
 
     var client = ensureVueImgixClientSingleton();
-    return client.buildUrl.apply(client, args);
+    return client._buildUrl.apply(client, args);
 };
 var buildSrcSet = function () {
     var args = [], len = arguments.length;
     while ( len-- ) args[ len ] = arguments[ len ];
 
     var client = ensureVueImgixClientSingleton();
-    return client.buildSrcSet.apply(client, args);
+    return client._buildSrcSet.apply(client, args);
 };
 
 var IxPictureProps = defineComponent({

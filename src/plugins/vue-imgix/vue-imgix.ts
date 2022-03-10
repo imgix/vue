@@ -13,7 +13,7 @@ import {
 } from './types';
 
 // Do not change this
-const VERSION = '3.0.0-rc.1';
+const VERSION = '3.0.0-rc.2';
 
 const clientOptionDefaults = {
   includeLibraryParam: true,
