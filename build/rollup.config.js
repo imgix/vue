@@ -25,6 +25,7 @@ export default [
       }),
       buble({
         objectAssign: true,
+        transforms: { dangerousForOf: true },
       }),
       commonjs(),
     ],
@@ -47,6 +48,7 @@ export default [
       }),
       buble({
         objectAssign: true,
+        transforms: { dangerousForOf: true },
       }),
       commonjs(),
     ],
@@ -75,6 +77,7 @@ export default [
       }),
       buble({
         objectAssign: true,
+        transforms: { dangerousForOf: true },
       }),
       commonjs(),
     ],
