@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import {
   buildImgixClient,
-  IVueImgixClient
+  IVueImgixClient,
 } from '@/plugins/vue-imgix/vue-imgix';
 
 describe('buildSrcSet', () => {
