@@ -5,7 +5,7 @@
 `vue-imgix` is a client library for generating URLs with [imgix](https://www.imgix.com/).
 
 > ### Vue 2.x
-> ⚠️ You are viewing the Vue 3.0 `@next` development branch. This branch is for preview purposes. There will be bugs and undocumented behavior differences from v2. For Vue 2, please look at the [`main`](https://github.com/imgix/vue-imgix/tree/main) branch. We will be supporting Vue 2 for the official support timeline (18 months) after we release Vue 3 support.
+> ⚠️ You are viewing the Vue 3.0 `@next` development branch. This branch is for preview purposes. There will be bugs and undocumented behavior differences from vue-imgix v2. For Vue 2, please look at the [`main`](https://github.com/imgix/vue-imgix/tree/main) branch. We will be supporting Vue 2 for the official support timeline (18 months) after we release Vue 3 support.
 <!-- TODO(luis): update/remove badges for @next -->
 [![npm version](https://img.shields.io/npm/v/vue-imgix.svg)](https://www.npmjs.com/package/vue-imgix)
 [![Build Status](https://travis-ci.com/imgix/vue-imgix.svg?branch=main)](https://travis-ci.com/imgix/vue-imgix)
