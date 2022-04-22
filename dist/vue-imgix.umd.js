@@ -2,7 +2,7 @@
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('vue')) :
   typeof define === 'function' && define.amd ? define(['exports', 'vue'], factory) :
   (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.VueImgix = {}, global.vue));
-}(this, (function (exports, vue) { 'use strict';
+})(this, (function (exports, vue) { 'use strict';
 
   /**
    *  base64.ts
@@ -1155,7 +1155,7 @@
   }
 
   // package version used in the ix-lib parameter
-  var VERSION$1 = '3.6.0-rc.1'; // regex pattern used to determine if a domain is valid
+  var VERSION$1 = '3.6.0'; // regex pattern used to determine if a domain is valid
 
   var DOMAIN_REGEX = /^(?:[a-z\d\-_]{1,62}\.){0,125}(?:[a-z\d](?:\-(?=\-*[a-z\d])|[a-z]|\d){0,62}\.)[a-z\d]{1,63}$/i; // minimum generated srcset width
 
@@ -1678,7 +1678,7 @@
 
   function objectWithoutProperties (obj, exclude) { var target = {}; for (var k in obj) if (Object.prototype.hasOwnProperty.call(obj, k) && exclude.indexOf(k) === -1) target[k] = obj[k]; return target; }
   // Do not change this
-  var VERSION = '3.0.0-rc.1';
+  var VERSION = '3.0.0-rc.2';
   var clientOptionDefaults = {
       includeLibraryParam: true,
   };
@@ -1734,7 +1734,7 @@
       this.options = Object.assign({}, clientOptionDefaults, options);
       this.client = new ImgixClient({
           domain: this.options.domain,
-          includeLibraryParam: false,
+          includeLibraryParam: false, // force false so that @imgix/js-core doesn't include its own library param
       });
       // This is not a public API, so it is not included in the type definitions for ImgixClient
       if (this.options.includeLibraryParam) {
@@ -1842,11 +1842,11 @@
   exports.buildSrcSet = buildSrcSet;
   exports.buildUrl = buildUrl;
   exports.buildUrlObject = buildUrlObject;
-  exports.default = plugin;
+  exports["default"] = plugin;
   exports.ensureVueImgixClientSingleton = ensureVueImgixClientSingleton;
   exports.initVueImgix = initVueImgix;
   exports.install = install;
 
   Object.defineProperty(exports, '__esModule', { value: true });
 
-})));
+}));

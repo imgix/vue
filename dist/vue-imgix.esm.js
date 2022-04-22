@@ -1151,7 +1151,7 @@ function _nonIterableRest() {
 }
 
 // package version used in the ix-lib parameter
-var VERSION$1 = '3.6.0-rc.1'; // regex pattern used to determine if a domain is valid
+var VERSION$1 = '3.6.0'; // regex pattern used to determine if a domain is valid
 
 var DOMAIN_REGEX = /^(?:[a-z\d\-_]{1,62}\.){0,125}(?:[a-z\d](?:\-(?=\-*[a-z\d])|[a-z]|\d){0,62}\.)[a-z\d]{1,63}$/i; // minimum generated srcset width
 
@@ -1674,7 +1674,7 @@ var IxImg = defineComponent({
 
 function objectWithoutProperties (obj, exclude) { var target = {}; for (var k in obj) if (Object.prototype.hasOwnProperty.call(obj, k) && exclude.indexOf(k) === -1) target[k] = obj[k]; return target; }
 // Do not change this
-var VERSION = '3.0.0-rc.1';
+var VERSION = '3.0.0-rc.2';
 var clientOptionDefaults = {
     includeLibraryParam: true,
 };
@@ -1730,7 +1730,7 @@ var VueImgixClient = function VueImgixClient(options) {
     this.options = Object.assign({}, clientOptionDefaults, options);
     this.client = new ImgixClient({
         domain: this.options.domain,
-        includeLibraryParam: false,
+        includeLibraryParam: false, // force false so that @imgix/js-core doesn't include its own library param
     });
     // This is not a public API, so it is not included in the type definitions for ImgixClient
     if (this.options.includeLibraryParam) {
@@ -1833,5 +1833,4 @@ var plugin = {
     install: install,
 };
 
-export default plugin;
-export { IxImg, buildImgixClient, buildSrcSet, buildUrl, buildUrlObject, ensureVueImgixClientSingleton, initVueImgix, install };
+export { IxImg, buildImgixClient, buildSrcSet, buildUrl, buildUrlObject, plugin as default, ensureVueImgixClientSingleton, initVueImgix, install };
