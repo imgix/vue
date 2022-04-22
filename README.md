@@ -86,7 +86,7 @@ This module exports two transpiled versions. If a ES6-module-aware bundler is be
 
 A polyfill for `Object.assign` must be supplied for browsers that need it. You probably have this already set up, so you likely don't need to do anything.
 
-### Standard Vue 3.x App
+### Standard Vue 3 App
 
 > For Vue 2, please look at the [`main`](https://github.com/imgix/vue-imgix/tree/main) branch.
 
@@ -114,12 +114,34 @@ app.mount('#app');
 
 And that's all you need to get started! Have fun!
 
-### Nuxt.js
-This module is not yet compatible with [Nuxt 3](https://v3.nuxtjs.org/getting-started/introduction). As Nuxt 3 is still in development, we recommend using [Nuxt 2](https://nuxtjs.org/guide/getting-started) and [@imgix/vue-imgix](https://github.com/imgix/vue-imgix) v2.x.x. instead.
+### Nuxt.js v3
 
-However, Nuxt.js now has a built-in [Image component](https://image.nuxtjs.org/getting-started/installation) that can be used alongside imgix.
+#### With `nuxt-image`
+
+Nuxt.js now has a built-in [Image component](https://image.nuxtjs.org/getting-started/installation) that can be used alongside imgix.
 
 You can read more about our `nuxt-image` provider and how to use it in the [Nuxt docs](https://image.nuxtjs.org/providers/imgix).
+
+#### Using this library directly
+
+> For Nuxt v2 support, please look at the [`main`](https://github.com/imgix/vue-imgix/tree/main) branch.
+
+To use this library with Nuxt 3, add the following code to `plugins/vue-imgix.js`
+
+```js
+import { defineNuxtPlugin } from '#app';
+import VueImgix from 'vue-imgix';
+
+export default defineNuxtPlugin((nuxtApp) => {
+  nuxtApp.vueApp.use(VueImgix, {
+    domain: "<your company's imgix domain>",
+    defaultIxParams: {
+      // This enables the auto format imgix parameter by default for all images, which we recommend to reduce image size, but you might choose to turn this off.
+      auto: 'format',
+    },
+  });
+});
+```
 
 #### Example usage
 
