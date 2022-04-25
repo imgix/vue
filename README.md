@@ -4,6 +4,8 @@
 
 `@imgix/vue` is a client library for generating URLs with [imgix](https://www.imgix.com/).
 
+> ⚠️ You are viewing the Vue 2.x maintenance branch, as such, this branch is not compatible with Vue 3. This branch will only contain bug fixes and security updates, all new features will be built for Vue 3. For Vue 3 support, please use the [`main` branch]((https://github.com/imgix/vue/tree/main). 
+
 [![npm version](https://img.shields.io/npm/v/@imgix/vue.svg)](https://www.npmjs.com/package/@imgix/vue)
 [![Build Status](https://travis-ci.com/imgix/vue.svg?branch=main)](https://travis-ci.com/imgix/vue)
 [![Downloads](https://img.shields.io/npm/dm/@imgix/vue.svg)](https://www.npmjs.com/package/@imgix/vue)
@@ -102,7 +104,7 @@ And that's all you need to get started! Have fun!
 
 ### Vue 3.x
 
-⚠️ Currently this library does not explicitly support Vue 3, although we are planning to roll out official support for it soon. We will also be supporting Vue 2 for the official support timeline (18 months) after we release Vue 3 support.
+For Vue 3 support, please use the [`main` branch]((https://github.com/imgix/vue/tree/main). 
 
 ### Nuxt.js
 
