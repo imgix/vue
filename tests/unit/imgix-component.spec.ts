@@ -1,7 +1,8 @@
-import VueImgix from '@/plugins/vue-imgix/index';
-import { IxImg } from '@/plugins/vue-imgix/ix-img';
-import { IxPicture } from '@/plugins/vue-imgix/ix-picture';
-import { IxSource } from '@/plugins/vue-imgix/ix-source';
+import VueImgix from '@/plugins/imgix-vue/index';
+import { IxImg } from '@/plugins/imgix-vue/ix-img';
+import { IxPicture } from '@/plugins/imgix-vue/ix-picture';
+import { IxSource } from '@/plugins/imgix-vue/ix-source';
+import '@testing-library/jest-dom';
 import { render } from '@testing-library/vue';
 import { config, mount } from '@vue/test-utils';
 import { createApp } from 'vue';
@@ -208,7 +209,7 @@ describe('imgix component', () => {
       jest.resetModules();
       /* eslint-disable @typescript-eslint/no-unused-vars */
       const _Vue = require('vue');
-      const _VueImgix = require('@/plugins/vue-imgix');
+      const _VueImgix = require('@/plugins/imgix-vue');
       _IxImg = _VueImgix.IxImg;
       jest.mock('@imgix/js-core');
       mockImgixClient = {

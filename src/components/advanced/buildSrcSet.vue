@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { buildUrl, buildSrcSet } from '@/plugins/vue-imgix';
+import { buildUrl, buildSrcSet } from '@/plugins/imgix-vue';
 
 // NB: Make sure initVueImgix has been called before this code runs
 export default {

@@ -1,5 +1,5 @@
 {
-  "name": "vue-imgix",
+  "name": "@imgix/vue",
   "description": "A simple yet powerful integration between Vue and Imgix",
   "author": "Frederick Fogerty <frederick.fogerty@gmail.com> (https://github.com/frederickfogerty)",
   "contributors": [
@@ -8,21 +8,21 @@
   "license": "BSD-2-Clause",
   "repository": {
     "type": "git",
-    "url": "https://github.com/imgix/vue-imgix.git"
+    "url": "https://github.com/imgix/vue.git"
   },
   "bugs": {
-    "url": "https://github.com/imgix/vue-imgix/issues"
+    "url": "https://github.com/imgix/vue/issues"
   },
-  "homepage": "https://github.com/imgix/vue-imgix#readme",
+  "homepage": "https://github.com/imgix/vue#readme",
   "keywords": [
     "vue",
     "imgix",
     "component"
   ],
-  "main": "dist/vue-imgix.umd.js",
-  "module": "dist/vue-imgix.esm.js",
-  "jsnext:main": "dist/vue-imgix.esm.js",
-  "unpkg": "dist/vue-imgix.min.js",
+  "main": "dist/imgix-vue.umd.js",
+  "module": "dist/imgix-vue.esm.js",
+  "jsnext:main": "dist/imgix-vue.esm.js",
+  "unpkg": "dist/imgix-vue.min.js",
   "version": "3.0.0-rc.4",
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -177,13 +177,13 @@
           "replacements": [
             {
               "files": [
-                "src/plugins/vue-imgix/vue-imgix.ts"
+                "src/plugins/imgix-vue/imgix-vue.ts"
               ],
               "from": "const VERSION = '.*'",
               "to": "const VERSION = '${nextRelease.version}'",
               "results": [
                 {
-                  "file": "src/plugins/vue-imgix/vue-imgix.ts",
+                  "file": "src/plugins/imgix-vue/imgix-vue.ts",
                   "hasChanged": true,
                   "numMatches": 1,
                   "numReplacements": 1
@@ -213,15 +213,15 @@
         {
           "assets": [
             {
-              "path": "dist/vue-imgix.min.js",
+              "path": "dist/imgix-vue.min.js",
               "label": "Standalone browser build"
             },
             {
-              "path": "dist/vue-imgix.umd.js",
+              "path": "dist/imgix-vue.umd.js",
               "label": "UMD/CJS build"
             },
             {
-              "path": "dist/vue-imgix.esm.js",
+              "path": "dist/imgix-vue.esm.js",
               "label": "ES Modules build"
             }
           ]
@@ -231,7 +231,7 @@
   },
   "files": [
     "/dist",
-    "/src/plugins/vue-imgix",
+    "/src/plugins/imgix-vue",
     "README.md",
     "LICENSE"
   ],

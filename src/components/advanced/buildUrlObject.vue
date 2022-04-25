@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { buildUrlObject } from '@/plugins/vue-imgix';
+import { buildUrlObject } from '@/plugins/imgix-vue';
 
 // NB: Make sure initVueImgix has been called before this code runs
 export default {

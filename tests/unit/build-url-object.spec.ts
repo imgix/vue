@@ -2,7 +2,7 @@
 import {
   buildImgixClient,
   IVueImgixClient,
-} from '@/plugins/vue-imgix/vue-imgix';
+} from '@/plugins/imgix-vue/imgix-vue';
 import readPkg from 'read-pkg';
 
 describe('buildUrlObject', () => {
@@ -45,7 +45,7 @@ describe('buildUrlObject', () => {
     beforeEach(() => {
       jest.resetModules();
       jest.mock('@imgix/js-core');
-      const { buildImgixClient } = require('@/plugins/vue-imgix/');
+      const { buildImgixClient } = require('@/plugins/imgix-vue/');
       const ImgixClient = require('@imgix/js-core');
       mockImgixClient = {
         settings: {},

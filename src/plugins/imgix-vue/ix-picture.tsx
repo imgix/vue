@@ -1,5 +1,5 @@
 import { defineComponent, h } from 'vue';
-import { ensureVueImgixClientSingleton } from './vue-imgix';
+import { ensureVueImgixClientSingleton } from './imgix-vue';
 
 const IxPictureProps = defineComponent({
   props: {},
