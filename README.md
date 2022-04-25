@@ -1,5 +1,9 @@
 <!-- ix-docs-ignore -->
+## ⚠️ `vue-imgix` has been renamed to [`@imgix/vue`](https://npmjs.com/package/@imgix/vue), please install that package from npm instead.
 
+Install `@imgix/vue@2` for Vue 2 support, or `@imgix/vue@latest` for Vue 3 support.
+
+---
 ![imgix logo](https://assets.imgix.net/sdk-imgix-logo.svg)
 
 `vue-imgix` is a client library for generating URLs with [imgix](https://www.imgix.com/).
