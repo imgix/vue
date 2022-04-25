@@ -1,8 +1,8 @@
 import _Vue from 'vue';
+import { initVueImgix, IxImg } from './imgix-vue';
 import { IxPicture } from './ix-picture';
 import { IxSource } from './ix-source';
 import { IVueUseImgixOptions } from './types';
-import { initVueImgix, IxImg } from './vue-imgix';
 
 // Declare install function executed by Vue.use()
 export function install(Vue: typeof _Vue, options: IVueUseImgixOptions) {
@@ -22,4 +22,4 @@ const plugin = {
 
 // To allow use as module (npm/webpack/etc.) export component
 export default plugin;
-export * from './vue-imgix';
+export * from './imgix-vue';

@@ -1,6 +1,6 @@
 <!-- prettier-ignore-start -->
 <!--
-Hello, and thanks for contributing to vue-imgix! 🎉🙌
+Hello, and thanks for contributing to @imgix/vue! 🎉🙌
 Please take a second to fill out PRs with the following template!
 -->
 

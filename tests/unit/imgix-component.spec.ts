@@ -1,4 +1,4 @@
-import VueImgix, { IxImg } from '@/plugins/vue-imgix';
+import VueImgix, { IxImg } from '@/plugins/imgix-vue';
 import '@testing-library/jest-dom';
 import { render } from '@testing-library/vue';
 import Vue from 'vue';
@@ -187,7 +187,7 @@ describe('imgix component', () => {
       /* eslint-disable @typescript-eslint/no-var-requires */
       jest.resetModules();
       const _Vue = require('vue');
-      const _VueImgix = require('@/plugins/vue-imgix');
+      const _VueImgix = require('@/plugins/imgix-vue');
       _IxImg = _VueImgix.IxImg;
       jest.mock('@imgix/js-core');
       mockImgixClient = {

@@ -1,4 +1,4 @@
-import VueImgix from '@/plugins/vue-imgix';
+import VueImgix from '@/plugins/imgix-vue';
 import Vue from 'vue';
 import App from './App.vue';
 

@@ -49,13 +49,13 @@ The development of this library follows [this very useful guide about Outside-In
 
 ## Publishing
 
-Semantic-release will auto-publish anything that is merged into the `next` branch to npm under the `next` dist-tag. Users can install this version by running `npm install vue-imgix@next`. To facilitate this, every commit must follow the [conventional commit specification](https://www.conventionalcommits.org/en/v1.0.0-beta.2/).
+Semantic-release will auto-publish anything that is merged into the `next` branch to npm under the `next` dist-tag. Users can install this version by running `npm install @imgix/vue@next`. To facilitate this, every commit must follow the [conventional commit specification](https://www.conventionalcommits.org/en/v1.0.0-beta.2/).
 
 The current process to publish the main dist-tag from the main branch:
 
 1. Merge the latest changes from `next`
 1. Run `yarn` to install the latest deps
-1. Bump the package version in package.json and vue-imgix.ts by a patch version. This is important because if we release with the same version as what's on the next branch, it won't work.
+1. Bump the package version in package.json and imgix-vue.ts by a patch version. This is important because if we release with the same version as what's on the next branch, it won't work.
 1. `npm publish`
 
 ## Code Conventions

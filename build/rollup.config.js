@@ -7,12 +7,12 @@ import vue from 'rollup-plugin-vue';
 export default [
   // ES Modules build
   {
-    input: 'src/plugins/vue-imgix/index.ts',
+    input: 'src/plugins/imgix-vue/index.ts',
     output: {
       format: 'esm',
       name: 'VueImgix',
       exports: 'named',
-      file: 'dist/vue-imgix.esm.js',
+      file: 'dist/imgix-vue.esm.js',
     },
     external: ['vue'],
     plugins: [
@@ -32,12 +32,12 @@ export default [
   },
   // UMD build
   {
-    input: 'src/plugins/vue-imgix/index.ts',
+    input: 'src/plugins/imgix-vue/index.ts',
     output: {
       format: 'umd',
       name: 'VueImgix',
       exports: 'named',
-      file: 'dist/vue-imgix.umd.js',
+      file: 'dist/imgix-vue.umd.js',
     },
     external: ['vue'],
     plugins: [
@@ -55,12 +55,12 @@ export default [
   },
   // Standalone build
   {
-    input: 'src/plugins/vue-imgix/index.ts',
+    input: 'src/plugins/imgix-vue/index.ts',
     output: {
       format: 'iife',
       name: 'VueImgix',
       exports: 'named',
-      file: 'dist/vue-imgix.min.js',
+      file: 'dist/imgix-vue.min.js',
     },
     external: ['vue'],
     global: {

@@ -1,4 +1,4 @@
-import VueImgix from '@/plugins/vue-imgix';
+import VueImgix from '@/plugins/imgix-vue';
 import '@testing-library/jest-dom';
 import { render } from '@testing-library/vue';
 import Vue from 'vue';
