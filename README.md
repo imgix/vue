@@ -2,14 +2,13 @@
 
 ![imgix logo](https://assets.imgix.net/sdk-imgix-logo.svg)
 
-`vue-imgix` is a client library for generating URLs with [imgix](https://www.imgix.com/).
+`@imgix/vue` is a client library for generating URLs with [imgix](https://www.imgix.com/).
 
-[![npm version](https://img.shields.io/npm/v/vue-imgix.svg)](https://www.npmjs.com/package/vue-imgix)
-[![Build Status](https://travis-ci.com/imgix/vue-imgix.svg?branch=main)](https://travis-ci.com/imgix/vue-imgix)
-[![Downloads](https://img.shields.io/npm/dm/vue-imgix.svg)](https://www.npmjs.com/package/vue-imgix)
-[![License](https://img.shields.io/npm/l/vue-imgix)](https://github.com/imgix/vue-imgix/blob/main/LICENSE)
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fimgix%2Fvue-imgix.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fimgix%2Fvue-imgix?ref=badge_shield)
-[![Dependencies Status](https://david-dm.org/imgix/vue-imgix.svg)](https://david-dm.org/imgix/vue-imgix)
+[![npm version](https://img.shields.io/npm/v/@imgix/vue.svg)](https://www.npmjs.com/package/@imgix/vue)
+[![Build Status](https://travis-ci.com/imgix/vue.svg?branch=main)](https://travis-ci.com/imgix/vue)
+[![Downloads](https://img.shields.io/npm/dm/@imgix/vue.svg)](https://www.npmjs.com/package/@imgix/vue)
+[![License](https://img.shields.io/npm/l/@imgix/vue)](https://github.com/imgix/@imgix/vue/blob/main/LICENSE)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fimgix%2Fvue.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fimgix%2Fvue?ref=badge_shield)
 [![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
@@ -58,7 +57,7 @@
 
 ## Overview / Resources
 
-**Before you get started with vue-imgix**, it's _highly recommended_ that you read Eric Portis' [seminal article on `srcset` and `sizes`](https://ericportis.com/posts/2014/srcset-sizes/). This article explains the history of responsive images in responsive design, why they're necessary, and how all these technologies work together to save bandwidth and provide a better experience for users. The primary goal of vue-imgix is to make these tools easier for developers to implement, so having an understanding of how they work will significantly improve your vue-imgix experience.
+**Before you get started with @imgix/vue**, it's _highly recommended_ that you read Eric Portis' [seminal article on `srcset` and `sizes`](https://ericportis.com/posts/2014/srcset-sizes/). This article explains the history of responsive images in responsive design, why they're necessary, and how all these technologies work together to save bandwidth and provide a better experience for users. The primary goal of @imgix/vue is to make these tools easier for developers to implement, so having an understanding of how they work will significantly improve your @imgix/vue experience.
 
 Below are some other articles that help explain responsive imagery, and how it can work alongside imgix:
 
@@ -69,10 +68,10 @@ Below are some other articles that help explain responsive imagery, and how it c
 
 Firstly, follow this [quick start guide](https://docs.imgix.com/setup/quick-start) to set-up an imgix account.
 
-Then, install vue-imgix with the following commands, depending on your package manager.
+Then, install @imgix/vue with the following commands, depending on your package manager.
 
-- **NPM**: `npm install vue-imgix`
-- **Yarn**: `yarn add vue-imgix`
+- **NPM**: `npm install @imgix/vue`
+- **Yarn**: `yarn add @imgix/vue`
 
 This module exports two transpiled versions. If a ES6-module-aware bundler is being used to consume this module, it will pick up an ES6 module version and can perform tree-shaking. **If you are not using ES6 modules, you don't have to do anything.**
 
@@ -84,11 +83,11 @@ A polyfill for `Object.assign` must be supplied for browsers that need it. You p
 
 ### Standard Vue 2.x App
 
-Vue-imgix needs to be initialized with a minimal configuration before it can be used in components. Modify your startup/init file (usually `main.js` or similar) to include the following:
+@imgix/vue needs to be initialized with a minimal configuration before it can be used in components. Modify your startup/init file (usually `main.js` or similar) to include the following:
 
 ```js
 import Vue from 'vue';
-import VueImgix from 'vue-imgix';
+import VueImgix from '@imgix/vue';
 
 Vue.use(VueImgix, {
   domain: "<your company's imgix domain>",
@@ -107,13 +106,13 @@ And that's all you need to get started! Have fun!
 
 ### Nuxt.js
 
-To configure vue-imgix for a Nuxt app:
+To configure @imgix/vue for a Nuxt app:
 
-1. Add a `vue-imgix.js` file in `/plugins` with the following contents:
+1. Add a `@imgix/vue.js` file in `/plugins` with the following contents:
 
 ```js
 import Vue from 'vue';
-import VueImgix from 'vue-imgix';
+import VueImgix from '@imgix/vue';
 
 Vue.use(VueImgix, {
   domain: "<your company's imgix domain>",
@@ -127,7 +126,7 @@ Vue.use(VueImgix, {
 2. Add the plugin to your Nuxt config (in `nuxt.config.js`) like so:
 
 ```js
-plugins: ['~/plugins/vue-imgix.js'],
+plugins: ['~/plugins/imgix-vue.js'],
 ```
 
 And that's all you need to get started! Have fun!
@@ -140,7 +139,7 @@ To help you get started as quickly as possible, imgix has designed the API of th
 
 #### Basic Use Case
 
-To render a simple image that will display an image based on the browser's DPR and the width of the rendered element using the power of srcsets, vue-imgix can be used as follows:
+To render a simple image that will display an image based on the browser's DPR and the width of the rendered element using the power of srcsets, @imgix/vue can be used as follows:
 
 ```html
 <ix-img src="examples/pione.jpg" sizes="100vw" />
@@ -394,7 +393,7 @@ Here's a [CSSTricks article](https://css-tricks.com/lozad-js-performant-lazy-loa
 
 The last way to implement lazy loading is to use an event listener. This is not recommended these days due to performance concerns, which have been solved by other solutions (the previous solutions mentioned above).
 
-If you'd still like to use an event listener, we recommend using [lazysizes](https://github.com/aFarkas/lazysizes). In order to use vue-imgix with lazysizes, you can simply tell it to generate lazysizes-compatible attributes instead of the standard `src`, `srcset` by changing some configuration settings:
+If you'd still like to use an event listener, we recommend using [lazysizes](https://github.com/aFarkas/lazysizes). In order to use @imgix/vue with lazysizes, you can simply tell it to generate lazysizes-compatible attributes instead of the standard `src`, `srcset` by changing some configuration settings:
 
 ```html
 <ix-img
@@ -431,7 +430,7 @@ In a component:
 </template>
 
 <script>
-  import { buildUrlObject } from 'vue-imgix';
+  import { buildUrlObject } from '@imgix/vue';
 
   // NB: Make sure initVueImgix has been called before this code runs
   export default {
@@ -457,7 +456,7 @@ In addition to the helper above, we provide `buildURL` from @imgix/js-core to he
 </template>
 
 <script>
-  import { buildUrl } from 'vue-imgix';
+  import { buildUrl } from '@imgix/vue';
 
   // NB: Make sure initVueImgix has been called before this code runs
   export default {
@@ -483,7 +482,7 @@ We also provide `buildSrcSet` from @imgix/js-core to help developers to create a
 </template>
 
 <script>
-  import { buildUrl, buildSrcSet } from 'vue-imgix';
+  import { buildUrl, buildSrcSet } from '@imgix/vue';
 
   // NB: Make sure initVueImgix has been called before this code runs
   export default {
@@ -636,7 +635,7 @@ To disable this, set `includeLibraryParam` to false when initializing `VueImgix`
 
 ```js
 import Vue from 'vue';
-import VueImgix from 'vue-imgix';
+import VueImgix from '@imgix/vue';
 
 Vue.use(VueImgix, {
   domain: "<your company's imgix domain>",
@@ -665,7 +664,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- markdownlint-disable -->
 <table>
   <tr>
-    <td align="center"><a href="https://github.com/frederickfogerty"><img src="https://avatars0.githubusercontent.com/u/615334?v=4" width="100px;" alt=""/><br /><sub><b>Frederick Fogerty</b></sub></a><br /><a href="https://github.com/imgix/vue-imgix/commits?author=frederickfogerty" title="Code">💻</a> <a href="https://github.com/imgix/vue-imgix/commits?author=frederickfogerty" title="Documentation">📖</a> <a href="#maintenance-frederickfogerty" title="Maintenance">🚧</a></td>
+    <td align="center"><a href="https://github.com/frederickfogerty"><img src="https://avatars0.githubusercontent.com/u/615334?v=4" width="100px;" alt=""/><br /><sub><b>Frederick Fogerty</b></sub></a><br /><a href="https://github.com/imgix/vue/commits?author=frederickfogerty" title="Code">💻</a> <a href="https://github.com/imgix/vue/commits?author=frederickfogerty" title="Documentation">📖</a> <a href="#maintenance-frederickfogerty" title="Maintenance">🚧</a></td>
   </tr>
 </table>
 
@@ -679,4 +678,4 @@ This project follows the [all-contributors](https://github.com/all-contributors/
 
 ## License
 
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fimgix%2Fvue-imgix.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fimgix%2Fvue-imgix?ref=badge_large)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fimgix%2Fvue.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fimgix%2Fvue?ref=badge_large)

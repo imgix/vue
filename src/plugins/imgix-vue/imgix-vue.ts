@@ -1,5 +1,6 @@
 import ImgixClient from '@imgix/js-core';
 import { IxImg } from './ix-img';
+import type { IVueImgixClient } from './types';
 import {
   IBuildSrcSet,
   IBuildSrcSetOptions,
@@ -10,7 +11,6 @@ import {
   IImgixClientOptions,
   IImgixParams,
 } from './types';
-import type { IVueImgixClient } from './types';
 
 // Do not change this
 const VERSION = '2.9.0';
@@ -130,7 +130,7 @@ export const initVueImgix = (options: IImgixClientOptions) => {
 export const ensureVueImgixClientSingleton = (): IVueImgixClient => {
   if (vueImgixClientSingleton == null) {
     throw new Error(
-      '[vue-imgix] Vue.use(VueImgix, {}) must be called before using exported methods. This is usually done in App.vue :)',
+      '[@imgix/vue] Vue.use(VueImgix, {}) must be called before using exported methods. This is usually done in App.vue :)',
     );
   }
   return vueImgixClientSingleton;
