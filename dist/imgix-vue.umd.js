@@ -1676,7 +1676,7 @@
 
   function objectWithoutProperties (obj, exclude) { var target = {}; for (var k in obj) if (Object.prototype.hasOwnProperty.call(obj, k) && exclude.indexOf(k) === -1) target[k] = obj[k]; return target; }
   // Do not change this
-  var VERSION = '3.0.0';
+  var VERSION = '3.0.1';
   var clientOptionDefaults = {
       includeLibraryParam: true,
   };
