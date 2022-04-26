@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2>Absolute URL Static API Example</h2>
-    <!-- partial URL gets domain from client -->
+    <!-- relative URL gets domain from client -->
     <ix-img
       src="/examples/pione.jpg"
       width="100"
