@@ -2,7 +2,7 @@
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('vue')) :
     typeof define === 'function' && define.amd ? define(['exports', 'vue'], factory) :
     (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.VueImgix = {}, global.Vue));
-}(this, (function (exports, Vue) { 'use strict';
+})(this, (function (exports, Vue) { 'use strict';
 
     function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
 
@@ -30,17 +30,15 @@
         return c > 3 && r && Object.defineProperty(target, key, r), r;
     }
 
-    function createCommonjsModule(fn) {
-      var module = { exports: {} };
-    	return fn(module, module.exports), module.exports;
-    }
+    var md5$1 = {exports: {}};
 
-    var crypt = createCommonjsModule(function (module) {
+    var crypt = {exports: {}};
+
     (function() {
       var base64map
           = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/',
 
-      crypt = {
+      crypt$1 = {
         // Bit-wise rotation left
         rotl: function(n, b) {
           return (n << b) | (n >>> (32 - b));
@@ -55,12 +53,12 @@
         endian: function(n) {
           // If number given, swap endian
           if (n.constructor == Number) {
-            return crypt.rotl(n, 8) & 0x00FF00FF | crypt.rotl(n, 24) & 0xFF00FF00;
+            return crypt$1.rotl(n, 8) & 0x00FF00FF | crypt$1.rotl(n, 24) & 0xFF00FF00;
           }
 
           // Else, assume array and swap all items
           for (var i = 0; i < n.length; i++)
-            { n[i] = crypt.endian(n[i]); }
+            { n[i] = crypt$1.endian(n[i]); }
           return n;
         },
 
@@ -130,9 +128,8 @@
         }
       };
 
-      module.exports = crypt;
+      crypt.exports = crypt$1;
     })();
-    });
 
     var charenc = {
       // UTF-8 encoding
@@ -174,6 +171,7 @@
      * @author   Feross Aboukhadijeh <https://feross.org>
      * @license  MIT
      */
+
     // The _isBuffer check is for Safari 5-7 support, because it's missing
     // Object.prototype.constructor. Remove this eventually
     var isBuffer_1 = function (obj) {
@@ -189,9 +187,8 @@
       return typeof obj.readFloatLE === 'function' && typeof obj.slice === 'function' && isBuffer(obj.slice(0, 0))
     }
 
-    var md5 = createCommonjsModule(function (module) {
     (function(){
-      var crypt$1 = crypt,
+      var crypt$1 = crypt.exports,
           utf8 = charenc_1.utf8,
           isBuffer = isBuffer_1,
           bin = charenc_1.bin,
@@ -339,7 +336,7 @@
       md5._blocksize = 16;
       md5._digestsize = 16;
 
-      module.exports = function (message, options) {
+      md5$1.exports = function (message, options) {
         if (message === undefined || message === null)
           { throw new Error('Illegal argument ' + message); }
 
@@ -350,7 +347,8 @@
       };
 
     })();
-    });
+
+    var md5 = md5$1.exports;
 
     /**
      *  base64.ts
@@ -867,11 +865,11 @@
       return q.length ? "?" + q : "";
     };
     prototypeAccessors.searchParams.get = function () {
-        var this$1 = this;
+        var this$1$1 = this;
 
       var p = new URLSearchParams();
       var loop = function ( name ) {
-        var value = this$1.query[name];
+        var value = this$1$1.query[name];
         if (Array.isArray(value)) {
           value.forEach(function (v) { return p.append(name, v); });
         } else {
@@ -879,7 +877,7 @@
         }
       };
 
-        for (var name in this$1.query) loop( name );
+        for (var name in this$1$1.query) loop( name );
       return p;
     };
     prototypeAccessors.origin.get = function () {
@@ -1745,7 +1743,7 @@
       });
 
       if (process.env.NODE_ENV !== 'production') {
-        if (!(Component.prototype instanceof Vue__default['default']) && Object.keys(plainData).length > 0) {
+        if (!(Component.prototype instanceof Vue__default["default"]) && Object.keys(plainData).length > 0) {
           warn('Component class must inherit Vue or its descendant class ' + 'when class property is used.');
         }
       }
@@ -1810,7 +1808,7 @@
 
 
       var superProto = Object.getPrototypeOf(Component.prototype);
-      var Super = superProto instanceof Vue__default['default'] ? superProto.constructor : Vue__default['default'];
+      var Super = superProto instanceof Vue__default["default"] ? superProto.constructor : Vue__default["default"];
       var Extended = Super.extend(options);
       forwardStaticMembers(Extended, Component, Super);
 
@@ -1893,7 +1891,7 @@
       $internalHooks.push.apply($internalHooks, _toConsumableArray(keys));
     };
 
-    var IxImgProps = Vue__default['default'].extend({
+    var IxImgProps = Vue__default["default"].extend({
         props: {
             src: {
                 type: String,
@@ -1949,15 +1947,15 @@
 
     function objectWithoutProperties (obj, exclude) { var target = {}; for (var k in obj) if (Object.prototype.hasOwnProperty.call(obj, k) && exclude.indexOf(k) === -1) target[k] = obj[k]; return target; }
     // Do not change this
-    var VERSION = '2.8.4';
+    var VERSION = '2.9.0';
     var clientOptionDefaults = {
         includeLibraryParam: true,
     };
     var VueImgixClient = function VueImgixClient(options) {
-        var this$1 = this;
+        var this$1$1 = this;
 
         this.buildIxParams = function (ixParams) {
-            return Object.assign({}, this$1.options.defaultIxParams,
+            return Object.assign({}, this$1$1.options.defaultIxParams,
                 ixParams);
         };
         this.buildUrlObject = function (url, ixParams, options) {
@@ -1969,8 +1967,8 @@
             var maxWidth = options.maxWidth;
             var rest = objectWithoutProperties( options, ["widths", "widthTolerance", "minWidth", "maxWidth"] );
             var sharedOptions = rest;
-            var src = this$1._buildUrl(url, ixParams);
-            var srcset = this$1._buildSrcSet(url, ixParams, Object.assign({}, {widths: widths,
+            var src = this$1$1._buildUrl(url, ixParams);
+            var srcset = this$1$1._buildSrcSet(url, ixParams, Object.assign({}, {widths: widths,
                 widthTolerance: widthTolerance,
                 minWidth: minWidth,
                 maxWidth: maxWidth},
@@ -1978,28 +1976,28 @@
             return { src: src, srcset: srcset };
         };
         this.buildUrl = function (url, ixParams) {
-            return this$1.client.buildURL(url, this$1.buildIxParams(ixParams));
+            return this$1$1.client.buildURL(url, this$1$1.buildIxParams(ixParams));
         };
         this._buildUrl = function (url, ixParams) {
             // if 2-step URL
             if (!url.includes('://')) {
-                return this$1.client.buildURL(url, this$1.buildIxParams(ixParams));
+                return this$1$1.client.buildURL(url, this$1$1.buildIxParams(ixParams));
             }
             else {
-                return ImgixClient._buildURL(url, this$1.buildIxParams(ixParams));
+                return ImgixClient._buildURL(url, this$1$1.buildIxParams(ixParams));
             }
         };
         this.buildSrcSet = function (url, ixParams, options) {
-            return this$1.client.buildSrcSet(url, this$1.buildIxParams(ixParams), options);
+            return this$1$1.client.buildSrcSet(url, this$1$1.buildIxParams(ixParams), options);
         };
         this._buildSrcSet = function (url, ixParams, options) {
             // if 2-step URL
             // eslint-disable-next-line
             if (!url.includes('://')) {
-                return this$1.client.buildSrcSet(url, this$1.buildIxParams(ixParams), options);
+                return this$1$1.client.buildSrcSet(url, this$1$1.buildIxParams(ixParams), options);
             }
             else {
-                return ImgixClient._buildSrcSet(url, this$1.buildIxParams(ixParams), options);
+                return ImgixClient._buildSrcSet(url, this$1$1.buildIxParams(ixParams), options);
             }
         };
         this.options = Object.assign({}, clientOptionDefaults, options);
@@ -2049,7 +2047,7 @@
         return client._buildSrcSet.apply(client, args);
     };
 
-    var IxPictureProps = Vue__default['default'].extend({
+    var IxPictureProps = Vue__default["default"].extend({
         props: {},
     });
     var IxPicture = /*@__PURE__*/(function (IxPictureProps) {
@@ -2074,7 +2072,7 @@
         Component
     ], IxPicture);
 
-    var IxSourceProps = Vue__default['default'].extend({
+    var IxSourceProps = Vue__default["default"].extend({
         props: {
             src: {
                 type: String,
@@ -2138,11 +2136,11 @@
     exports.buildSrcSet = buildSrcSet;
     exports.buildUrl = buildUrl;
     exports.buildUrlObject = buildUrlObject;
-    exports.default = plugin;
+    exports["default"] = plugin;
     exports.ensureVueImgixClientSingleton = ensureVueImgixClientSingleton;
     exports.initVueImgix = initVueImgix;
     exports.install = install;
 
     Object.defineProperty(exports, '__esModule', { value: true });
 
-})));
+}));

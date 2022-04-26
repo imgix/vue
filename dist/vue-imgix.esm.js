@@ -22,17 +22,15 @@ function __decorate(decorators, target, key, desc) {
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 }
 
-function createCommonjsModule(fn) {
-  var module = { exports: {} };
-	return fn(module, module.exports), module.exports;
-}
+var md5$1 = {exports: {}};
 
-var crypt = createCommonjsModule(function (module) {
+var crypt = {exports: {}};
+
 (function() {
   var base64map
       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/',
 
-  crypt = {
+  crypt$1 = {
     // Bit-wise rotation left
     rotl: function(n, b) {
       return (n << b) | (n >>> (32 - b));
@@ -47,12 +45,12 @@ var crypt = createCommonjsModule(function (module) {
     endian: function(n) {
       // If number given, swap endian
       if (n.constructor == Number) {
-        return crypt.rotl(n, 8) & 0x00FF00FF | crypt.rotl(n, 24) & 0xFF00FF00;
+        return crypt$1.rotl(n, 8) & 0x00FF00FF | crypt$1.rotl(n, 24) & 0xFF00FF00;
       }
 
       // Else, assume array and swap all items
       for (var i = 0; i < n.length; i++)
-        { n[i] = crypt.endian(n[i]); }
+        { n[i] = crypt$1.endian(n[i]); }
       return n;
     },
 
@@ -122,9 +120,8 @@ var crypt = createCommonjsModule(function (module) {
     }
   };
 
-  module.exports = crypt;
+  crypt.exports = crypt$1;
 })();
-});
 
 var charenc = {
   // UTF-8 encoding
@@ -166,6 +163,7 @@ var charenc_1 = charenc;
  * @author   Feross Aboukhadijeh <https://feross.org>
  * @license  MIT
  */
+
 // The _isBuffer check is for Safari 5-7 support, because it's missing
 // Object.prototype.constructor. Remove this eventually
 var isBuffer_1 = function (obj) {
@@ -181,9 +179,8 @@ function isSlowBuffer (obj) {
   return typeof obj.readFloatLE === 'function' && typeof obj.slice === 'function' && isBuffer(obj.slice(0, 0))
 }
 
-var md5 = createCommonjsModule(function (module) {
 (function(){
-  var crypt$1 = crypt,
+  var crypt$1 = crypt.exports,
       utf8 = charenc_1.utf8,
       isBuffer = isBuffer_1,
       bin = charenc_1.bin,
@@ -331,7 +328,7 @@ var md5 = createCommonjsModule(function (module) {
   md5._blocksize = 16;
   md5._digestsize = 16;
 
-  module.exports = function (message, options) {
+  md5$1.exports = function (message, options) {
     if (message === undefined || message === null)
       { throw new Error('Illegal argument ' + message); }
 
@@ -342,7 +339,8 @@ var md5 = createCommonjsModule(function (module) {
   };
 
 })();
-});
+
+var md5 = md5$1.exports;
 
 /**
  *  base64.ts
@@ -859,11 +857,11 @@ prototypeAccessors.search.get = function () {
   return q.length ? "?" + q : "";
 };
 prototypeAccessors.searchParams.get = function () {
-    var this$1 = this;
+    var this$1$1 = this;
 
   var p = new URLSearchParams();
   var loop = function ( name ) {
-    var value = this$1.query[name];
+    var value = this$1$1.query[name];
     if (Array.isArray(value)) {
       value.forEach(function (v) { return p.append(name, v); });
     } else {
@@ -871,7 +869,7 @@ prototypeAccessors.searchParams.get = function () {
     }
   };
 
-    for (var name in this$1.query) loop( name );
+    for (var name in this$1$1.query) loop( name );
   return p;
 };
 prototypeAccessors.origin.get = function () {
@@ -1941,15 +1939,15 @@ IxImg = __decorate([
 
 function objectWithoutProperties (obj, exclude) { var target = {}; for (var k in obj) if (Object.prototype.hasOwnProperty.call(obj, k) && exclude.indexOf(k) === -1) target[k] = obj[k]; return target; }
 // Do not change this
-var VERSION = '2.8.4';
+var VERSION = '2.9.0';
 var clientOptionDefaults = {
     includeLibraryParam: true,
 };
 var VueImgixClient = function VueImgixClient(options) {
-    var this$1 = this;
+    var this$1$1 = this;
 
     this.buildIxParams = function (ixParams) {
-        return Object.assign({}, this$1.options.defaultIxParams,
+        return Object.assign({}, this$1$1.options.defaultIxParams,
             ixParams);
     };
     this.buildUrlObject = function (url, ixParams, options) {
@@ -1961,8 +1959,8 @@ var VueImgixClient = function VueImgixClient(options) {
         var maxWidth = options.maxWidth;
         var rest = objectWithoutProperties( options, ["widths", "widthTolerance", "minWidth", "maxWidth"] );
         var sharedOptions = rest;
-        var src = this$1._buildUrl(url, ixParams);
-        var srcset = this$1._buildSrcSet(url, ixParams, Object.assign({}, {widths: widths,
+        var src = this$1$1._buildUrl(url, ixParams);
+        var srcset = this$1$1._buildSrcSet(url, ixParams, Object.assign({}, {widths: widths,
             widthTolerance: widthTolerance,
             minWidth: minWidth,
             maxWidth: maxWidth},
@@ -1970,28 +1968,28 @@ var VueImgixClient = function VueImgixClient(options) {
         return { src: src, srcset: srcset };
     };
     this.buildUrl = function (url, ixParams) {
-        return this$1.client.buildURL(url, this$1.buildIxParams(ixParams));
+        return this$1$1.client.buildURL(url, this$1$1.buildIxParams(ixParams));
     };
     this._buildUrl = function (url, ixParams) {
         // if 2-step URL
         if (!url.includes('://')) {
-            return this$1.client.buildURL(url, this$1.buildIxParams(ixParams));
+            return this$1$1.client.buildURL(url, this$1$1.buildIxParams(ixParams));
         }
         else {
-            return ImgixClient._buildURL(url, this$1.buildIxParams(ixParams));
+            return ImgixClient._buildURL(url, this$1$1.buildIxParams(ixParams));
         }
     };
     this.buildSrcSet = function (url, ixParams, options) {
-        return this$1.client.buildSrcSet(url, this$1.buildIxParams(ixParams), options);
+        return this$1$1.client.buildSrcSet(url, this$1$1.buildIxParams(ixParams), options);
     };
     this._buildSrcSet = function (url, ixParams, options) {
         // if 2-step URL
         // eslint-disable-next-line
         if (!url.includes('://')) {
-            return this$1.client.buildSrcSet(url, this$1.buildIxParams(ixParams), options);
+            return this$1$1.client.buildSrcSet(url, this$1$1.buildIxParams(ixParams), options);
         }
         else {
-            return ImgixClient._buildSrcSet(url, this$1.buildIxParams(ixParams), options);
+            return ImgixClient._buildSrcSet(url, this$1$1.buildIxParams(ixParams), options);
         }
     };
     this.options = Object.assign({}, clientOptionDefaults, options);
@@ -2126,5 +2124,4 @@ var plugin = {
     install: install,
 };
 
-export default plugin;
-export { IxImg, buildImgixClient, buildSrcSet, buildUrl, buildUrlObject, ensureVueImgixClientSingleton, initVueImgix, install };
+export { IxImg, buildImgixClient, buildSrcSet, buildUrl, buildUrlObject, plugin as default, ensureVueImgixClientSingleton, initVueImgix, install };
