@@ -1,8 +1,12 @@
 import { ensureVueImgixClientSingleton, IVueImgixClient } from './vue-imgix';
-import Vue, { CreateElement } from 'vue';
-import Component from 'vue-class-component';
+import { defineComponent, h } from 'vue';
 
-const IxSourceProps = Vue.extend({
+const defaultAttributeMap = {
+  src: 'src',
+  srcset: 'srcset',
+};
+
+export const IxSource = defineComponent({
   props: {
     src: {
       type: String,
@@ -11,39 +15,25 @@ const IxSourceProps = Vue.extend({
     imgixParams: Object,
     attributeConfig: Object,
   },
-});
+  setup(props) {
+    const vueImgixSingleton: IVueImgixClient = ensureVueImgixClientSingleton();
 
-const defaultAttributeMap = {
-  src: 'src',
-  srcset: 'srcset',
-};
-
-@Component
-export class IxSource extends IxSourceProps {
-  // Using !: here because we ensure it is set in created()
-  private vueImgixSingleton!: IVueImgixClient;
-
-  created() {
-    this.vueImgixSingleton = ensureVueImgixClientSingleton();
-  }
-
-  render(createElement: CreateElement) {
     const imgixParamsFromAttributes = {};
 
-    const { srcset } = this.vueImgixSingleton.buildUrlObject(this.src, {
+    const { srcset } = vueImgixSingleton.buildUrlObject(props.src, {
       ...imgixParamsFromAttributes,
-      ...this.imgixParams,
+      ...props.imgixParams,
     });
 
     const attributeConfig = {
       ...defaultAttributeMap,
-      ...this.attributeConfig,
+      ...props.attributeConfig,
     };
 
     const childAttrs = {
       [attributeConfig.srcset]: srcset,
     };
 
-    return createElement('source', { attrs: childAttrs });
-  }
-}
+    return () => h('source', childAttrs);
+  },
+});

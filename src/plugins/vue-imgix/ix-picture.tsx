@@ -1,21 +1,17 @@
-import { ensureVueImgixClientSingleton, IVueImgixClient } from './vue-imgix';
-import Vue, { CreateElement } from 'vue';
-import Component from 'vue-class-component';
+import { defineComponent, h } from 'vue';
+import { ensureVueImgixClientSingleton } from './vue-imgix';
 
-const IxPictureProps = Vue.extend({
+const IxPictureProps = defineComponent({
   props: {},
 });
 
-@Component
-export class IxPicture extends IxPictureProps {
-  // Using !: here because we ensure it is set in created()
-  private vueImgixSingleton!: IVueImgixClient;
-
-  created() {
-    this.vueImgixSingleton = ensureVueImgixClientSingleton();
-  }
-
-  render(createElement: CreateElement) {
-    return createElement('picture', this.$slots.default);
-  }
-}
+export const IxPicture = defineComponent({
+  mixins: [IxPictureProps],
+  setup(_, { slots }) {
+    ensureVueImgixClientSingleton();
+    const defaultSlots = slots && slots.default && slots.default();
+    return () => {
+      return h('picture', defaultSlots);
+    };
+  },
+});

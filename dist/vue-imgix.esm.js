@@ -1,26 +1,91 @@
-import Vue from 'vue';
+import { defineComponent, h } from 'vue';
 
-/*! *****************************************************************************
-Copyright (c) Microsoft Corporation. All rights reserved.
-Licensed under the Apache License, Version 2.0 (the "License"); you may not use
-this file except in compliance with the License. You may obtain a copy of the
-License at http://www.apache.org/licenses/LICENSE-2.0
+/**
+ *  base64.ts
+ *
+ *  Licensed under the BSD 3-Clause License.
+ *    http://opensource.org/licenses/BSD-3-Clause
+ *
+ *  References:
+ *    http://en.wikipedia.org/wiki/Base64
+ *
+ * @author Dan Kogai (https://github.com/dankogai)
+ */
+var version = '3.7.2';
+/**
+ * @deprecated use lowercase `version`.
+ */
+var VERSION$2 = version;
+var _hasatob = typeof atob === 'function';
+var _hasbtoa = typeof btoa === 'function';
+var _hasBuffer = typeof Buffer === 'function';
+var _TD = typeof TextDecoder === 'function' ? new TextDecoder() : undefined;
+var _TE = typeof TextEncoder === 'function' ? new TextEncoder() : undefined;
+var b64ch = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
+var b64chs = Array.prototype.slice.call(b64ch);
+var b64tab = (function (a) {
+    var tab = {};
+    a.forEach(function (c, i) { return tab[c] = i; });
+    return tab;
+})(b64chs);
+var b64re = /^(?:[A-Za-z\d+\/]{4})*?(?:[A-Za-z\d+\/]{2}(?:==)?|[A-Za-z\d+\/]{3}=?)?$/;
+var _fromCC = String.fromCharCode.bind(String);
+var _U8Afrom = typeof Uint8Array.from === 'function'
+    ? Uint8Array.from.bind(Uint8Array)
+    : function (it, fn) {
+      if ( fn === void 0 ) fn = function (x) { return x; };
 
-THIS CODE IS PROVIDED ON AN *AS IS* BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED
-WARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR PURPOSE,
-MERCHANTABLITY OR NON-INFRINGEMENT.
-
-See the Apache Version 2.0 License for specific language governing permissions
-and limitations under the License.
-***************************************************************************** */
-
-function __decorate(decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") { r = Reflect.decorate(decorators, target, key, desc); }
-    else { for (var i = decorators.length - 1; i >= 0; i--) { if (d = decorators[i]) { r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r; } } }
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-}
+      return new Uint8Array(Array.prototype.slice.call(it, 0).map(fn));
+};
+var _mkUriSafe = function (src) { return src
+    .replace(/=/g, '').replace(/[+\/]/g, function (m0) { return m0 == '+' ? '-' : '_'; }); };
+var _tidyB64 = function (s) { return s.replace(/[^A-Za-z0-9\+\/]/g, ''); };
+/**
+ * polyfill version of `btoa`
+ */
+var btoaPolyfill = function (bin) {
+    // console.log('polyfilled');
+    var u32, c0, c1, c2, asc = '';
+    var pad = bin.length % 3;
+    for (var i = 0; i < bin.length;) {
+        if ((c0 = bin.charCodeAt(i++)) > 255 ||
+            (c1 = bin.charCodeAt(i++)) > 255 ||
+            (c2 = bin.charCodeAt(i++)) > 255)
+            { throw new TypeError('invalid character found'); }
+        u32 = (c0 << 16) | (c1 << 8) | c2;
+        asc += b64chs[u32 >> 18 & 63]
+            + b64chs[u32 >> 12 & 63]
+            + b64chs[u32 >> 6 & 63]
+            + b64chs[u32 & 63];
+    }
+    return pad ? asc.slice(0, pad - 3) + "===".substring(pad) : asc;
+};
+/**
+ * does what `window.btoa` of web browsers do.
+ * @param {String} bin binary string
+ * @returns {string} Base64-encoded string
+ */
+var _btoa = _hasbtoa ? function (bin) { return btoa(bin); }
+    : _hasBuffer ? function (bin) { return Buffer.from(bin, 'binary').toString('base64'); }
+        : btoaPolyfill;
+var _fromUint8Array = _hasBuffer
+    ? function (u8a) { return Buffer.from(u8a).toString('base64'); }
+    : function (u8a) {
+        // cf. https://stackoverflow.com/questions/12710001/how-to-convert-uint8-array-to-base64-encoded-string/12713326#12713326
+        var maxargs = 0x1000;
+        var strs = [];
+        for (var i = 0, l = u8a.length; i < l; i += maxargs) {
+            strs.push(_fromCC.apply(null, u8a.subarray(i, i + maxargs)));
+        }
+        return _btoa(strs.join(''));
+    };
+/**
+ * converts a Uint8Array to a Base64 string.
+ * @param {boolean} [urlsafe] URL-and-filename-safe a la RFC4648 §5
+ * @returns {string} Base64 string
+ */
+var fromUint8Array = function (u8a, urlsafe) {
+  if ( urlsafe === void 0 ) urlsafe = false;
 
 function createCommonjsModule(fn) {
   var module = { exports: {} };
@@ -1101,11 +1166,11 @@ function _slicedToArray(arr, i) {
   return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
 }
 
-function _toConsumableArray$1(arr) {
-  return _arrayWithoutHoles$1(arr) || _iterableToArray$1(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread$1();
+function _toConsumableArray(arr) {
+  return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
 }
 
-function _arrayWithoutHoles$1(arr) {
+function _arrayWithoutHoles(arr) {
   if (Array.isArray(arr)) { return _arrayLikeToArray(arr); }
 }
 
@@ -1164,7 +1229,7 @@ function _arrayLikeToArray(arr, len) {
   return arr2;
 }
 
-function _nonIterableSpread$1() {
+function _nonIterableSpread() {
   throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
 }
 
@@ -1190,6 +1255,7 @@ var DPR_QUALITIES = {
   4: 23,
   5: 20
 };
+var DEFAULT_DPR = [1, 2, 3, 4, 5];
 var DEFAULT_OPTIONS = {
   domain: null,
   useHTTPS: true,
@@ -1197,6 +1263,43 @@ var DEFAULT_OPTIONS = {
   urlPrefix: 'https://',
   secureURLToken: null
 };
+
+/**
+ * `extractUrl()` extracts URL components from a source URL string.
+ * It does this by matching the URL against regular expressions. The irrelevant
+ * (entire URL) matches are removed and the rest stored as their corresponding
+ * URL components.
+ *
+ * `url` can be a partial, full URL, or full proxy URL. `useHttps` boolean
+ * defaults to false.
+ *
+ * @returns {Object} `{ protocol, auth, host, pathname, search, hash }`
+ * extracted from the URL.
+ */
+
+function extractUrl(_ref) {
+  var _ref$url = _ref.url,
+      url = _ref$url === void 0 ? '' : _ref$url,
+      _ref$useHttps = _ref.useHttps,
+      useHttps = _ref$useHttps === void 0 ? false : _ref$useHttps;
+  var defaultProto = useHttps ? 'https://' : 'http://';
+
+  if (!hasProtocol(url, true)) {
+    return extractUrl({
+      url: defaultProto + url
+    });
+  }
+  /**
+   * Regex are hard to parse. Leaving this breakdown here for reference.
+   * - `protocol`: ([^:/]+:)? - all not `:` or `/` & preceded by `:`, 0-1 times
+   * - `auth`: ([^/@]+@)? - all not `/` or `@` & preceded by `@`, 0-1 times
+   * - `domainAndPath`: (.*) /) -  all except line breaks
+   * - `domain`: `([^/]*)` - all before a `/` token
+   */
+
+
+  return parseURL(url);
+}
 
 function validateAndDestructureOptions(options) {
   var widthTolerance;
@@ -1243,6 +1346,24 @@ function validateWidths(customWidths) {
 function validateVariableQuality(disableVariableQuality) {
   if (typeof disableVariableQuality != 'boolean') {
     throw new Error('The disableVariableQuality argument can only be passed a Boolean value');
+  }
+}
+function validateDevicePixelRatios(devicePixelRatios) {
+  if (!Array.isArray(devicePixelRatios) || !devicePixelRatios.length) {
+    throw new Error('The devicePixelRatios argument can only be passed a valid non-empty array of integers');
+  } else {
+    var allValidDPR = devicePixelRatios.every(function (dpr) {
+      return typeof dpr === 'number' && dpr >= 1 && dpr <= 5;
+    });
+
+    if (!allValidDPR) {
+      throw new Error('The devicePixelRatios argument can only contain positive integer values between 1 and 5');
+    }
+  }
+}
+function validateVariableQualities(variableQualities) {
+  if (_typeof(variableQualities) !== 'object') {
+    throw new Error('The variableQualities argument can only be an object');
   }
 }
 
@@ -1311,18 +1432,21 @@ var ImgixClient = /*#__PURE__*/function () {
   _createClass(ImgixClient, [{
     key: "buildURL",
     value: function buildURL() {
-      var path = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+      var rawPath = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
       var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+      var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
-      var sanitizedPath = this._sanitizePath(path);
+      var path = this._sanitizePath(rawPath, {
+        encode: !options.disablePathEncoding
+      });
 
       var finalParams = this._buildParams(params);
 
       if (!!this.settings.secureURLToken) {
-        finalParams = this._signParams(sanitizedPath, finalParams);
+        finalParams = this._signParams(path, finalParams);
       }
 
-      return this.settings.urlPrefix + this.settings.domain + sanitizedPath + finalParams;
+      return this.settings.urlPrefix + this.settings.domain + path + finalParams;
     }
     /**
      *`_buildURL` static method allows full URLs to be formatted for use with
@@ -1375,20 +1499,35 @@ var ImgixClient = /*#__PURE__*/function () {
       var signature = md5(signatureBase);
       return queryParams.length > 0 ? queryParams + '&s=' + signature : '?s=' + signature;
     }
+    /**
+     * "Sanitize" the path of the image URL.
+     * Ensures that the path has a leading slash, and that the path is correctly
+     * encoded. If it's a proxy path (begins with http/https), then encode the
+     * whole path as a URI component, otherwise only encode specific characters.
+     * @param {string} path The URL path of the image
+     * @param {Object} options Sanitization options
+     * @param {boolean} options.encode Whether to encode the path, default true
+     * @returns {string} The sanitized path
+     */
+
   }, {
     key: "_sanitizePath",
     value: function _sanitizePath(path) {
+      var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
       // Strip leading slash first (we'll re-add after encoding)
       var _path = path.replace(/^\//, '');
 
-      if (/^https?:\/\//.test(_path)) {
-        // Use de/encodeURIComponent to ensure *all* characters are handled,
-        // since it's being used as a path
-        _path = encodeURIComponent(_path);
-      } else {
-        // Use de/encodeURI if we think the path is just a path,
-        // so it leaves legal characters like '/' and '@' alone
-        _path = encodeURI(_path).replace(/[#?:+]/g, encodeURIComponent);
+      if (!(options.encode === false)) {
+        if (/^https?:\/\//.test(_path)) {
+          // Use de/encodeURIComponent to ensure *all* characters are handled,
+          // since it's being used as a path
+          _path = encodeURIComponent(_path);
+        } else {
+          // Use de/encodeURI if we think the path is just a path,
+          // so it leaves legal characters like '/' and '@' alone
+          _path = encodeURI(_path).replace(/[#?:+]/g, encodeURIComponent);
+        }
       }
 
       return '/' + _path;
@@ -1424,8 +1563,11 @@ var ImgixClient = /*#__PURE__*/function () {
 
   }, {
     key: "_buildSrcSetPairs",
-    value: function _buildSrcSetPairs(path, params, options) {
+    value: function _buildSrcSetPairs(path) {
       var _this = this;
+
+      var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+      var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
       var _validateAndDestructu = validateAndDestructureOptions(options),
           _validateAndDestructu2 = _slicedToArray(_validateAndDestructu, 3),
@@ -1437,7 +1579,7 @@ var ImgixClient = /*#__PURE__*/function () {
 
       if (options.widths) {
         validateWidths(options.widths);
-        targetWidthValues = _toConsumableArray$1(options.widths);
+        targetWidthValues = _toConsumableArray(options.widths);
       } else {
         targetWidthValues = ImgixClient.targetWidths(minWidth, maxWidth, widthTolerance, this.targetWidthsCache);
       }
@@ -1445,33 +1587,52 @@ var ImgixClient = /*#__PURE__*/function () {
       var srcset = targetWidthValues.map(function (w) {
         return "".concat(_this.buildURL(path, _objectSpread2(_objectSpread2({}, params), {}, {
           w: w
-        })), " ").concat(w, "w");
+        }), {
+          disablePathEncoding: options.disablePathEncoding
+        }), " ").concat(w, "w");
       });
       return srcset.join(',\n');
     }
   }, {
     key: "_buildDPRSrcSet",
-    value: function _buildDPRSrcSet(path, params, options) {
+    value: function _buildDPRSrcSet(path) {
       var _this2 = this;
 
-      var targetRatios = [1, 2, 3, 4, 5];
+      var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+      var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+
+      if (options.devicePixelRatios) {
+        validateDevicePixelRatios(options.devicePixelRatios);
+      }
+
+      var targetRatios = options.devicePixelRatios || DEFAULT_DPR;
       var disableVariableQuality = options.disableVariableQuality || false;
 
       if (!disableVariableQuality) {
         validateVariableQuality(disableVariableQuality);
       }
 
+      if (options.variableQualities) {
+        validateVariableQualities(options.variableQualities);
+      }
+
+      var qualities = _objectSpread2(_objectSpread2({}, DPR_QUALITIES), options.variableQualities);
+
       var withQuality = function withQuality(path, params, dpr) {
         return "".concat(_this2.buildURL(path, _objectSpread2(_objectSpread2({}, params), {}, {
           dpr: dpr,
-          q: params.q || DPR_QUALITIES[dpr]
-        })), " ").concat(dpr, "x");
+          q: params.q || qualities[dpr] || qualities[Math.floor(dpr)]
+        }), {
+          disablePathEncoding: options.disablePathEncoding
+        }), " ").concat(dpr, "x");
       };
 
       var srcset = disableVariableQuality ? targetRatios.map(function (dpr) {
         return "".concat(_this2.buildURL(path, _objectSpread2(_objectSpread2({}, params), {}, {
           dpr: dpr
-        })), " ").concat(dpr, "x");
+        }), {
+          disablePathEncoding: options.disablePathEncoding
+        }), " ").concat(dpr, "x");
       }) : targetRatios.map(function (dpr) {
         return withQuality(path, params, dpr);
       });
@@ -1594,350 +1755,46 @@ var ImgixClient = /*#__PURE__*/function () {
   return ImgixClient;
 }();
 
-/**
-  * vue-class-component v7.2.6
-  * (c) 2015-present Evan You
-  * @license MIT
-  */
-
-function _typeof(obj) {
-  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
-    _typeof = function (obj) {
-      return typeof obj;
-    };
-  } else {
-    _typeof = function (obj) {
-      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-    };
-  }
-
-  return _typeof(obj);
-}
-
-function _defineProperty(obj, key, value) {
-  if (key in obj) {
-    Object.defineProperty(obj, key, {
-      value: value,
-      enumerable: true,
-      configurable: true,
-      writable: true
-    });
-  } else {
-    obj[key] = value;
-  }
-
-  return obj;
-}
-
-function _toConsumableArray(arr) {
-  return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();
-}
-
-function _arrayWithoutHoles(arr) {
-  if (Array.isArray(arr)) {
-    for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; }
-
-    return arr2;
-  }
-}
-
-function _iterableToArray(iter) {
-  if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") { return Array.from(iter); }
-}
-
-function _nonIterableSpread() {
-  throw new TypeError("Invalid attempt to spread non-iterable instance");
-}
-
-// The rational behind the verbose Reflect-feature check below is the fact that there are polyfills
-// which add an implementation for Reflect.defineMetadata but not for Reflect.getOwnMetadataKeys.
-// Without this check consumers will encounter hard to track down runtime errors.
-function reflectionIsSupported() {
-  return typeof Reflect !== 'undefined' && Reflect.defineMetadata && Reflect.getOwnMetadataKeys;
-}
-function copyReflectionMetadata(to, from) {
-  forwardMetadata(to, from);
-  Object.getOwnPropertyNames(from.prototype).forEach(function (key) {
-    forwardMetadata(to.prototype, from.prototype, key);
-  });
-  Object.getOwnPropertyNames(from).forEach(function (key) {
-    forwardMetadata(to, from, key);
-  });
-}
-
-function forwardMetadata(to, from, propertyKey) {
-  var metaKeys = propertyKey ? Reflect.getOwnMetadataKeys(from, propertyKey) : Reflect.getOwnMetadataKeys(from);
-  metaKeys.forEach(function (metaKey) {
-    var metadata = propertyKey ? Reflect.getOwnMetadata(metaKey, from, propertyKey) : Reflect.getOwnMetadata(metaKey, from);
-
-    if (propertyKey) {
-      Reflect.defineMetadata(metaKey, metadata, to, propertyKey);
-    } else {
-      Reflect.defineMetadata(metaKey, metadata, to);
-    }
-  });
-}
-
-var fakeArray = {
-  __proto__: []
-};
-var hasProto = fakeArray instanceof Array;
-function isPrimitive(value) {
-  var type = _typeof(value);
-
-  return value == null || type !== 'object' && type !== 'function';
-}
-function warn(message) {
-  if (typeof console !== 'undefined') {
-    console.warn('[vue-class-component] ' + message);
-  }
-}
-
-function collectDataFromConstructor(vm, Component) {
-  // override _init to prevent to init as Vue instance
-  var originalInit = Component.prototype._init;
-
-  Component.prototype._init = function () {
-    var _this = this;
-
-    // proxy to actual vm
-    var keys = Object.getOwnPropertyNames(vm); // 2.2.0 compat (props are no longer exposed as self properties)
-
-    if (vm.$options.props) {
-      for (var key in vm.$options.props) {
-        if (!vm.hasOwnProperty(key)) {
-          keys.push(key);
-        }
-      }
-    }
-
-    keys.forEach(function (key) {
-      Object.defineProperty(_this, key, {
-        get: function get() {
-          return vm[key];
-        },
-        set: function set(value) {
-          vm[key] = value;
-        },
-        configurable: true
-      });
-    });
-  }; // should be acquired class property values
-
-
-  var data = new Component(); // restore original _init to avoid memory leak (#209)
-
-  Component.prototype._init = originalInit; // create plain data object
-
-  var plainData = {};
-  Object.keys(data).forEach(function (key) {
-    if (data[key] !== undefined) {
-      plainData[key] = data[key];
-    }
-  });
-
-  if (process.env.NODE_ENV !== 'production') {
-    if (!(Component.prototype instanceof Vue) && Object.keys(plainData).length > 0) {
-      warn('Component class must inherit Vue or its descendant class ' + 'when class property is used.');
-    }
-  }
-
-  return plainData;
-}
-
-var $internalHooks = ['data', 'beforeCreate', 'created', 'beforeMount', 'mounted', 'beforeDestroy', 'destroyed', 'beforeUpdate', 'updated', 'activated', 'deactivated', 'render', 'errorCaptured', 'serverPrefetch' // 2.6
-];
-function componentFactory(Component) {
-  var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-  options.name = options.name || Component._componentTag || Component.name; // prototype props.
-
-  var proto = Component.prototype;
-  Object.getOwnPropertyNames(proto).forEach(function (key) {
-    if (key === 'constructor') {
-      return;
-    } // hooks
-
-
-    if ($internalHooks.indexOf(key) > -1) {
-      options[key] = proto[key];
-      return;
-    }
-
-    var descriptor = Object.getOwnPropertyDescriptor(proto, key);
-
-    if (descriptor.value !== void 0) {
-      // methods
-      if (typeof descriptor.value === 'function') {
-        (options.methods || (options.methods = {}))[key] = descriptor.value;
-      } else {
-        // typescript decorated data
-        (options.mixins || (options.mixins = [])).push({
-          data: function data() {
-            return _defineProperty({}, key, descriptor.value);
-          }
-        });
-      }
-    } else if (descriptor.get || descriptor.set) {
-      // computed properties
-      (options.computed || (options.computed = {}))[key] = {
-        get: descriptor.get,
-        set: descriptor.set
-      };
-    }
-  });
-  (options.mixins || (options.mixins = [])).push({
-    data: function data() {
-      return collectDataFromConstructor(this, Component);
-    }
-  }); // decorate options
-
-  var decorators = Component.__decorators__;
-
-  if (decorators) {
-    decorators.forEach(function (fn) {
-      return fn(options);
-    });
-    delete Component.__decorators__;
-  } // find super
-
-
-  var superProto = Object.getPrototypeOf(Component.prototype);
-  var Super = superProto instanceof Vue ? superProto.constructor : Vue;
-  var Extended = Super.extend(options);
-  forwardStaticMembers(Extended, Component, Super);
-
-  if (reflectionIsSupported()) {
-    copyReflectionMetadata(Extended, Component);
-  }
-
-  return Extended;
-}
-var reservedPropertyNames = [// Unique id
-'cid', // Super Vue constructor
-'super', // Component options that will be used by the component
-'options', 'superOptions', 'extendOptions', 'sealedOptions', // Private assets
-'component', 'directive', 'filter'];
-var shouldIgnore = {
-  prototype: true,
-  arguments: true,
-  callee: true,
-  caller: true
-};
-
-function forwardStaticMembers(Extended, Original, Super) {
-  // We have to use getOwnPropertyNames since Babel registers methods as non-enumerable
-  Object.getOwnPropertyNames(Original).forEach(function (key) {
-    // Skip the properties that should not be overwritten
-    if (shouldIgnore[key]) {
-      return;
-    } // Some browsers does not allow reconfigure built-in properties
-
-
-    var extendedDescriptor = Object.getOwnPropertyDescriptor(Extended, key);
-
-    if (extendedDescriptor && !extendedDescriptor.configurable) {
-      return;
-    }
-
-    var descriptor = Object.getOwnPropertyDescriptor(Original, key); // If the user agent does not support `__proto__` or its family (IE <= 10),
-    // the sub class properties may be inherited properties from the super class in TypeScript.
-    // We need to exclude such properties to prevent to overwrite
-    // the component options object which stored on the extended constructor (See #192).
-    // If the value is a referenced value (object or function),
-    // we can check equality of them and exclude it if they have the same reference.
-    // If it is a primitive value, it will be forwarded for safety.
-
-    if (!hasProto) {
-      // Only `cid` is explicitly exluded from property forwarding
-      // because we cannot detect whether it is a inherited property or not
-      // on the no `__proto__` environment even though the property is reserved.
-      if (key === 'cid') {
-        return;
-      }
-
-      var superDescriptor = Object.getOwnPropertyDescriptor(Super, key);
-
-      if (!isPrimitive(descriptor.value) && superDescriptor && superDescriptor.value === descriptor.value) {
-        return;
-      }
-    } // Warn if the users manually declare reserved properties
-
-
-    if (process.env.NODE_ENV !== 'production' && reservedPropertyNames.indexOf(key) >= 0) {
-      warn("Static property name '".concat(key, "' declared on class '").concat(Original.name, "' ") + 'conflicts with reserved property name of Vue internal. ' + 'It may cause unexpected behavior of the component. Consider renaming the property.');
-    }
-
-    Object.defineProperty(Extended, key, descriptor);
-  });
-}
-
-function Component(options) {
-  if (typeof options === 'function') {
-    return componentFactory(options);
-  }
-
-  return function (Component) {
-    return componentFactory(Component, options);
-  };
-}
-
-Component.registerHooks = function registerHooks(keys) {
-  $internalHooks.push.apply($internalHooks, _toConsumableArray(keys));
-};
-
-var IxImgProps = Vue.extend({
-    props: {
-        src: {
-            type: String,
-            required: true,
-        },
-        fixed: Boolean,
-        imgixParams: Object,
-        width: [String, Number],
-        height: [String, Number],
-        attributeConfig: Object,
-        disableVariableQuality: Boolean,
+var IxImgProps = {
+    src: {
+        type: String,
+        required: true,
     },
-});
+    fixed: Boolean,
+    imgixParams: Object,
+    width: [String, Number],
+    height: [String, Number],
+    attributeConfig: Object,
+    disableVariableQuality: Boolean,
+    sizes: [String],
+};
 var defaultAttributeMap$1 = {
     src: 'src',
     srcset: 'srcset',
 };
-var IxImg = /*@__PURE__*/(function (IxImgProps) {
-    function IxImg () {
-        IxImgProps.apply(this, arguments);
-    }
+var IxImg = defineComponent({
+    props: IxImgProps,
+    setup: function setup(props, ref) {
+        var attrs = ref.attrs;
 
-    if ( IxImgProps ) IxImg.__proto__ = IxImgProps;
-    IxImg.prototype = Object.create( IxImgProps && IxImgProps.prototype );
-    IxImg.prototype.constructor = IxImg;
-
-    IxImg.prototype.created = function created () {
-        this.vueImgixSingleton = ensureVueImgixClientSingleton();
-    };
-    IxImg.prototype.render = function render (createElement) {
-        var obj;
-
-        var imgixParamsFromImgAttributes = Object.assign({}, (this.fixed && Object.assign({}, (this.width != null ? { w: this.width } : {}),
-                (this.height != null ? { h: this.height } : {}))));
-        var ref = this.vueImgixSingleton.buildUrlObject(this.src, Object.assign({}, imgixParamsFromImgAttributes,
-            this.imgixParams), {
-            disableVariableQuality: Boolean(this.disableVariableQuality),
+        var vueImgixSingleton = ensureVueImgixClientSingleton();
+        var imgixParamsFromImgAttributes = Object.assign({}, (props.fixed && Object.assign({}, (props.width != null ? { w: props.width } : {}),
+                (props.height != null ? { h: props.height } : {}))));
+        var ref$1 = vueImgixSingleton.buildUrlObject(props.src, Object.assign({}, imgixParamsFromImgAttributes,
+            props.imgixParams), {
+            disableVariableQuality: Boolean(props.disableVariableQuality),
         });
-        var src = ref.src;
-        var srcset = ref.srcset;
+        var src = ref$1.src;
+        var srcset = ref$1.srcset;
         var attributeConfig = Object.assign({}, defaultAttributeMap$1,
-            this.attributeConfig);
-        return createElement('img', {
-            attrs: ( obj = {}, obj[attributeConfig.src] = src, obj[attributeConfig.srcset] = srcset, obj.width = this.width, obj.height = this.height, obj ),
-        });
-    };
+            props.attributeConfig);
+        return function () {
+            var obj;
 
-    return IxImg;
-}(IxImgProps));
-IxImg = __decorate([
-    Component
-], IxImg);
+            return h('img', ( obj = {}, obj[attributeConfig.src] = src, obj[attributeConfig.srcset] = srcset, obj.width = props.width, obj.height = props.height, obj.sizes = props.sizes, obj['data-testid'] = attrs['data-testid'] || undefined, obj ));
+        };
+    },
+});
 
 function objectWithoutProperties (obj, exclude) { var target = {}; for (var k in obj) if (Object.prototype.hasOwnProperty.call(obj, k) && exclude.indexOf(k) === -1) target[k] = obj[k]; return target; }
 // Do not change this
@@ -1946,10 +1803,10 @@ var clientOptionDefaults = {
     includeLibraryParam: true,
 };
 var VueImgixClient = function VueImgixClient(options) {
-    var this$1 = this;
+    var this$1$1 = this;
 
     this.buildIxParams = function (ixParams) {
-        return Object.assign({}, this$1.options.defaultIxParams,
+        return Object.assign({}, this$1$1.options.defaultIxParams,
             ixParams);
     };
     this.buildUrlObject = function (url, ixParams, options) {
@@ -1970,7 +1827,16 @@ var VueImgixClient = function VueImgixClient(options) {
         return { src: src, srcset: srcset };
     };
     this.buildUrl = function (url, ixParams) {
-        return this$1.client.buildURL(url, this$1.buildIxParams(ixParams));
+        return this$1$1.client.buildURL(url, this$1$1.buildIxParams(ixParams));
+    };
+    this._buildUrl = function (url, ixParams) {
+        // if 2-step URL
+        if (!url.includes('://')) {
+            return this$1$1.client.buildURL(url, this$1$1.buildIxParams(ixParams));
+        }
+        else {
+            return ImgixClient._buildURL(url, this$1$1.buildIxParams(ixParams));
+        }
     };
     this._buildUrl = function (url, ixParams) {
         // if 2-step URL
@@ -1982,7 +1848,17 @@ var VueImgixClient = function VueImgixClient(options) {
         }
     };
     this.buildSrcSet = function (url, ixParams, options) {
-        return this$1.client.buildSrcSet(url, this$1.buildIxParams(ixParams), options);
+        return this$1$1.client.buildSrcSet(url, this$1$1.buildIxParams(ixParams), options);
+    };
+    this._buildSrcSet = function (url, ixParams, options) {
+        // if 2-step URL
+        // eslint-disable-next-line
+        if (!url.includes('://')) {
+            return this$1$1.client.buildSrcSet(url, this$1$1.buildIxParams(ixParams), options);
+        }
+        else {
+            return ImgixClient._buildSrcSet(url, this$1$1.buildIxParams(ixParams), options);
+        }
     };
     this._buildSrcSet = function (url, ixParams, options) {
         // if 2-step URL
@@ -2041,32 +1917,27 @@ var buildSrcSet = function () {
     return client._buildSrcSet.apply(client, args);
 };
 
-var IxPictureProps = Vue.extend({
+var IxPictureProps = defineComponent({
     props: {},
 });
-var IxPicture = /*@__PURE__*/(function (IxPictureProps) {
-    function IxPicture () {
-        IxPictureProps.apply(this, arguments);
-    }
+var IxPicture = defineComponent({
+    mixins: [IxPictureProps],
+    setup: function setup(_, ref) {
+        var slots = ref.slots;
 
-    if ( IxPictureProps ) IxPicture.__proto__ = IxPictureProps;
-    IxPicture.prototype = Object.create( IxPictureProps && IxPictureProps.prototype );
-    IxPicture.prototype.constructor = IxPicture;
+        ensureVueImgixClientSingleton();
+        var defaultSlots = slots && slots.default && slots.default();
+        return function () {
+            return h('picture', defaultSlots);
+        };
+    },
+});
 
-    IxPicture.prototype.created = function created () {
-        this.vueImgixSingleton = ensureVueImgixClientSingleton();
-    };
-    IxPicture.prototype.render = function render (createElement) {
-        return createElement('picture', this.$slots.default);
-    };
-
-    return IxPicture;
-}(IxPictureProps));
-IxPicture = __decorate([
-    Component
-], IxPicture);
-
-var IxSourceProps = Vue.extend({
+var defaultAttributeMap = {
+    src: 'src',
+    srcset: 'srcset',
+};
+var IxSource = defineComponent({
     props: {
         src: {
             type: String,
@@ -2075,50 +1946,29 @@ var IxSourceProps = Vue.extend({
         imgixParams: Object,
         attributeConfig: Object,
     },
-});
-var defaultAttributeMap = {
-    src: 'src',
-    srcset: 'srcset',
-};
-var IxSource = /*@__PURE__*/(function (IxSourceProps) {
-    function IxSource () {
-        IxSourceProps.apply(this, arguments);
-    }
-
-    if ( IxSourceProps ) IxSource.__proto__ = IxSourceProps;
-    IxSource.prototype = Object.create( IxSourceProps && IxSourceProps.prototype );
-    IxSource.prototype.constructor = IxSource;
-
-    IxSource.prototype.created = function created () {
-        this.vueImgixSingleton = ensureVueImgixClientSingleton();
-    };
-    IxSource.prototype.render = function render (createElement) {
+    setup: function setup(props) {
+        var vueImgixSingleton = ensureVueImgixClientSingleton();
         var imgixParamsFromAttributes = {};
-        var ref = this.vueImgixSingleton.buildUrlObject(this.src, Object.assign({}, imgixParamsFromAttributes,
-            this.imgixParams));
+        var ref = vueImgixSingleton.buildUrlObject(props.src, Object.assign({}, imgixParamsFromAttributes,
+            props.imgixParams));
         var srcset = ref.srcset;
         var attributeConfig = Object.assign({}, defaultAttributeMap,
-            this.attributeConfig);
+            props.attributeConfig);
         var childAttrs = {};
         childAttrs[attributeConfig.srcset] = srcset;
-        return createElement('source', { attrs: childAttrs });
-    };
-
-    return IxSource;
-}(IxSourceProps));
-IxSource = __decorate([
-    Component
-], IxSource);
+        return function () { return h('source', childAttrs); };
+    },
+});
 
 // Declare install function executed by Vue.use()
-function install(Vue, options) {
+function install(_app, options) {
     if (install.installed)
         { return; }
     install.installed = true;
     initVueImgix(options);
-    Vue.component('ix-img', IxImg);
-    Vue.component('ix-picture', IxPicture);
-    Vue.component('ix-source', IxSource);
+    _app.component('ix-img', IxImg);
+    _app.component('ix-picture', IxPicture);
+    _app.component('ix-source', IxSource);
 }
 install.installed = false;
 // Create module definition for Vue.use()
@@ -2126,5 +1976,4 @@ var plugin = {
     install: install,
 };
 
-export default plugin;
-export { IxImg, buildImgixClient, buildSrcSet, buildUrl, buildUrlObject, ensureVueImgixClientSingleton, initVueImgix, install };
+export { IxImg, buildImgixClient, buildSrcSet, buildUrl, buildUrlObject, plugin as default, ensureVueImgixClientSingleton, initVueImgix, install };

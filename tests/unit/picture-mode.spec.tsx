@@ -1,100 +1,58 @@
-import VueImgix from '@/plugins/vue-imgix';
-import '@testing-library/jest-dom';
-import { render } from '@testing-library/vue';
-import Vue from 'vue';
-describe('Picture Mode', () => {
-  beforeAll(() => {
-    Vue.use(VueImgix, {
-      domain: 'assets.imgix.net',
-    });
-  });
+import IxPictureSimple from '@/components/simple/ix-picture.vue';
+import VueImgix from '@/plugins/vue-imgix/index';
+import { IxImg } from '@/plugins/vue-imgix/ix-img';
+import { IxPicture } from '@/plugins/vue-imgix/ix-picture';
+import { IxSource } from '@/plugins/vue-imgix/ix-source';
+import { config, mount } from '@vue/test-utils';
+config.global.plugins = [[VueImgix, { domain: 'assets.imgix.net' }]];
+config.global.components = {
+  IxImg,
+  IxPicture,
+  IxSource,
+};
 
+describe('Picture Mode', () => {
   describe('ix-picture', () => {
     it('should render a picture', () => {
-      const wrapper = render(
-        Vue.component('test-component', {
-          render() {
-            return <ix-picture data-testid="test-picture" />;
-          },
-        }),
-      );
+      const wrapper = mount(IxPicture, {
+        shallow: false,
+      });
 
-      expect(wrapper.getByTestId('test-picture').tagName).toBe('PICTURE');
+      const picture = wrapper.find('picture');
+      expect(picture.element.tagName).toBe('PICTURE');
     });
 
-    it('should render a source as a child', () => {
-      const wrapper = render(
-        Vue.component('test-component', {
-          render() {
-            return (
-              <ix-picture data-testid="test-picture">
-                <ix-source src="image.jpg" />
-                <ix-img src="image.jpg" />
-              </ix-picture>
-            );
-          },
-        }),
-      );
-
-      expect(
-        wrapper.getByTestId('test-picture').querySelectorAll('source'),
-      ).toHaveLength(1);
+    it('should render a <source> component as a child', () => {
+      const wrapper = mount(IxPictureSimple, {
+        shallow: false,
+      });
+      const sourceElement = wrapper.find('picture > source');
+      expect(sourceElement.exists()).toBe(true);
+      expect(sourceElement.element.tagName).toBe('SOURCE');
     });
 
-    it('the developer can pass an ix-img component as a fallback src', () => {
-      const wrapper = render(
-        Vue.component('test-component', {
-          render() {
-            return (
-              <ix-picture data-testid="test-picture">
-                <ix-source src="image.jpg" />
-                <ix-img src="image.jpg" />
-              </ix-picture>
-            );
-          },
-        }),
-      );
-
-      const fallbackImgEl = wrapper
-        .getByTestId('test-picture')
-        .querySelectorAll('img')[0];
-      expect(fallbackImgEl).toHaveAttribute(
-        'src',
-        expect.stringMatching(/ixlib=vue/),
-      );
-      expect(fallbackImgEl).toHaveAttribute(
-        'srcset',
-        expect.stringMatching(/ixlib/),
-      );
-    });
-  });
-
-  describe('ix-source', () => {
-    it('should render a <source> component', () => {
-      const wrapper = render(
-        Vue.component('test-component', {
-          render() {
-            return <ix-source src="image.jpg" data-testid="test-source" />;
-          },
-        }),
-      );
-
-      expect(wrapper.getByTestId('test-source').tagName).toBe('SOURCE');
+    it('should allow developer to pass an ix-img component as a fallback src', () => {
+      const wrapper = mount(IxPictureSimple, {
+        shallow: false,
+      });
+      const fallbackImgEl = wrapper.get('img');
+      const fallBackSrc = fallbackImgEl.element.getAttribute('src');
+      const fallBackSrcSet = fallbackImgEl.element.getAttribute('srcset');
+      expect(fallBackSrc).toBeDefined();
+      expect(fallBackSrc).toMatch(/ixlib=vue/);
+      expect(fallBackSrcSet).toBeDefined();
+      expect(fallBackSrcSet).toMatch(/ixlib/);
     });
 
     it('should have a srcset attribute', () => {
-      const wrapper = render(
-        Vue.component('test-component', {
-          render() {
-            return <ix-source data-testid="test-source" src="image.png" />;
-          },
-        }),
-      );
-
-      expect(wrapper.getByTestId('test-source')).toHaveAttribute(
-        'srcset',
-        expect.stringMatching('100w'),
-      );
+      const wrapper = mount(IxPictureSimple, {
+        shallow: false,
+      });
+      const sourceElement = wrapper.find('picture > source');
+      const elementSrcset = sourceElement.element.getAttribute('srcset');
+      expect(sourceElement.exists()).toBe(true);
+      expect(elementSrcset).toMatch('100w');
+      wrapper.unmount();
     });
 
     const subsetOfImportantSourceAttributes = {
@@ -102,51 +60,38 @@ describe('Picture Mode', () => {
       media: '(min-width: 100em)',
       type: 'image/webp',
     };
-    Object.entries(subsetOfImportantSourceAttributes).map(
+    Object.entries(subsetOfImportantSourceAttributes).forEach(
       ([attribute, value]) => {
         it(`should allow developer to set ${attribute} attribute`, () => {
-          const wrapper = render(
-            Vue.component('test-component', {
-              render() {
-                return (
-                  <ix-source
-                    data-testid="test-source"
-                    src="image.png"
-                    // Don't understand why this works? Me neither. Just joking - take a read of this to see why attrs={} is necessary https://github.com/vuejs/babel-plugin-transform-vue-jsx/issues/143
-                    attrs={{ [attribute]: value }}
-                  />
-                );
-              },
-            }),
-          );
-
-          expect(wrapper.getByTestId('test-source')).toHaveAttribute(
-            attribute,
-            value,
-          );
+          const wrapper = mount(IxSource, {
+            shallow: false,
+            props: {
+              src: 'https://sdk-test.imgix.net/amsterdam.jpg',
+            },
+            attrs: {
+              [attribute]: value,
+            },
+          });
+          const ele = wrapper.find('source');
+          const eleAttr = ele.element.getAttribute(attribute);
+          expect(eleAttr).toBe(value);
+          wrapper.unmount();
         });
       },
     );
 
     it('should pass params from imgixParams', () => {
-      const wrapper = render(
-        Vue.component('test-component', {
-          render() {
-            return (
-              <ix-source
-                data-testid="test-source"
-                src="image.png"
-                imgixParams={{ w: 100 }}
-              />
-            );
-          },
-        }),
-      );
-
-      expect(wrapper.getByTestId('test-source')).toHaveAttribute(
-        'srcset',
-        expect.stringMatching('w=100'),
-      );
+      const wrapper = mount(IxSource, {
+        shallow: false,
+        props: {
+          src: 'https://sdk-test.imgix.net/amsterdam.jpg',
+          'data-testid': 'test-source',
+          imgixParams: { w: 100 },
+        },
+      });
+      const eleSrcset = wrapper.find('source').element.getAttribute('srcset');
+      expect(eleSrcset).toBeTruthy();
+      expect(eleSrcset).toMatch(/w=100/);
     });
   });
 });

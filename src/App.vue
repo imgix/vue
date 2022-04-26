@@ -3,7 +3,7 @@
     <h1>Simple Usage</h1>
     <simple />
     <h1>Static Usage</h1>
-    <partial />
+    <static-api />
 
     <h1>Advanced Usage</h1>
     <advanced-api />
@@ -13,6 +13,8 @@
     <advanced-build-url />
     <h2>buildSrcSet</h2>
     <advanced-build-src-set />
+    <h2>_buildSrcSet</h2>
+    <static-build-src-set />
   </div>
 </template>
 
@@ -20,9 +22,10 @@
 import advancedBuildUrlObject from './components/advanced/buildUrlObject';
 import advancedBuildUrl from './components/advanced/buildUrl';
 import advancedBuildSrcSet from './components/advanced/buildSrcSet';
+import staticBuildSrcSet from './components/advanced/_buildSrcSet';
 import advancedApi from './components/advanced/advanced';
 import simple from './components/simple/simple';
-import partial from './components/simple/static-api';
+import staticApi from './components/simple/static-api';
 
 export default {
   name: 'App',
@@ -31,9 +34,10 @@ export default {
     advancedBuildUrlObject,
     advancedBuildUrl,
     advancedBuildSrcSet,
+    staticBuildSrcSet,
     advancedApi,
     simple,
-    partial,
+    staticApi,
   },
 
   computed: {},

@@ -11,8 +11,17 @@ describe('buildUrl', () => {
     });
   });
 
-  it('builds an imgix url', () => {
+  it('should build an imgix url', () => {
     const url = client.buildUrl('/examples/pione.jpg', {});
     expect(url).toMatch(/assets.imgix.net\/examples\/pione.jpg/);
+  });
+
+  it('should accept absolute URLs', () => {
+    const customUrl = client._buildUrl(
+      'https://sdk-test.imgix.net/amsterdam.jpg',
+      {},
+    );
+
+    expect(customUrl).toMatch(/https:\/\/sdk-test.imgix.net\/amsterdam.jpg/);
   });
 });

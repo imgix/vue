@@ -2,7 +2,7 @@
   <img
     :src="advancedSrc"
     :srcset="advancedSrcSet"
-    data-testid="advanced-build-src-set"
+    data-testid="static-build-src-set"
   />
 </template>
 
@@ -11,15 +11,15 @@ import { buildUrl, buildSrcSet } from '@/plugins/vue-imgix';
 
 // NB: Make sure initVueImgix has been called before this code runs
 export default {
-  name: 'advanced-build-srcset',
+  name: 'static-build-src-set',
 
   computed: {
     advancedSrc: () =>
-      buildUrl('examples/pione.jpg', {
+      buildUrl('https://sdk-test.imgix.net/amsterdam.jpg', {
         auto: 'format',
       }),
     advancedSrcSet: () =>
-      buildSrcSet('examples/pione.jpg', {
+      buildSrcSet('https://sdk-test.imgix.net/amsterdam.jpg', {
         auto: 'format',
       }),
   },

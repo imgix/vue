@@ -1,5 +1,6 @@
 import ImgixClient from '@imgix/js-core';
 import { IxImg } from './ix-img';
+import type { IVueImgixClient } from './types';
 import {
   IBuildSrcSet,
   IBuildSrcSetOptions,
@@ -10,10 +11,9 @@ import {
   IImgixClientOptions,
   IImgixParams,
 } from './types';
-import type { IVueImgixClient } from './types';
 
 // Do not change this
-const VERSION = '2.9.0';
+const VERSION = '3.0.0-rc.4';
 
 const clientOptionDefaults = {
   includeLibraryParam: true,

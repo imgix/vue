@@ -6,8 +6,12 @@ describe('Initialization', () => {
   });
   it('allows the developer to initialise the vue-imgix library', () => {
     const Vue = require('vue');
+    const createApp = Vue.createApp;
     const VueImgix = require('@/plugins/vue-imgix');
-    Vue.use(VueImgix, {
+    const _App = require('../../src/App.vue');
+
+    const App = createApp(_App);
+    App.use(VueImgix, {
       domain: 'test-domain.imgix.net',
     });
   });
@@ -20,8 +24,12 @@ describe('Initialization', () => {
 
   it(`doesn't include ixlib in generated urls when includeLibraryParam is set to false`, () => {
     const Vue = require('vue');
+    const createApp = Vue.createApp;
     const VueImgix = require('@/plugins/vue-imgix');
-    Vue.use(VueImgix, {
+    const _App = require('../../src/App.vue');
+
+    const App = createApp(_App);
+    App.use(VueImgix, {
       domain: 'test-domain.imgix.net',
       includeLibraryParam: false,
     });
@@ -35,8 +43,12 @@ describe('Initialization', () => {
 
   it(`includes imgixParams set during initialization in the generated srcs`, () => {
     const Vue = require('vue');
+    const createApp = Vue.createApp;
     const VueImgix = require('@/plugins/vue-imgix');
-    Vue.use(VueImgix, {
+    const _App = require('../../src/App.vue');
+
+    const App = createApp(_App);
+    App.use(VueImgix, {
       domain: 'test-domain.imgix.net',
       defaultIxParams: {
         auto: 'format',
