@@ -1,8 +1,8 @@
 import IxPictureSimple from '@/components/simple/ix-picture.vue';
-import VueImgix from '@/plugins/vue-imgix/index';
-import { IxImg } from '@/plugins/vue-imgix/ix-img';
-import { IxPicture } from '@/plugins/vue-imgix/ix-picture';
-import { IxSource } from '@/plugins/vue-imgix/ix-source';
+import VueImgix from '@/plugins/imgix-vue/index';
+import { IxImg } from '@/plugins/imgix-vue/ix-img';
+import { IxPicture } from '@/plugins/imgix-vue/ix-picture';
+import { IxSource } from '@/plugins/imgix-vue/ix-source';
 import { config, mount } from '@vue/test-utils';
 config.global.plugins = [[VueImgix, { domain: 'assets.imgix.net' }]];
 config.global.components = {

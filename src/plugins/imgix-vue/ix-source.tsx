@@ -1,5 +1,5 @@
-import { ensureVueImgixClientSingleton, IVueImgixClient } from './vue-imgix';
 import { defineComponent, h } from 'vue';
+import { ensureVueImgixClientSingleton, IVueImgixClient } from './imgix-vue';
 
 const defaultAttributeMap = {
   src: 'src',
