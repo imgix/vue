@@ -74,8 +74,8 @@ Firstly, follow this [quick start guide](https://docs.imgix.com/setup/quick-star
 
 Then, install @imgix/vue with the following commands, depending on your package manager.
 
-- **NPM**: `npm install @imgix/vue@next`
-- **Yarn**: `yarn add @imgix/vue@next`
+- **NPM**: `npm install @imgix/vue`
+- **Yarn**: `yarn add @imgix/vue`
 
 This module exports two transpiled versions. If a ES6-module-aware bundler is being used to consume this module, it will pick up an ES6 module version and can perform tree-shaking. **If you are not using ES6 modules, you don't have to do anything.**
 
