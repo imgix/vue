@@ -68,7 +68,7 @@
     "@vue/vue3-jest": "^27.0.0-alpha.4",
     "babel-jest": "^27.0.0",
     "babel-loader": "^8.2.2",
-    "conventional-changelog-conventionalcommits": "4.6.0",
+    "conventional-changelog-conventionalcommits": "4.6.3",
     "core-js": "3.22.1",
     "cypress": "^7.6.0",
     "eslint": "^8.13.0",
