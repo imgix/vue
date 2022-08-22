@@ -44,7 +44,7 @@
     "@google/semantic-release-replace-plugin": "1.1.0",
     "@rollup/plugin-buble": "0.21.3",
     "@rollup/plugin-commonjs": "21.1.0",
-    "@rollup/plugin-node-resolve": "13.0.6",
+    "@rollup/plugin-node-resolve": "13.3.0",
     "@rollup/plugin-replace": "3.0.0",
     "@rollup/plugin-typescript": "8.3.4",
     "@semantic-release/changelog": "5.0.1",
