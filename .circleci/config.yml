@@ -1,0 +1,64 @@
+version: 2.1
+
+orbs:
+  node: circleci/node@5.0.2
+  browser-tools: circleci/browser-tools@1.2.4
+
+jobs:
+  test:
+    parameters:
+      version: 
+        default: "stable"
+        description: Node.JS version to install
+        type: string
+    docker:
+      - image: cimg/node:<<parameters.version>>-browsers
+    resource_class: large
+    steps:
+      - checkout
+      - browser-tools/install-browser-tools:
+          install-geckodriver: false
+      - run:
+          command: |
+            google-chrome --version
+            firefox --version
+          name: Check install
+      - when:
+          condition:
+            equal: [ "17.9", <<parameters.version>>]
+          steps:
+            # Prevents build error on stable node version
+            - run: echo 'export NODE_OPTIONS=--openssl-legacy-provider' >> $BASH_ENV
+      - node/install-packages:
+          override-ci-command: yarn install
+      - run: yarn run lint:ci
+      - run: yarn run test:unit
+      - run: yarn run test:e2e --headless
+      - run:
+          name: "Test whether build is successful"
+          command: yarn build
+
+
+  deploy:
+    docker:
+      - image: cimg/node:current
+    steps:
+      - checkout
+      - node/install-packages:
+          override-ci-command: yarn install
+      - run: npm run publish-semantic-release
+
+workflows:
+  test:
+    jobs:
+      - test:
+          matrix:
+            parameters:
+              version:
+                - "17.9"
+                - "lts" 
+
+      - deploy:
+          requires:
+            - test
+            
