@@ -33,6 +33,7 @@
     "test:e2e": "vue-cli-service test:e2e --browser chrome",
     "lint": "vue-cli-service lint",
     "lint:ci": "vue-cli-service lint --no-fix --max-warnings 0",
+    "prepare": "run-s build",
     "prepublishOnly": "run-s build",
     "release:dryRun": "npx node-env-run --exec 'npx semantic-release --dryRun'"
   },
