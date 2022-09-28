@@ -1,77 +1,36 @@
-<!-- prettier-ignore-start -->
 <!--
-Hello, and thanks for contributing to @imgix/vue! 🎉🙌
+Hello, and thanks for contributing 🎉🙌
 Please take a second to fill out PRs with the following template!
 -->
 
 ## Description
-<!-- What is accomplished by this PR? If there is something potentially controversial in your PR, please take a moment to tell us about your choices. -->
 
+<!-- What is accomplished by this PR? If there is something potentially
+controversial in your PR, please take a moment to tell us about your choices.-->
 
+<!-- Before this PR... -->
 
-<!-- 
-Please use the checklist that is most closely related to your PR, and delete the other checklists. -->
-## Checklist: Fixing typos/Doc change
+<!-- After this PR... -->
 
-- [ ] The target branch is `beta`. This is important for our CI/CD config.
-- [ ] Each commit follows the conventional commit spec format: e.g. `chore(readme): fixed typo`. See the end of this file for more information.
+<!-- Steps to test: either provide a code snippet that exhibits this change or a link to a codepen/codesandbox demo -->
 
-## Checklist: Bug Fix
+## Checklist
 
-- [ ] The target branch is `beta`. This is important for our CI/CD config.
-- [ ] Each commit follows the conventional commit spec format: e.g. `chore(readme): fixed typo`. See the end of this file for more information.
-- [ ] All existing unit tests are still passing (if applicable)
-- [ ] Add new passing unit tests to cover the code introduced by your PR
-- [ ] Update the readme
-- [ ] Update or add any necessary API documentation
-- [ ] Add some [steps](#steps-to-test) so we can test your bug fix
+<!-- Please ensure you've completed this checklist before submitting a PR. If
+You're not submitting a bugfix or feature, delete that part of the checklist.
+-->
 
-## Checklist: New Feature
+<!-- For all Pull Requests -->
 
-- [ ] The target branch is `beta`. This is important for our CI/CD config.
-- [ ] Each commit follows the conventional commit spec format: e.g. `chore(readme): fixed typo`. See the end of this file for more information.
+- [ ] Read the [contributing guidelines](CONTRIBUTING.md).
+- [ ] Each commit follows the [Conventional Commit](https://www.conventionalcommits.org/en/v1.0.0/#summary) spec format.
+- [ ] Update the readme (if applicable).
+- [ ] Update or add any necessary API documentation (if applicable)
+- [ ] All existing unit tests are still passing (if applicable).
+
+<!-- For new feature and bugfix Pull Requests-->
+
+- [ ] Add some [steps](#steps-to-test) so we can test your bug fix or feature (if applicable).
+- [ ] Add new passing unit tests to cover the code introduced by your PR (if applicable).
 - [ ] Any breaking changes are specified on the commit on which they are introduced with `BREAKING CHANGE` in the body of the commit.
 - [ ] If this is a big feature with breaking changes, consider [opening an issue][issues] to discuss first. This is completely up to you, but please keep in mind that your PR might not be accepted.
-- [ ] Run unit tests to ensure all existing tests are still passing
-- [ ] Add new passing unit tests to cover the code introduced by your PR
-- [ ] Update the readme
-- [ ] Add some [steps](#steps-to-test) so we can test your cool new feature!
-
-## Steps to Test
-
-<!-- Delete this selction if you are just submitting a doc change/small fix -->
-
-<!-- A code example or a set of steps is preferred -->
-
-Related issue: [e.g. #42]
-
-Code:
-
-```js
-// A standalone JS example of what the PR solves
-```
-
-<!-- A link to a codepen/codesandbox is also an option. -->
-
-Steps:
-
-1.  Go to '...'
-2.  Click on '....'
-3.  Scroll down to '....'
-4.  See that the error has been fixed
-
-
-
-
-
-<!--
-
-## Conventional Commit Spec
-
-PR titles should be in the format `<type>(<scope>): <description>`. For example: `chore(readme): fix typo`
-
-`type` must be `feat` if a feature, or breaking change; `fix` if a bug-fix; or anything else, such as `config`, `docs`, `config`, `test`, if another type of change
-`scope` is optional, and can be anything.
-`description` should be a short description of the change, in past tense.
--->
-<!-- prettier-ignore-end -->
