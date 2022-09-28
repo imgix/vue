@@ -6,31 +6,6 @@ Read our [Code of Conduct](./CODE_OF_CONDUCT.md) to keep our community approacha
 
 In this guide you will get an overview of the contribution workflow from opening an issue, creating a PR, reviewing, and merging the PR
 
-<!-- NB: Run `npx markdown-toc CONTRIBUTING.md` to generate TOC :) -->
-
-<!-- prettier-ignore-start -->
-
-- [Contributing](#contributing)
-  - [New contributor guide](#new-contributor-guide)
-  - [Opening a Pull Request](#opening-a-pull-request)
-    - [Checklist](#checklist)
-  - [Conventional Commit Spec](#conventional-commit-spec)
-  - [Example workflow](#example-workflow)
-- [Project Goals](#project-goals)
-- [Using the issue tracker](#using-the-issue-tracker)
-- [Development](#development)
-- [Publishing](#publishing)
-- [Code Conventions](#code-conventions)
-- [Project setup](#project-setup)
-  - [Compiles and hot-reloads for development](#compiles-and-hot-reloads-for-development)
-  - [Compiles and minifies for production](#compiles-and-minifies-for-production)
-  - [Run your unit tests](#run-your-unit-tests)
-  - [Run your end-to-end tests](#run-your-end-to-end-tests)
-  - [Lints and fixes files](#lints-and-fixes-files)
-  - [Customize configuration](#customize-configuration)
-
-<!-- prettier-ignore-end -->.
-
 ## New contributor guide
 
 To get an overview of the project, read the [README](README.md). Here are some resources to help you get started with open source contributions:
