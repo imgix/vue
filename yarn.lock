@@ -1313,14 +1313,14 @@
   resolved "https://registry.yarnpkg.com/@humanwhocodes/object-schema/-/object-schema-1.2.1.tgz#b520529ec21d8e5945a1851dfd1c32e94e39ff45"
   integrity sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==
 
-"@imgix/js-core@^3.6.0-rc.1":
-  version "3.6.0"
-  resolved "https://registry.yarnpkg.com/@imgix/js-core/-/js-core-3.6.0.tgz#fea27da03696264fe0fa4d6f74e928b9e17fc764"
-  integrity sha512-00qsHfyk7HvSj5NJdLA5O2QeBUVPM0khpO0qQvyMBmVP9aZaYJWkMd1IXQm0TUvcI1+Ja2mvdPzRYULFCiQBTg==
+"@imgix/js-core@^3.6.1-rc.1":
+  version "3.6.1-rc.1"
+  resolved "https://registry.yarnpkg.com/@imgix/js-core/-/js-core-3.6.1-rc.1.tgz#4a91a5741b1848539d9c26a84c8a49863b9d40dc"
+  integrity sha512-q8CWiB397EBvJuK+JQFsR2mwYSNjVfjEkjKNjtiXELBHJdFxpLK4Zy6VlqYKimLDPCPrn34e7ZGEW9GJf1g/BA==
   dependencies:
     js-base64 "~3.7.0"
     md5 "^2.2.1"
-    ufo "^0.7.10"
+    ufo "^0.8.0"
 
 "@istanbuljs/load-nyc-config@^1.0.0":
   version "1.1.0"
@@ -9264,10 +9264,10 @@ typescript@4.2:
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.2.4.tgz#8610b59747de028fda898a8aef0e103f156d0961"
   integrity sha512-V+evlYHZnQkaz8TRBuxTA92yZBPotr5H+WhQ7bD3hZUndx5tGOa1fuCgeSjxAzM1RiN5IzvadIXTVefuuwZCRg==
 
-ufo@^0.7.10:
-  version "0.7.11"
-  resolved "https://registry.yarnpkg.com/ufo/-/ufo-0.7.11.tgz#17defad497981290383c5d26357773431fdbadcb"
-  integrity sha512-IT3q0lPvtkqQ8toHQN/BkOi4VIqoqheqM1FnkNWT9y0G8B3xJhwnoKBu5OHx8zHDOvveQzfKuFowJ0VSARiIDg==
+ufo@^0.8.0:
+  version "0.8.5"
+  resolved "https://registry.yarnpkg.com/ufo/-/ufo-0.8.5.tgz#e367b4205ece9d9723f2fa54f887d43ed1bce5d0"
+  integrity sha512-e4+UtA5IRO+ha6hYklwj6r7BjiGMxS0O+UaSg9HbaTefg4kMkzj4tXzEBajRR+wkxf+golgAWKzLbytCUDMJAA==
 
 unbox-primitive@^1.0.1:
   version "1.0.1"
