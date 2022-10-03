@@ -786,6 +786,9 @@
     return obj;
   }
   function encodeQueryItem(key, val) {
+    if (typeof val === "number" || typeof val === "boolean") {
+      val = String(val);
+    }
     if (!val) {
       return encodeQueryKey(key);
     }
@@ -893,10 +896,12 @@
   };
 
   Object.defineProperties( $URL.prototype, prototypeAccessors );
+  var PROTOCOL_REGEX = /^\w+:(\/\/)?/;
+  var PROTOCOL_RELATIVE_REGEX = /^\/\/[^/]+/;
   function hasProtocol(inputStr, acceptProtocolRelative) {
     if ( acceptProtocolRelative === void 0 ) acceptProtocolRelative = false;
 
-    return /^\w+:\/\/.+/.test(inputStr) || acceptProtocolRelative && /^\/\/[^/]+/.test(inputStr);
+    return PROTOCOL_REGEX.test(inputStr) || acceptProtocolRelative && PROTOCOL_RELATIVE_REGEX.test(inputStr);
   }
   var TRAILING_SLASH_RE = /\/$|\/\?/;
   function hasTrailingSlash(input, queryParams) {
@@ -946,7 +951,7 @@
     var ref = (input.replace(/\\/g, "/").match(/([^:/]+:)?\/\/([^/@]+@)?(.*)/) || []).splice(1);
     var protocol = ref[0]; if ( protocol === void 0 ) protocol = "";
     var auth = ref[1];
-    var hostAndPath = ref[2];
+    var hostAndPath = ref[2]; if ( hostAndPath === void 0 ) hostAndPath = "";
     var ref$1 = (hostAndPath.match(/([^/?#]*)(.*)?/) || []).splice(1);
     var host = ref$1[0]; if ( host === void 0 ) host = "";
     var path = ref$1[1]; if ( path === void 0 ) path = "";
@@ -1153,7 +1158,7 @@
   }
 
   // package version used in the ix-lib parameter
-  var VERSION$1 = '3.6.0'; // regex pattern used to determine if a domain is valid
+  var VERSION$1 = '3.6.1-rc.1'; // regex pattern used to determine if a domain is valid
 
   var DOMAIN_REGEX = /^(?:[a-z\d\-_]{1,62}\.){0,125}(?:[a-z\d](?:\-(?=\-*[a-z\d])|[a-z]|\d){0,62}\.)[a-z\d]{1,63}$/i; // minimum generated srcset width
 
@@ -1676,7 +1681,7 @@
 
   function objectWithoutProperties (obj, exclude) { var target = {}; for (var k in obj) if (Object.prototype.hasOwnProperty.call(obj, k) && exclude.indexOf(k) === -1) target[k] = obj[k]; return target; }
   // Do not change this
-  var VERSION = '3.0.1';
+  var VERSION = '3.0.2';
   var clientOptionDefaults = {
       includeLibraryParam: true,
   };
