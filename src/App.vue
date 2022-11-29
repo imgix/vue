@@ -19,13 +19,13 @@
 </template>
 
 <script>
-import advancedBuildUrlObject from './components/advanced/buildUrlObject';
-import advancedBuildUrl from './components/advanced/buildUrl';
-import advancedBuildSrcSet from './components/advanced/buildSrcSet';
-import staticBuildSrcSet from './components/advanced/_buildSrcSet';
-import advancedApi from './components/advanced/advanced';
-import simple from './components/simple/simple';
-import staticApi from './components/simple/static-api';
+import advancedBuildUrlObject from './components/advanced/buildUrlObject.vue';
+import advancedBuildUrl from './components/advanced/buildUrl.vue';
+import advancedBuildSrcSet from './components/advanced/buildSrcSet.vue';
+import staticBuildSrcSet from './components/advanced/_buildSrcSet.vue';
+import advancedApi from './components/advanced/advanced.vue';
+import simple from './components/simple/simple.vue';
+import staticApi from './components/simple/static-api.vue';
 
 export default {
   name: 'App',
