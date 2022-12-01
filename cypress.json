@@ -2,5 +2,6 @@
   "pluginsFile": "tests/e2e/plugins/index.js",
   "screenshotOnRunFailure": false,
   "video": false,
-  "ignoreTestFiles": ["advanced-api.spec.js"]
+  "ignoreTestFiles": ["advanced-api.spec.js"],
+  "baseUrl": "http://localhost:3000/"
 }
