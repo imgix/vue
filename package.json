@@ -52,7 +52,7 @@
     "@semantic-release/git": "9.0.1",
     "@testing-library/cypress": "7.0.7",
     "@testing-library/jest-dom": "5.16.5",
-    "@testing-library/vue": "6.4.2",
+    "@testing-library/vue": "6.6.1",
     "@types/jest": "24.9.1",
     "@typescript-eslint/eslint-plugin": "5.20.0",
     "@typescript-eslint/parser": "5.20.0",
