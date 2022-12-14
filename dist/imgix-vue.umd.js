@@ -15,7 +15,7 @@
    *
    * @author Dan Kogai (https://github.com/dankogai)
    */
-  var version = '3.7.2';
+  var version = '3.7.3';
   /**
    * @deprecated use lowercase `version`.
    */
@@ -1158,7 +1158,7 @@
   }
 
   // package version used in the ix-lib parameter
-  var VERSION$1 = '3.6.1-rc.1'; // regex pattern used to determine if a domain is valid
+  var VERSION$1 = '3.7.0'; // regex pattern used to determine if a domain is valid
 
   var DOMAIN_REGEX = /^(?:[a-z\d\-_]{1,62}\.){0,125}(?:[a-z\d](?:\-(?=\-*[a-z\d])|[a-z]|\d){0,62}\.)[a-z\d]{1,63}$/i; // minimum generated srcset width
 
@@ -1319,11 +1319,9 @@
         var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
         var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
-        var path = this._sanitizePath(rawPath, {
-          encode: !options.disablePathEncoding
-        });
+        var path = this._sanitizePath(rawPath, options);
 
-        var finalParams = this._buildParams(params);
+        var finalParams = this._buildParams(params, options);
 
         if (!!this.settings.secureURLToken) {
           finalParams = this._signParams(path, finalParams);
@@ -1359,6 +1357,10 @@
       key: "_buildParams",
       value: function _buildParams() {
         var params = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+        var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+        // If a custom encoder is present, use it
+        // Otherwise just use the encodeURIComponent
+        var encode = options.encoder || encodeURIComponent;
         var queryParams = [].concat(_toConsumableArray(this.settings.libraryParam ? ["ixlib=".concat(this.settings.libraryParam)] : []), _toConsumableArray(Object.entries(params).reduce(function (prev, _ref) {
           var _ref2 = _slicedToArray(_ref, 2),
               key = _ref2[0],
@@ -1368,8 +1370,8 @@
             return prev;
           }
 
-          var encodedKey = encodeURIComponent(key);
-          var encodedValue = key.substr(-2) === '64' ? gBase64.encodeURI(value) : encodeURIComponent(value);
+          var encodedKey = encode(key);
+          var encodedValue = key.substr(-2) === '64' ? gBase64.encodeURI(value) : encode(value);
           prev.push("".concat(encodedKey, "=").concat(encodedValue));
           return prev;
         }, [])));
@@ -1401,16 +1403,20 @@
         // Strip leading slash first (we'll re-add after encoding)
         var _path = path.replace(/^\//, '');
 
-        if (!(options.encode === false)) {
-          if (/^https?:\/\//.test(_path)) {
-            // Use de/encodeURIComponent to ensure *all* characters are handled,
-            // since it's being used as a path
-            _path = encodeURIComponent(_path);
-          } else {
-            // Use de/encodeURI if we think the path is just a path,
-            // so it leaves legal characters like '/' and '@' alone
-            _path = encodeURI(_path).replace(/[#?:+]/g, encodeURIComponent);
-          }
+        if (options.disablePathEncoding) {
+          return '/' + _path;
+        }
+
+        if (options.encoder) {
+          _path = options.encoder(_path);
+        } else if (/^https?:\/\//.test(_path)) {
+          // Use de/encodeURIComponent to ensure *all* characters are handled,
+          // since it's being used as a path
+          _path = encodeURIComponent(_path);
+        } else {
+          // Use de/encodeURI if we think the path is just a path,
+          // so it leaves legal characters like '/' and '@' alone
+          _path = encodeURI(_path).replace(/[#?:+]/g, encodeURIComponent);
         }
 
         return '/' + _path;
@@ -1470,9 +1476,7 @@
         var srcset = targetWidthValues.map(function (w) {
           return "".concat(_this.buildURL(path, _objectSpread2(_objectSpread2({}, params), {}, {
             w: w
-          }), {
-            disablePathEncoding: options.disablePathEncoding
-          }), " ").concat(w, "w");
+          }), options), " ").concat(w, "w");
         });
         return srcset.join(',\n');
       }
@@ -1505,17 +1509,13 @@
           return "".concat(_this2.buildURL(path, _objectSpread2(_objectSpread2({}, params), {}, {
             dpr: dpr,
             q: params.q || qualities[dpr] || qualities[Math.floor(dpr)]
-          }), {
-            disablePathEncoding: options.disablePathEncoding
-          }), " ").concat(dpr, "x");
+          }), options), " ").concat(dpr, "x");
         };
 
         var srcset = disableVariableQuality ? targetRatios.map(function (dpr) {
           return "".concat(_this2.buildURL(path, _objectSpread2(_objectSpread2({}, params), {}, {
             dpr: dpr
-          }), {
-            disablePathEncoding: options.disablePathEncoding
-          }), " ").concat(dpr, "x");
+          }), options), " ").concat(dpr, "x");
         }) : targetRatios.map(function (dpr) {
           return withQuality(path, params, dpr);
         });
@@ -1681,7 +1681,7 @@
 
   function objectWithoutProperties (obj, exclude) { var target = {}; for (var k in obj) if (Object.prototype.hasOwnProperty.call(obj, k) && exclude.indexOf(k) === -1) target[k] = obj[k]; return target; }
   // Do not change this
-  var VERSION = '3.0.2';
+  var VERSION = '3.0.3';
   var clientOptionDefaults = {
       includeLibraryParam: true,
   };
