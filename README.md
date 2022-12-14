@@ -10,7 +10,6 @@
 [![Build Status](https://travis-ci.com/imgix/vue.svg?branch=main)](https://travis-ci.com/imgix/vue)
 [![Downloads](https://img.shields.io/npm/dm/@imgix/vue.svg)](https://www.npmjs.com/package/@imgix/vue)
 [![License](https://img.shields.io/npm/l/@imgix/vue)](https://github.com/imgix/@imgix/vue/blob/main/LICENSE)
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fimgix%2Fvue.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fimgix%2Fvue?ref=badge_shield)
 [![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
@@ -72,8 +71,8 @@ Firstly, follow this [quick start guide](https://docs.imgix.com/setup/quick-star
 
 Then, install @imgix/vue with the following commands, depending on your package manager.
 
-- **NPM**: `npm install @imgix/vue`
-- **Yarn**: `yarn add @imgix/vue`
+- **NPM**: `npm install @imgix/vue@2.9.0`
+- **Yarn**: `yarn add @imgix/vue@2.9.0`
 
 This module exports two transpiled versions. If a ES6-module-aware bundler is being used to consume this module, it will pick up an ES6 module version and can perform tree-shaking. **If you are not using ES6 modules, you don't have to do anything.**
 
@@ -680,4 +679,4 @@ This project follows the [all-contributors](https://github.com/all-contributors/
 
 ## License
 
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fimgix%2Fvue.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fimgix%2Fvue?ref=badge_large)
+[BSD-2-Clause License](./LICENSE)
