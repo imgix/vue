@@ -5,13 +5,12 @@
 `@imgix/vue` is a client library for generating URLs with [imgix](https://www.imgix.com/).
 
 > ### Vue 3
-> ⚠️ You are viewing the Vue 3.0 branch.  For Vue 2, please look at the [`2.x`](https://github.com/imgix/vue-imgix/tree/2.x) branch. We will be supporting Vue 2 for the official support timeline (18 months) after we release Vue 3 support.
+> You are viewing the Vue 3.0 branch.  For Vue 2, please look at the [`2.x`](https://github.com/imgix/vue-imgix/tree/2.x) branch. We will be supporting Vue 2 for the official support timeline (18 months) after we release Vue 3 support.
 
 [![npm version](https://img.shields.io/npm/v/@imgix/vue.svg)](https://www.npmjs.com/package/@imgix/vue)
 [![Build Status](https://travis-ci.com/imgix/vue.svg?branch=main)](https://travis-ci.com/imgix/vue)
 [![Downloads](https://img.shields.io/npm/dm/@imgix/vue.svg)](https://www.npmjs.com/package/@imgix/vue)
 [![License](https://img.shields.io/npm/l/@imgix/vue)](https://github.com/imgix/@imgix/vue/blob/main/LICENSE)
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fimgix%2Fvue.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fimgix%2Fvue?ref=badge_shield)
 [![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
@@ -625,4 +624,4 @@ This project follows the [all-contributors](https://github.com/all-contributors/
 
 ## License
 
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fimgix%2Fvue.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fimgix%2Fvue?ref=badge_large)
+[BSD-2-Clause License](./LICENSE)
