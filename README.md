@@ -8,7 +8,7 @@
 > You are viewing the Vue 3.0 branch.  For Vue 2, please look at the [`2.x`](https://github.com/imgix/vue-imgix/tree/2.x) branch. We will be supporting Vue 2 for the official support timeline (18 months) after we release Vue 3 support.
 
 [![npm version](https://img.shields.io/npm/v/@imgix/vue.svg)](https://www.npmjs.com/package/@imgix/vue)
-[![Build Status](https://travis-ci.com/imgix/vue.svg?branch=main)](https://travis-ci.com/imgix/vue)
+[![Build Status](https://circleci.com/gh/imgix/imgix.js.svg?style=shield)](https://circleci.com/gh/imgix/imgix.js)
 [![Downloads](https://img.shields.io/npm/dm/@imgix/vue.svg)](https://www.npmjs.com/package/@imgix/vue)
 [![License](https://img.shields.io/npm/l/@imgix/vue)](https://github.com/imgix/@imgix/vue/blob/main/LICENSE)
 [![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
