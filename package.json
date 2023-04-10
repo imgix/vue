@@ -48,7 +48,7 @@
     "@rollup/plugin-node-resolve": "13.3.0",
     "@rollup/plugin-replace": "3.1.0",
     "@rollup/plugin-typescript": "8.5.0",
-    "@semantic-release/changelog": "6.0.2",
+    "@semantic-release/changelog": "6.0.3",
     "@semantic-release/git": "10.0.1",
     "@testing-library/cypress": "7.0.7",
     "@testing-library/jest-dom": "5.16.5",
