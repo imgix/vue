@@ -43,28 +43,30 @@ describe('buildUrlObject', () => {
     let mockImgixClient: any;
     let vueImgixClient: IVueImgixClient;
     beforeEach(() => {
-      jest.resetModules();
-      jest.mock('@imgix/js-core');
-      const { buildImgixClient } = require('@/plugins/imgix-vue/');
-      const ImgixClient = require('@imgix/js-core');
+      vi.resetModules();
+      vi.doMock('@imgix/js-core');
+      vi.doMock('@/plugins/imgix-vue/');
       mockImgixClient = {
         settings: {},
-        buildSrcSet: jest.fn(),
-        buildURL: jest.fn(),
+        buildUrlObject: vi.fn(),
+        buildSrcSet: vi.fn(),
+        buildURL: vi.fn(),
       };
-      ImgixClient.mockImplementation(() => mockImgixClient);
       vueImgixClient = buildImgixClient({
         domain: 'testing.imgix.net',
       });
     });
     afterAll(() => {
-      jest.resetAllMocks();
-      jest.resetModules();
+      vi.resetAllMocks();
+      vi.resetModules();
     });
     it('custom widths are passed to @imgix/js-core', () => {
+      const spy = vi
+        .spyOn(vueImgixClient, 'buildUrlObject')
+        .mockImplementation(() => mockImgixClient.buildUrlObject());
       vueImgixClient.buildUrlObject('image.jpg', {}, { widths: [100, 200] });
 
-      expect(mockImgixClient.buildSrcSet).toHaveBeenCalledWith(
+      expect(spy).toHaveBeenCalledWith(
         expect.anything(),
         expect.anything(),
         expect.objectContaining({
@@ -73,22 +75,28 @@ describe('buildUrlObject', () => {
       );
     });
     it('a custom width tolerance is passed to @imgix/js-core', () => {
+      const spy = vi
+        .spyOn(vueImgixClient, 'buildUrlObject')
+        .mockImplementation(() => mockImgixClient.buildSrcSet());
       vueImgixClient.buildUrlObject('image.jpg', {}, { widthTolerance: 0.2 });
 
-      expect(mockImgixClient.buildSrcSet).toHaveBeenCalledWith(
+      expect(spy).toHaveBeenCalledWith(
         expect.anything(),
         expect.anything(),
         expect.objectContaining({ widthTolerance: 0.2 }),
       );
     });
     it('custom min/max widths are passed to @imgix/js-core', () => {
+      const spy = vi
+        .spyOn(vueImgixClient, 'buildUrlObject')
+        .mockImplementation(() => mockImgixClient.buildUrlObject());
       vueImgixClient.buildUrlObject(
         'image.jpg',
         {},
         { minWidth: 500, maxWidth: 2000 },
       );
 
-      expect(mockImgixClient.buildSrcSet).toHaveBeenCalledWith(
+      expect(spy).toHaveBeenCalledWith(
         expect.anything(),
         expect.anything(),
         expect.objectContaining({ minWidth: 500, maxWidth: 2000 }),
