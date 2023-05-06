@@ -1,64 +1,58 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
+import type { Plugin } from 'vue';
+import { vi, expect } from 'vitest';
+import VueImgix from '../../src/plugins/imgix-vue';
+import { buildUrlObject } from '../../src/plugins/imgix-vue/imgix-vue';
+import _App from '../../src/App.vue';
+import { IImgixClientOptions } from '@/plugins/imgix-vue/types';
+import { mount } from '@vue/test-utils';
+
+export const createVueImgixPlugin = (options: IImgixClientOptions): Plugin => {
+  return {
+    install: (app) => {
+      VueImgix.install(app, options);
+    },
+  };
+};
 
 describe('Initialization', () => {
   beforeEach(() => {
-    jest.resetModules();
+    vi.resetModules();
   });
-  it('allows the developer to initialise the @imgix/vue library', () => {
-    const Vue = require('vue');
-    const createApp = Vue.createApp;
-    const VueImgix = require('@/plugins/imgix-vue');
-    const _App = require('../../src/App.vue');
 
-    const App = createApp(_App);
-    App.use(VueImgix, {
-      domain: 'test-domain.imgix.net',
-    });
-  });
-  it('throws an error if a method is used before @imgix/vue was initialised', () => {
-    const { buildUrlObject } = require('@/plugins/imgix-vue');
+  it('throws an error if a method is used before @imgix/vue was initialized', () => {
     expect(() => {
       buildUrlObject('/test-image.jpg');
-    }).toThrow(/Vue\.use/);
+    }).toThrowError(/Vue\.use/);
   });
 
-  it(`doesn't include ixlib in generated urls when includeLibraryParam is set to false`, () => {
-    const Vue = require('vue');
-    const createApp = Vue.createApp;
-    const VueImgix = require('@/plugins/imgix-vue');
-    const _App = require('../../src/App.vue');
-
-    const App = createApp(_App);
-    App.use(VueImgix, {
+  it('allows the developer to initialize the @imgix/vue library', () => {
+    const _VueImgix = createVueImgixPlugin({
       domain: 'test-domain.imgix.net',
       includeLibraryParam: false,
-    });
-
-    const { buildUrlObject } = require('@/plugins/imgix-vue');
-    expect(buildUrlObject('/test-image.jpg')).toMatchObject({
-      src: expect.not.stringMatching(/ixlib/),
-      srcset: expect.not.stringMatching(/ixlib/),
-    });
-  });
-
-  it(`includes imgixParams set during initialization in the generated srcs`, () => {
-    const Vue = require('vue');
-    const createApp = Vue.createApp;
-    const VueImgix = require('@/plugins/imgix-vue');
-    const _App = require('../../src/App.vue');
-
-    const App = createApp(_App);
-    App.use(VueImgix, {
-      domain: 'test-domain.imgix.net',
       defaultIxParams: {
         auto: 'format',
       },
     });
 
-    const { buildUrlObject } = require('@/plugins/imgix-vue');
-    expect(buildUrlObject('/test-image.jpg')).toMatchObject({
-      src: expect.stringMatching(/auto=format/),
-      srcset: expect.stringMatching(/auto=format/),
+    const wrapper = mount(_App, {
+      global: {
+        plugins: [_VueImgix],
+      },
+    });
+    wrapper.unmount();
+  });
+
+  it(`doesn't include ixlib in generated urls when includeLibraryParam is set to false`, () => {
+    expect(buildUrlObject('/test-image.jpg')).toEqual({
+      src: expect.not.stringContaining('ixlib'),
+      srcset: expect.not.stringContaining('ixlib'),
+    });
+  });
+
+  it(`includes imgixParams set during initialization in the generated srcs`, () => {
+    expect(buildUrlObject('/test-image.jpg')).toEqual({
+      src: expect.stringContaining('auto=format'),
+      srcset: expect.stringContaining('auto=format'),
     });
   });
 });
