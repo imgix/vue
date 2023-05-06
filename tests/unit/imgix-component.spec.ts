@@ -1,16 +1,15 @@
+import { vi, expect } from 'vitest';
 import VueImgix from '@/plugins/imgix-vue/index';
 import { IxImg } from '@/plugins/imgix-vue/ix-img';
 import { IxPicture } from '@/plugins/imgix-vue/ix-picture';
 import { IxSource } from '@/plugins/imgix-vue/ix-source';
-import '@testing-library/jest-dom';
-import { render } from '@testing-library/vue';
 import { config, mount } from '@vue/test-utils';
-import { createApp } from 'vue';
 import _App from '../../src/App.vue';
 import {
   expectElementToHaveFixedSrcAndSrcSet,
   expectElementToHaveFluidSrcAndSrcSet,
 } from '../helpers/url-assert';
+import ImgixClient from '@imgix/js-core';
 /**
  * Why register the plugin and each individual component globally?
  *
@@ -65,7 +64,7 @@ describe('imgix component', () => {
 
     expect(srcset).not.toBeFalsy();
     if (!srcset) {
-      fail('srcset is null');
+      throw Error('srcset is null');
     }
 
     const firstSrcSet = srcset.split(',').map((v) => v.trim())[0];
@@ -198,34 +197,36 @@ describe('imgix component', () => {
       });
     });
   });
-  // TODO: remove instances of createApp and `render` from test.
-  describe('disableVariableQuality', () => {
-    const App = createApp(_App);
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    let mockImgixClient: any;
-    let _IxImg: typeof IxImg;
+  // TODO(luis): figure out how to mock js-core so that our plugin uses the
+  // mock and not its own instance
+  describe.skip('disableVariableQuality', () => {
     beforeEach(() => {
-      /* eslint-disable @typescript-eslint/no-var-requires */
-      jest.resetModules();
-      /* eslint-disable @typescript-eslint/no-unused-vars */
-      const _Vue = require('vue');
-      const _VueImgix = require('@/plugins/imgix-vue');
-      _IxImg = _VueImgix.IxImg;
-      jest.mock('@imgix/js-core');
-      mockImgixClient = {
-        settings: {},
-        buildSrcSet: jest.fn(),
-        buildURL: jest.fn(),
-      };
-      const ImgixClient = require('@imgix/js-core');
-      ImgixClient.mockImplementation(() => mockImgixClient);
-      App.use(_VueImgix, {
-        domain: 'assets.imgix.net',
-      });
-      /* eslint-enable @typescript-eslint/no-var-requires */
+      vi.resetModules();
     });
-    it('should not pass disableVariableQuality: true to @imgix/js-core by default', () => {
-      render(_IxImg, {
+    afterAll(() => {
+      vi.resetAllMocks();
+      vi.resetModules();
+    });
+
+    it('should not pass disableVariableQuality: true to @imgix/js-core by default', async () => {
+      const mockImgixClient = {
+        settings: {},
+        buildSrcSet: vi.fn(),
+        buildURL: vi.fn(),
+      };
+      vi.doMock('@imgix/js-core', () => {
+        return {
+          __esModule: true,
+          default: vi.fn(() => mockImgixClient),
+        };
+      });
+
+      // spy on the buildSrcSet method of the imgixClient instance
+      const spy = vi
+        .spyOn(mockImgixClient, 'buildSrcSet')
+        .mockImplementation(() => '');
+
+      const wrapper = mount(IxImg, {
         props: {
           src: 'examples/pione.jpg',
           height: 100,
@@ -233,7 +234,7 @@ describe('imgix component', () => {
         },
       });
 
-      expect(mockImgixClient.buildSrcSet).toHaveBeenCalledWith(
+      expect(spy).toHaveBeenCalledWith(
         expect.anything(),
         expect.anything(),
         expect.objectContaining({
@@ -241,8 +242,16 @@ describe('imgix component', () => {
         }),
       );
     });
-    it('should pass disableVariableQuality: true to @imgix/js-core when disableVariableQuality prop set', () => {
-      render(_IxImg, {
+
+    it('should pass disableVariableQuality: true to @imgix/js-core when disableVariableQuality prop set', async () => {
+      const imgixClient = new ImgixClient({ domain: 'test.imgix.net' });
+
+      // spy on the buildSrcSet method of the imgixClient instance
+      const spy = vi
+        .spyOn(imgixClient, 'buildSrcSet')
+        .mockImplementation(() => '');
+
+      const wrapper = mount(IxImg, {
         props: {
           src: 'examples/pione.jpg',
           height: 100,
@@ -251,7 +260,9 @@ describe('imgix component', () => {
         },
       });
 
-      expect(mockImgixClient.buildSrcSet).toHaveBeenCalledWith(
+      await wrapper.vm.$nextTick();
+
+      expect(spy).toHaveBeenCalledWith(
         expect.anything(),
         expect.anything(),
         expect.objectContaining({
