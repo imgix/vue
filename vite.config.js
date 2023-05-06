@@ -1,3 +1,6 @@
+/// <reference types="vitest" />
+import { configDefaults } from 'vitest/config';
+
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import license from 'rollup-plugin-license';
@@ -29,6 +32,12 @@ const libConfig = {
 const config = minify ? libConfig.minified : libConfig.default;
 
 export default defineConfig({
+  test: {
+    exclude: [...configDefaults.exclude],
+    include: ['tests/unit/**/*.spec.*'],
+    globals: true,
+    environment: 'jsdom',
+  },
   plugins: [vue()],
   esbuild: {
     legalComments: 'none', // Preserve all legal comments.
