@@ -23,7 +23,6 @@ jobs:
             google-chrome --version
             firefox --version
           name: Check install
-      - run: echo 'export NODE_OPTIONS=--openssl-legacy-provider' >> $BASH_ENV
       - node/install-packages:
           override-ci-command: yarn install
       - run: yarn run lint:ci
