@@ -32,7 +32,7 @@
     "serve": "vite preview",
     "test": "run-s test:unit test:e2e",
     "test:unit": "vitest",
-    "test:e2e": "concurrently --n \"vite,cypress\" --p \"[{name}]\" -c \"green,yellow\" \"yarn dev\" \"npx cypress run --browser chrome\" -k",
+    "test:e2e": "concurrently --n \"vite,cypress\" --p \"[{name}]\" -c \"green,yellow\" \"yarn dev\" \"npx cypress run --browser chrome\" --kill-others --success first",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore --fix src",
     "lint:ci": "eslint --no-fix --max-warnings 0",
     "prepare": "run-s build",
