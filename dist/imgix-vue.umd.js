@@ -943,7 +943,7 @@
       });
     }
   });
-  const VERSION = "3.1.0-rc.1";
+  const VERSION = "3.1.0-rc.2";
   const clientOptionDefaults = {
     includeLibraryParam: true
   };
