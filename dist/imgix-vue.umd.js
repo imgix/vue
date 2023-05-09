@@ -943,7 +943,7 @@
       });
     }
   });
-  const VERSION = "3.0.4";
+  const VERSION = "3.1.0-rc.1";
   const clientOptionDefaults = {
     includeLibraryParam: true
   };
@@ -1011,6 +1011,12 @@
       }
     }
   }
+  const buildImgixClient = (options) => {
+    const client = new VueImgixClient({
+      ...options
+    });
+    return client;
+  };
   let vueImgixClientSingleton = void 0;
   const initVueImgix = (options) => {
     vueImgixClientSingleton = new VueImgixClient(options);
@@ -1091,222 +1097,14 @@
   const plugin = {
     install
   };
-  var _export_sfc = (sfc, props) => {
-    const target = sfc.__vccOpts || sfc;
-    for (const [key, val] of props) {
-      target[key] = val;
-    }
-    return target;
-  };
-  const _sfc_main$7 = {
-    name: "advanced-build-url-object",
-    computed: {
-      advancedSrcObject: () => buildUrlObject("examples/pione.jpg", {
-        auto: "format"
-      })
-    }
-  };
-  const _hoisted_1$7 = ["src", "srcset"];
-  function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
-    return vue.openBlock(), vue.createElementBlock("img", {
-      src: $options.advancedSrcObject.src,
-      srcset: $options.advancedSrcObject.srcset,
-      sizes: "50vw",
-      "data-testid": "advanced-basic-image"
-    }, null, 8, _hoisted_1$7);
-  }
-  var advancedBuildUrlObject = /* @__PURE__ */ _export_sfc(_sfc_main$7, [["render", _sfc_render$7]]);
-  const _sfc_main$6 = {
-    name: "advanced-build-url",
-    computed: {
-      advancedUrl: () => buildUrl("examples/pione.jpg", {
-        auto: "format",
-        w: 400
-      })
-    }
-  };
-  const _hoisted_1$6 = ["src"];
-  function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
-    return vue.openBlock(), vue.createElementBlock("img", {
-      src: $options.advancedUrl,
-      "data-testid": "advanced-build-url"
-    }, null, 8, _hoisted_1$6);
-  }
-  var advancedBuildUrl = /* @__PURE__ */ _export_sfc(_sfc_main$6, [["render", _sfc_render$6]]);
-  const _sfc_main$5 = {
-    name: "advanced-build-srcset",
-    computed: {
-      advancedSrc: () => buildUrl("examples/pione.jpg", {
-        auto: "format"
-      }),
-      advancedSrcSet: () => buildSrcSet("examples/pione.jpg", {
-        auto: "format"
-      })
-    }
-  };
-  const _hoisted_1$5 = ["src", "srcset"];
-  function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
-    return vue.openBlock(), vue.createElementBlock("img", {
-      src: $options.advancedSrc,
-      srcset: $options.advancedSrcSet,
-      "data-testid": "advanced-build-src-set"
-    }, null, 8, _hoisted_1$5);
-  }
-  var advancedBuildSrcSet = /* @__PURE__ */ _export_sfc(_sfc_main$5, [["render", _sfc_render$5]]);
-  const _sfc_main$4 = {
-    name: "static-build-src-set",
-    computed: {
-      advancedSrc: () => buildUrl("https://sdk-test.imgix.net/amsterdam.jpg", {
-        auto: "format"
-      }),
-      advancedSrcSet: () => buildSrcSet("https://sdk-test.imgix.net/amsterdam.jpg", {
-        auto: "format"
-      })
-    }
-  };
-  const _hoisted_1$4 = ["src", "srcset"];
-  function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
-    return vue.openBlock(), vue.createElementBlock("img", {
-      src: $options.advancedSrc,
-      srcset: $options.advancedSrcSet,
-      "data-testid": "static-build-src-set"
-    }, null, 8, _hoisted_1$4);
-  }
-  var staticBuildSrcSet = /* @__PURE__ */ _export_sfc(_sfc_main$4, [["render", _sfc_render$4]]);
-  const _sfc_main$3 = {
-    name: "advance-api"
-  };
-  const _hoisted_1$3 = /* @__PURE__ */ vue.createElementVNode("h2", null, "attributeConfig", -1);
-  const _hoisted_2$2 = { "data-testid": "advanced-attribute-config" };
-  function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
-    const _component_ix_img = vue.resolveComponent("ix-img");
-    return vue.openBlock(), vue.createElementBlock("div", null, [
-      _hoisted_1$3,
-      vue.createElementVNode("div", _hoisted_2$2, [
-        vue.createVNode(_component_ix_img, {
-          src: "examples/pione.jpg",
-          attributeConfig: {
-            src: "data-src",
-            srcset: "data-srcset"
-          }
-        })
-      ])
-    ]);
-  }
-  var advancedApi = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["render", _sfc_render$3]]);
-  const _sfc_main$2 = {
-    name: "simple-api"
-  };
-  const _hoisted_1$2 = /* @__PURE__ */ vue.createElementVNode("h2", null, "Simple", -1);
-  const _hoisted_2$1 = /* @__PURE__ */ vue.createElementVNode("h2", null, "Fixed", -1);
-  const _hoisted_3$1 = /* @__PURE__ */ vue.createElementVNode("h2", null, "Picture", -1);
-  const _hoisted_4$1 = { "data-testid": "simple-picture" };
-  function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
-    const _component_ix_img = vue.resolveComponent("ix-img");
-    const _component_ix_source = vue.resolveComponent("ix-source");
-    const _component_ix_picture = vue.resolveComponent("ix-picture");
-    return vue.openBlock(), vue.createElementBlock("div", null, [
-      _hoisted_1$2,
-      vue.createVNode(_component_ix_img, {
-        src: "examples/pione.jpg",
-        sizes: "20vw",
-        "data-testid": "simple-fluid"
-      }),
-      _hoisted_2$1,
-      vue.createVNode(_component_ix_img, {
-        src: "examples/pione.jpg",
-        width: "100",
-        fixed: "",
-        "data-testid": "simple-fixed-width"
-      }),
-      _hoisted_3$1,
-      vue.createElementVNode("div", _hoisted_4$1, [
-        vue.createVNode(_component_ix_picture, null, {
-          default: vue.withCtx(() => [
-            vue.createVNode(_component_ix_source, { src: "blog/unsplash-kiss.jpg" }),
-            vue.createVNode(_component_ix_img, { src: "blog/unsplash-kiss.jpg" })
-          ]),
-          _: 1
-        })
-      ])
-    ]);
-  }
-  var simple = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["render", _sfc_render$2]]);
-  const _sfc_main$1 = {
-    name: "static-api"
-  };
-  const _hoisted_1$1 = /* @__PURE__ */ vue.createElementVNode("h2", null, "Absolute URL Static API Example", -1);
-  function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
-    const _component_ix_img = vue.resolveComponent("ix-img");
-    return vue.openBlock(), vue.createElementBlock("div", null, [
-      _hoisted_1$1,
-      vue.createVNode(_component_ix_img, {
-        src: "/examples/pione.jpg",
-        width: "100",
-        "data-testid": "static-api-relative"
-      }),
-      vue.createVNode(_component_ix_img, {
-        src: "https://sdk-test.imgix.net/amsterdam.jpg",
-        width: "100",
-        "data-testid": "static-api-absolute"
-      })
-    ]);
-  }
-  var staticApi = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["render", _sfc_render$1]]);
-  const _sfc_main = {
-    name: "App",
-    components: {
-      advancedBuildUrlObject,
-      advancedBuildUrl,
-      advancedBuildSrcSet,
-      staticBuildSrcSet,
-      advancedApi,
-      simple,
-      staticApi
-    },
-    computed: {}
-  };
-  const _hoisted_1 = { id: "app" };
-  const _hoisted_2 = /* @__PURE__ */ vue.createElementVNode("h1", null, "Simple Usage", -1);
-  const _hoisted_3 = /* @__PURE__ */ vue.createElementVNode("h1", null, "Static Usage", -1);
-  const _hoisted_4 = /* @__PURE__ */ vue.createElementVNode("h1", null, "Advanced Usage", -1);
-  const _hoisted_5 = /* @__PURE__ */ vue.createElementVNode("h2", null, "buildUrlObject", -1);
-  const _hoisted_6 = /* @__PURE__ */ vue.createElementVNode("h2", null, "buildUrl", -1);
-  const _hoisted_7 = /* @__PURE__ */ vue.createElementVNode("h2", null, "buildSrcSet", -1);
-  const _hoisted_8 = /* @__PURE__ */ vue.createElementVNode("h2", null, "_buildSrcSet", -1);
-  function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
-    const _component_simple = vue.resolveComponent("simple");
-    const _component_static_api = vue.resolveComponent("static-api");
-    const _component_advanced_api = vue.resolveComponent("advanced-api");
-    const _component_advanced_build_url_object = vue.resolveComponent("advanced-build-url-object");
-    const _component_advanced_build_url = vue.resolveComponent("advanced-build-url");
-    const _component_advanced_build_src_set = vue.resolveComponent("advanced-build-src-set");
-    const _component_static_build_src_set = vue.resolveComponent("static-build-src-set");
-    return vue.openBlock(), vue.createElementBlock("div", _hoisted_1, [
-      _hoisted_2,
-      vue.createVNode(_component_simple),
-      _hoisted_3,
-      vue.createVNode(_component_static_api),
-      _hoisted_4,
-      vue.createVNode(_component_advanced_api),
-      _hoisted_5,
-      vue.createVNode(_component_advanced_build_url_object),
-      _hoisted_6,
-      vue.createVNode(_component_advanced_build_url),
-      _hoisted_7,
-      vue.createVNode(_component_advanced_build_src_set),
-      _hoisted_8,
-      vue.createVNode(_component_static_build_src_set)
-    ]);
-  }
-  var App = /* @__PURE__ */ _export_sfc(_sfc_main, [["render", _sfc_render]]);
-  const app = vue.createApp(App);
-  app.use(plugin, {
-    domain: "assets.imgix.net",
-    defaultIxParams: {
-      auto: "format"
-    }
-  }).mount("#app");
-  exports2.app = app;
+  exports2.IxImg = IxImg;
+  exports2.buildImgixClient = buildImgixClient;
+  exports2.buildSrcSet = buildSrcSet;
+  exports2.buildUrl = buildUrl;
+  exports2.buildUrlObject = buildUrlObject;
+  exports2["default"] = plugin;
+  exports2.ensureVueImgixClientSingleton = ensureVueImgixClientSingleton;
+  exports2.initVueImgix = initVueImgix;
+  exports2.install = install;
   Object.defineProperties(exports2, { __esModule: { value: true }, [Symbol.toStringTag]: { value: "Module" } });
 });
