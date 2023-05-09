@@ -12,13 +12,13 @@ const minify = process.argv.includes('--minify');
 const libConfig = {
   minified: {
     formats: ['es'],
-    entry: path.resolve(__dirname, 'src/main.ts'),
+    entry: path.resolve(__dirname, 'src/plugins/imgix-vue/index.ts'),
     name: 'imgix-vue',
     fileName: () => 'imgix-vue.min.js',
   },
   default: {
     formats: ['es', 'umd'],
-    entry: path.resolve(__dirname, 'src/main.ts'),
+    entry: path.resolve(__dirname, 'src/plugins/imgix-vue/index.ts'),
     name: 'imgix-vue',
     fileName: (format) => {
       if (format === 'es') {
