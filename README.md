@@ -174,7 +174,7 @@ To render an image with a source URL different than the one setup in the plugin 
 <ix-img src="https://sdk-test.imgix.net/amsterdam.jpg" sizes="100vw" />
 ```
 
-[![Edit festive-mclean-6risg](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/vue-3-basic-example-gxry69?fontsize=14&hidenavigation=1&theme=dark)
+[![Edit festive-mclean-6risg](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/p/sandbox/vue-3-example-tk7nvj?fontsize=14&hidenavigation=1&theme=dark)
 
 **Please note:** `100vw` is an appropriate `sizes` value for a full-bleed image. If your image is not full-bleed, you should use a different value for `sizes`. [Eric Portis' "Srcset and sizes"](https://ericportis.com/posts/2014/srcset-sizes/) article goes into depth on how to use the `sizes` attribute. An important note here is that **sizes cannot be a percentage based value**, and must be in terms of vw, or a fixed size (px, em, rem, etc)
 
