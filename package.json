@@ -43,7 +43,7 @@
     "@imgix/js-core": "^3.7.0"
   },
   "devDependencies": {
-    "@babel/core": "7.22.5",
+    "@babel/core": "7.22.8",
     "@google/semantic-release-replace-plugin": "1.2.0",
     "@rollup/plugin-buble": "1.0.2",
     "@rollup/plugin-commonjs": "25.0.2",
