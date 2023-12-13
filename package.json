@@ -5,6 +5,7 @@
   "contributors": [
     "Frederick Fogerty <frederick.fogerty@gmail.com> (https://github.com/frederickfogerty)"
   ],
+  "types": "src/plugins/imgix-vue",
   "license": "BSD-2-Clause",
   "repository": {
     "type": "git",
