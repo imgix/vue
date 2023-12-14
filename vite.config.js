@@ -4,6 +4,7 @@ import { configDefaults } from 'vitest/config';
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import license from 'rollup-plugin-license';
+import dts from 'vite-plugin-dts';
 
 const path = require('path');
 const minify = process.argv.includes('--minify');
@@ -38,7 +39,7 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
   },
-  plugins: [vue()],
+  plugins: [vue(), dts({ rollupTypes: true })],
   esbuild: {
     legalComments: 'none', // Preserve all legal comments.
     banner: '/*! licenses: /vendor.LICENSE.txt */',

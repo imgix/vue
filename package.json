@@ -20,6 +20,7 @@
     "component"
   ],
   "main": "dist/imgix-vue.umd.js",
+  "types": "dist/imgix-vue.min.d.ts",
   "module": "dist/imgix-vue.esm.js",
   "jsnext:main": "dist/imgix-vue.esm.js",
   "unpkg": "dist/imgix-vue.min.js",
@@ -80,6 +81,7 @@
     "rollup-plugin-vue": "6.0.0",
     "typescript": "4.9.5",
     "vite": "^2.9.15",
+    "vite-plugin-dts": "^3.6.4",
     "vitest": "^0.31.0",
     "vue": "3.3.4",
     "vue-template-compiler": "2.7.14",
@@ -200,6 +202,7 @@
           "assets": [
             "src/plugins/**",
             "dist/**/*.js",
+            "dist/**/*.d.ts",
             "package.json",
             "changelog.md"
           ],
@@ -213,6 +216,10 @@
             {
               "path": "dist/imgix-vue.min.js",
               "label": "Standalone browser build"
+            },
+            {
+              "path": "dist/imgix-vue.min.d.ts",
+              "label": "Type definitions"
             },
             {
               "path": "dist/imgix-vue.umd.js",
