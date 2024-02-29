@@ -185,8 +185,8 @@ This will generate HTML similar to the following:
   src="https://assets.imgix.net/examples/pione.jpg?auto=format"
   sizes="100vw"
   srcset="
-    https://assets.imgix.net/examples/pione.jpg?auto=format&amp;w=100 100w,
-    https://assets.imgix.net/examples/pione.jpg?auto=format&amp;w=200 200w,
+    https://assets.imgix.net/examples/pione.jpg?auto=format&w=100 100w,
+    https://assets.imgix.net/examples/pione.jpg?auto=format&w=200 200w,
     ...
   "
 />
