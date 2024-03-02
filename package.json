@@ -67,7 +67,7 @@
     "conventional-changelog-conventionalcommits": "4.6.3",
     "core-js": "3.36.0",
     "cypress": "7.7.0",
-    "eslint": "8.41.0",
+    "eslint": "8.57.0",
     "eslint-plugin-cypress": "2.13.3",
     "eslint-plugin-prettier": "4.2.1",
     "eslint-plugin-vue": "8.7.1",
