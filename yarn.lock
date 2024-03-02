@@ -437,10 +437,10 @@
   resolved "https://registry.yarnpkg.com/@eslint/js/-/js-8.41.0.tgz#080321c3b68253522f7646b55b577dd99d2950b3"
   integrity sha512-LxcyMGxwmTh2lY9FwHPGWOHmYFCZvbrFCBZL4FzSSsxsRPuhrYUg/49/0KDfW8tnIEaEHtfmn6+NPN+1DqaNmA==
 
-"@google/semantic-release-replace-plugin@1.2.5":
-  version "1.2.5"
-  resolved "https://registry.yarnpkg.com/@google/semantic-release-replace-plugin/-/semantic-release-replace-plugin-1.2.5.tgz#43b1b3f7cb9c27feda4660f26de341e17053fbef"
-  integrity sha512-msiG7WnwRjXz+y44OWDulVoaKfuEHksbRljD5PE+NVeujfNfN2D31j/sluNNAjTH6nm+p2ppYnZDl6jLPBikCA==
+"@google/semantic-release-replace-plugin@1.2.7":
+  version "1.2.7"
+  resolved "https://registry.yarnpkg.com/@google/semantic-release-replace-plugin/-/semantic-release-replace-plugin-1.2.7.tgz#1fee56f929f926552b61bbd41dc895b3082711cd"
+  integrity sha512-zE+ep9d221O6Rrjw6wA2ffEJfVqrheaTltfFlNO4oQqPTicjTusxG/vxLRoVWjLsyrJzQKyJsbPfGKQ/r9rl+w==
   dependencies:
     jest-diff "^29.6.0"
     lodash-es "^4.17.21"
