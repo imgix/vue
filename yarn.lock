@@ -628,10 +628,10 @@
   resolved "https://registry.yarnpkg.com/@pkgjs/parseargs/-/parseargs-0.11.0.tgz#a77ea742fab25775145434eb1d2328cf5013ac33"
   integrity sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==
 
-"@rollup/plugin-buble@1.0.2":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@rollup/plugin-buble/-/plugin-buble-1.0.2.tgz#30af390341b0888490f781fcf17e469198d118a2"
-  integrity sha512-Hz9+AigRWwS93vmorrVrhyG9SdSCZAkBDx614w09iFQYFUAP2HmdUrQyZsb1WO2n+iDvPFznrTE16la+eGNcEQ==
+"@rollup/plugin-buble@1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@rollup/plugin-buble/-/plugin-buble-1.0.3.tgz#6ce275f062a3bac583472cf14f54aa5f0957dccf"
+  integrity sha512-QYD9BKkJoof0FdCFeSYYhF6/Y8e0Mnf+098xGgmWOFJ4UPHlWujjqOYeVwEm2hJPOmlR5k7HPUdAjqtOWhN64Q==
   dependencies:
     "@rollup/pluginutils" "^5.0.1"
     "@types/buble" "^0.19.2"
