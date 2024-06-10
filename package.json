@@ -46,7 +46,7 @@
     "@babel/core": "7.24.7",
     "@google/semantic-release-replace-plugin": "1.2.7",
     "@rollup/plugin-buble": "1.0.3",
-    "@rollup/plugin-commonjs": "25.0.7",
+    "@rollup/plugin-commonjs": "25.0.8",
     "@rollup/plugin-node-resolve": "15.2.3",
     "@rollup/plugin-replace": "5.0.5",
     "@rollup/plugin-typescript": "11.1.6",
