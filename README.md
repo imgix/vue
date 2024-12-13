@@ -1,6 +1,6 @@
 <!-- ix-docs-ignore -->
 
-![imgix logo](https://assets.imgix.net/sdk-imgix-logo.svg)
+![imgix logo](https://assets.imgix.net/sdk-imgix-logo-new.svg)
 
 `@imgix/vue` is a client library for generating URLs with [imgix](https://www.imgix.com/).
 
